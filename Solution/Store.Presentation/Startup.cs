@@ -7,13 +7,26 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Store.DataAccess.Initialization;
+using Store.DataAccess.Repositories;
+using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.Presentation
 {
     public class Startup
     {
+
+        private IConfigurationRoot _confString;
+
+        public Startup(IHostingEnvironment hostEnv)
+        {
+            _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
+        }
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,6 +37,10 @@ namespace Store.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataBaseInitialization>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IAllEditions, PrintingEditionRepository>();
+            services.AddTransient<IPrintingsEditionsCategory, CategoryRepository>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -53,6 +70,14 @@ namespace Store.Presentation
             app.UseCookiePolicy();
 
             app.UseMvc();
+
+            
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                DataBaseInitialization content = scope.ServiceProvider.GetRequiredService<DataBaseInitialization>();
+                DBObjects.Initial(content);
+            }
+
         }
     }
 }
