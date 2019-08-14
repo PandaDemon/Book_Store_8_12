@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories
 {
-    public class PrintingEditionRepository : IAllEditions
+    public class PrintingEditionRepository : IAllEditionsRepository
     {
 
         private readonly DataBaseInitialization dataBaseInitialization;
@@ -20,8 +20,8 @@ namespace Store.DataAccess.Repositories
             this.dataBaseInitialization = dataBaseInitialization;
         }
 
-        public IEnumerable<PrintingEdition> PrintingEditions => dataBaseInitialization.PrintingEdition.Include(c => c.Category);
+        public IEnumerable<PrintingEditionModel> PrintingEditions => dataBaseInitialization.PrintingEdition.Include(c => c.Category);
 
-        public PrintingEdition getObjectEdition(int EditionId) => dataBaseInitialization.PrintingEdition.FirstOrDefault(p => p.id == EditionId);
+        public PrintingEditionModel getObjectEdition(int EditionId) => dataBaseInitialization.PrintingEdition.FirstOrDefault(p => p.Id == EditionId);
     }
 }

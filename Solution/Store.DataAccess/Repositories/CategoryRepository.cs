@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories
 {
-    public class CategoryRepository : IPrintingsEditionsCategory
+    public class CategoryRepository : IEditionsCategoryRepository
     {
 
         private readonly DataBaseInitialization dataBaseInitialization;
@@ -19,6 +19,6 @@ namespace Store.DataAccess.Repositories
         }
 
 
-        public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
+        public IEnumerable<CategoryModel> AllCategories => dataBaseInitialization.Category;
     }
 }

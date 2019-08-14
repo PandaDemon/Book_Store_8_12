@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,14 +18,12 @@ namespace Store.Presentation
 {
     public class Startup
     {
-
         private IConfigurationRoot _confString;
 
         public Startup(IHostingEnvironment hostEnv)
         {
             _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
         }
-
 
         public Startup(IConfiguration configuration)
         {
@@ -38,8 +36,11 @@ namespace Store.Presentation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataBaseInitialization>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IAllEditions, PrintingEditionRepository>();
-            services.AddTransient<IPrintingsEditionsCategory, CategoryRepository>();
+
+            services.AddTransient<IAllEditionsRepository, PrintingEditionRepository>();
+            services.AddTransient<IEditionsCategoryRepository, CategoryRepository>();
+
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -61,7 +62,7 @@ namespace Store.Presentation
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
@@ -69,15 +70,18 @@ namespace Store.Presentation
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
-            
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 DataBaseInitialization content = scope.ServiceProvider.GetRequiredService<DataBaseInitialization>();
                 DBObjects.Initial(content);
             }
-
         }
     }
 }

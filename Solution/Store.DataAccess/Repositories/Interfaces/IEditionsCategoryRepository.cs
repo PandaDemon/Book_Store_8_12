@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IPrintingsEditionsCategory
+    public interface IEditionsCategoryRepository
     {
-        IEnumerable<Category> AllCategories { get; }
-
+        IEnumerable<CategoryModel> AllCategories { get; }
     }
 }
