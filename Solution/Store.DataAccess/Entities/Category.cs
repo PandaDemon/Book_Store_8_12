@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Store.DataAccess.Models
+namespace Store.DataAccess.Entities
 {
-    public class CategoryModel
+    public class Category
     {
         public int Id { get; set; }
 
         [Required]
         public string CategoryName { get; set; }
-
-        public List<PrintingEditionModel> Editions { get; set; }
     }
 }

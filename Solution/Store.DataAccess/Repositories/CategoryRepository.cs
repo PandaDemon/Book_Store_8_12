@@ -1,24 +1,20 @@
-﻿using Store.DataAccess.Initialization;
-using Store.DataAccess.Models;
+﻿using Store.DataAccess.Entities;
+using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Store.DataAccess.Repositories
 {
     public class CategoryRepository : IEditionsCategoryRepository
     {
 
-        private readonly DataBaseInitialization dataBaseInitialization;
+        private readonly DataBaseContext dataBaseInitialization;
 
-
-        public CategoryRepository(DataBaseInitialization dataBaseInitialization)
+        public CategoryRepository(DataBaseContext dataBaseInitialization)
         {
             this.dataBaseInitialization = dataBaseInitialization;
         }
 
-
-        public IEnumerable<CategoryModel> AllCategories => dataBaseInitialization.Category;
+        public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
     }
 }

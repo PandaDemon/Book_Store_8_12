@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Store.DataAccess.Models
+namespace Store.DataAccess.Entities
 {
-    public class RoleModel
+    public class Currency
     {
         public int Id { get; set; }
 
         [Required]
-        public string RoleName { get; set; }
-
-        public List<UserModel> Users { get; set; }
+        public string FullCurrencyName { get; set; }
     }
 }

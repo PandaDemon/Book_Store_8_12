@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Store.DataAccess.Migrations
 {
-    public partial class AddNewDB : Migration
+    public partial class NewDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,12 +36,25 @@ namespace Store.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FullCurrencyName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Payment",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Status = table.Column<bool>(nullable: false)
+                    IsPaid = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,12 +80,12 @@ namespace Store.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    PrintingEditionName = table.Column<string>(maxLength: 50, nullable: false),
                     AuthorId = table.Column<int>(nullable: false),
                     Desc = table.Column<string>(nullable: true),
                     Img = table.Column<string>(nullable: true),
-                    Price = table.Column<int>(nullable: false),
-                    Status = table.Column<bool>(nullable: false),
+                    Price = table.Column<float>(nullable: false),
+                    IsInStock = table.Column<bool>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -103,18 +116,17 @@ namespace Store.DataAccess.Migrations
                     Img = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: false),
                     Password = table.Column<string>(maxLength: 50, nullable: false),
-                    RolesId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: true)
+                    RolesId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Role_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_User_Role_RolesId",
+                        column: x => x.RolesId,
                         principalTable: "Role",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,8 +135,8 @@ namespace Store.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(nullable: false),
-                    Stutus = table.Column<bool>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    IsClose = table.Column<bool>(nullable: false),
                     PaymentId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
@@ -166,13 +178,16 @@ namespace Store.DataAccess.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_RoleId",
+                name: "IX_User_RolesId",
                 table: "User",
-                column: "RoleId");
+                column: "RolesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Currency");
+
             migrationBuilder.DropTable(
                 name: "Order");
 

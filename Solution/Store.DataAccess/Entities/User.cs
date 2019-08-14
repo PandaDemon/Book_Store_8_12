@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.DataAccess.Models
+namespace Store.DataAccess.Entities
 {
-    public class UserModel
+    public class User
     {
         public int Id { get; set; }
 
         [Required]
         [Display(Name = "First Name")]
         [StringLength(50)]
-        
         public string FirstName { get; set; }
 
         [Required]
@@ -33,12 +31,8 @@ namespace Store.DataAccess.Models
         [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
+        [ForeignKey("Role")]
         public int RolesId { get; set; }
-
-
-
-        public virtual RoleModel Role { get; set; }
-
-        public List<OrderModel> Orders { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

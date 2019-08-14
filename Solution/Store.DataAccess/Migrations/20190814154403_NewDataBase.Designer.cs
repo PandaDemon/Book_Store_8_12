@@ -9,9 +9,9 @@ using Store.DataAccess.Initialization;
 
 namespace Store.DataAccess.Migrations
 {
-    [DbContext(typeof(DataBaseInitialization))]
-    [Migration("20190814123949_AddNewDB")]
-    partial class AddNewDB
+    [DbContext(typeof(DataBaseContext))]
+    [Migration("20190814154403_NewDataBase")]
+    partial class NewDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Store.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Store.DataAccess.Models.AuthorModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("Author");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.CategoryModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,17 +54,31 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.OrderModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date");
+                    b.Property<string>("FullCurrencyName")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currency");
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsClose");
+
+                    b.Property<DateTime>("OrderDate");
 
                     b.Property<int>("PaymentId");
-
-                    b.Property<bool>("Stutus");
 
                     b.Property<int>("UserId");
 
@@ -77,20 +91,20 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.PaymentModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Status");
+                    b.Property<bool>("IsPaid");
 
                     b.HasKey("Id");
 
                     b.ToTable("Payment");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.PrintingEditionModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.PrintingEdition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,13 +118,13 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<string>("Img");
 
-                    b.Property<string>("Name")
+                    b.Property<bool>("IsInStock");
+
+                    b.Property<float>("Price");
+
+                    b.Property<string>("PrintingEditionName")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<int>("Price");
-
-                    b.Property<bool>("Status");
 
                     b.HasKey("Id");
 
@@ -121,7 +135,7 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("PrintingEdition");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.RoleModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +149,7 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.UserModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,48 +173,47 @@ namespace Store.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("RoleId");
-
                     b.Property<int>("RolesId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RolesId");
 
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.OrderModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
                 {
-                    b.HasOne("Store.DataAccess.Models.PaymentModel", "Payment")
+                    b.HasOne("Store.DataAccess.Entities.Payment", "Payment")
                         .WithMany("Orders")
                         .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Store.DataAccess.Models.UserModel", "User")
-                        .WithMany("Orders")
+                    b.HasOne("Store.DataAccess.Entities.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.PrintingEditionModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.PrintingEdition", b =>
                 {
-                    b.HasOne("Store.DataAccess.Models.AuthorModel", "Author")
-                        .WithMany("Editions")
+                    b.HasOne("Store.DataAccess.Entities.Author", "Author")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Store.DataAccess.Models.CategoryModel", "Category")
-                        .WithMany("Editions")
+                    b.HasOne("Store.DataAccess.Entities.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Models.UserModel", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.User", b =>
                 {
-                    b.HasOne("Store.DataAccess.Models.RoleModel", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId");
+                    b.HasOne("Store.DataAccess.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

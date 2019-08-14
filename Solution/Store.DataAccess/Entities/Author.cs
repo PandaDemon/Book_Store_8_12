@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Store.DataAccess.Models
+namespace Store.DataAccess.Entities
 {
-    public class AuthorModel
+    public class Author
     {
         public int Id { get; set; }
 
@@ -18,8 +15,5 @@ namespace Store.DataAccess.Models
         [Display(Name = "Last Name")]
         [StringLength(50)]
         public string LastName { get; set; }
-
-
-        public List<PrintingEditionModel> Editions { get; set; }
     }
 }
