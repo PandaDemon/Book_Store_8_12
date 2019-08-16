@@ -65,6 +65,5 @@ namespace Store.DataAccess.Initialization
                 .WithMany(g => g.PrintingEditions)
                 .HasForeignKey(s => s.CurrencyId);
         }
-
     }
 }

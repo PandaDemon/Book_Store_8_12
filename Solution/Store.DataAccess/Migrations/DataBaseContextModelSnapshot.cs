@@ -137,8 +137,6 @@ namespace Store.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId");
-
                     b.Property<int>("CategoryId");
 
                     b.Property<int>("CurrencyId");
@@ -156,8 +154,6 @@ namespace Store.DataAccess.Migrations
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
 
@@ -257,11 +253,6 @@ namespace Store.DataAccess.Migrations
 
             modelBuilder.Entity("Store.DataAccess.Entities.PrintingEdition", b =>
                 {
-                    b.HasOne("Store.DataAccess.Entities.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Store.DataAccess.Entities.Category", "Category")
                         .WithMany("PrintingEdition")
                         .HasForeignKey("CategoryId")

@@ -32,10 +32,6 @@ namespace Store.DataAccess.Entities
         [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
-        [ForeignKey("Role")]
-        public int RolesId { get; set; }
-        public virtual Role Role { get; set; }
-
         public ICollection<UsersInRoles> UsersInRoles { get; set; }
         public ICollection<Order> Orders { get; set; }
     }

@@ -14,9 +14,9 @@ namespace Store.DataAccess.Entities
         [StringLength(50)]
         public string PrintingEditionName { get; set; }
 
-        [ForeignKey("Author")]
-        public int AuthorId { get; set; }
-        public virtual Author Author { get; set; }
+        //[ForeignKey("Author")]
+        //public int AuthorId { get; set; }
+        //public virtual Author Author { get; set; }
 
         public string Desc { get; set; }
 

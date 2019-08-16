@@ -68,7 +68,6 @@ namespace Store.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     PrintingEditionName = table.Column<string>(maxLength: 50, nullable: false),
-                    AuthorId = table.Column<int>(nullable: false),
                     Desc = table.Column<string>(nullable: true),
                     Img = table.Column<string>(nullable: true),
                     Price = table.Column<float>(nullable: false),
@@ -79,12 +78,6 @@ namespace Store.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PrintingEdition", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PrintingEdition_Author_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Author",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PrintingEdition_Category_CategoryId",
                         column: x => x.CategoryId,
@@ -230,11 +223,6 @@ namespace Store.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrintingEdition_AuthorId",
-                table: "PrintingEdition",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PrintingEdition_CategoryId",
                 table: "PrintingEdition",
                 column: "CategoryId");
@@ -267,13 +255,13 @@ namespace Store.DataAccess.Migrations
                 name: "UsersInRoles");
 
             migrationBuilder.DropTable(
+                name: "Author");
+
+            migrationBuilder.DropTable(
                 name: "PrintingEdition");
 
             migrationBuilder.DropTable(
                 name: "Order");
-
-            migrationBuilder.DropTable(
-                name: "Author");
 
             migrationBuilder.DropTable(
                 name: "Category");
