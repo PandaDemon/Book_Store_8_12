@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Store.DataAccess.Entities.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,5 +35,8 @@ namespace Store.DataAccess.Entities
         [ForeignKey("Role")]
         public int RolesId { get; set; }
         public virtual Role Role { get; set; }
+
+        public ICollection<UsersInRoles> UsersInRoles { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

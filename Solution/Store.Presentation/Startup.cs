@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Store.DataAccess.Initialization;
-using Store.DataAccess.Repositories;
-using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.Presentation
 {
@@ -17,7 +15,7 @@ namespace Store.Presentation
 
         public Startup(IHostingEnvironment hostEnv)
         {
-            _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("dbsettings.json").Build();
+            _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("appsettings.json").Build();
         }
 
         public Startup(IConfiguration configuration)
@@ -27,13 +25,16 @@ namespace Store.Presentation
 
         public IConfiguration Configuration { get; }
 
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<IAllEditionsRepository, PrintingEditionRepository>();
-            services.AddTransient<IEditionsCategoryRepository, CategoryRepository>();
+
+            services.AddTransient<DataBaseContext>();
 
 
 
@@ -77,6 +78,9 @@ namespace Store.Presentation
                 DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
                 DataBaseInitialization.Initialize(content);
             }
+
+
         }
+
     }
 }

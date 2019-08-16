@@ -1,4 +1,5 @@
 ﻿using Store.DataAccess.Entities;
+using Store.DataAccess.Entities.Base;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +12,9 @@ namespace Store.DataAccess.Initialization
 
 
             if (!content.Category.Any())
+            {
                 content.Category.AddRange(Categories.Select(c => c.Value));
+            }
 
             if (!content.PrintingEdition.Any())
             {
@@ -71,7 +74,19 @@ namespace Store.DataAccess.Initialization
                         Category = Categories["Newspapers"]
                     }
                 );
+
             }
+
+            //if (!content.AuthorInPrintingEditions.Any())
+            //{
+            //    content.AddRange(
+            //        new AuthorInPrintingEditions
+            //        {
+            //            AuthorId = 1,
+            //            PrintingEdidtionId = 2
+            //        }
+            //    );
+            //}
 
             content.SaveChanges();
 
@@ -121,6 +136,28 @@ namespace Store.DataAccess.Initialization
                         author.Add(el.LastName, el);
                 }
                 return author;
+            }
+        }
+
+        private static Dictionary<string, Currency> currency;
+        public static Dictionary<string, Currency> Currency
+        {
+            get
+            {
+                if (currency == null)
+                {
+                    var list = new Currency[]
+                    {
+                        new Currency{FullCurrencyName = "UAN" },
+                        new Currency{FullCurrencyName = "RUB" },
+                        new Currency{FullCurrencyName = "USD" }
+                    };
+
+                    currency = new Dictionary<string, Currency>();
+                    foreach (Currency el in list)
+                        currency.Add(el.FullCurrencyName, el);
+                }
+                return currency;
             }
         }
     }

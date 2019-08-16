@@ -10,8 +10,8 @@ using Store.DataAccess.Initialization;
 namespace Store.DataAccess.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190814154403_NewDataBase")]
-    partial class NewDataBase
+    [Migration("20190816131907_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,32 @@ namespace Store.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Author");
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Base.AuthorInPrintingEditions", b =>
+                {
+                    b.Property<int>("AuthorId");
+
+                    b.Property<int>("PrintingEdidtionId");
+
+                    b.HasKey("AuthorId", "PrintingEdidtionId");
+
+                    b.HasIndex("PrintingEdidtionId");
+
+                    b.ToTable("AuthorInPrintingEditions");
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Base.UsersInRoles", b =>
+                {
+                    b.Property<int>("RoleId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsersInRoles");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.Category", b =>
@@ -84,8 +110,6 @@ namespace Store.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Order");
@@ -99,7 +123,12 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<bool>("IsPaid");
 
+                    b.Property<int>("OrderId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Payment");
                 });
@@ -113,6 +142,8 @@ namespace Store.DataAccess.Migrations
                     b.Property<int>("AuthorId");
 
                     b.Property<int>("CategoryId");
+
+                    b.Property<int>("CurrencyId");
 
                     b.Property<string>("Desc");
 
@@ -131,6 +162,8 @@ namespace Store.DataAccess.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("PrintingEdition");
                 });
@@ -182,16 +215,45 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.Base.AuthorInPrintingEditions", b =>
                 {
-                    b.HasOne("Store.DataAccess.Entities.Payment", "Payment")
-                        .WithMany("Orders")
-                        .HasForeignKey("PaymentId")
+                    b.HasOne("Store.DataAccess.Entities.Author", "Author")
+                        .WithMany("AuthorInPrintingEditions")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Store.DataAccess.Entities.PrintingEdition", "PrintingEdition")
+                        .WithMany("AuthorInPrintingEditions")
+                        .HasForeignKey("PrintingEdidtionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Base.UsersInRoles", b =>
+                {
+                    b.HasOne("Store.DataAccess.Entities.Role", "Role")
+                        .WithMany("UsersInRoles")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Store.DataAccess.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UsersInRoles")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
+                {
+                    b.HasOne("Store.DataAccess.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Payment", b =>
+                {
+                    b.HasOne("Store.DataAccess.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("Store.DataAccess.Entities.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -203,8 +265,13 @@ namespace Store.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Store.DataAccess.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("PrintingEdition")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Store.DataAccess.Entities.Currency", "Currency")
+                        .WithMany("PrintingEditions")
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

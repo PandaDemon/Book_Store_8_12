@@ -11,5 +11,7 @@ namespace Store.DataAccess.Entities
 
         [Required]
         public string FullCurrencyName { get; set; }
+
+        public ICollection<PrintingEdition> PrintingEditions { get; set; }
     }
 }

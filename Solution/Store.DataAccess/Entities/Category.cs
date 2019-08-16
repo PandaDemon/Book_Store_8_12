@@ -11,5 +11,7 @@ namespace Store.DataAccess.Entities
 
         [Required]
         public string CategoryName { get; set; }
+
+        public ICollection<PrintingEdition> PrintingEdition { get; set; }
     }
 }

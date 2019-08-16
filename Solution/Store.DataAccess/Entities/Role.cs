@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Store.DataAccess.Entities.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Store.DataAccess.Entities
@@ -9,5 +10,7 @@ namespace Store.DataAccess.Entities
 
         [Required]
         public string RoleName { get; set; }
+
+        public ICollection<UsersInRoles> UsersInRoles { get; set; }
     }
 }

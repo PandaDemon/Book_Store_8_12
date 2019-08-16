@@ -8,6 +8,7 @@ namespace Store.DataAccess.Entities
 
         public bool IsPaid { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }
