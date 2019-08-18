@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
-namespace Store.DataAccess.Entities.Base
+﻿namespace Store.DataAccess.Entities
 {
     public class AuthorInPrintingEditions
     {

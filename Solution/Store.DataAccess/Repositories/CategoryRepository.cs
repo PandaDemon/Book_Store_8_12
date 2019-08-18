@@ -8,17 +8,17 @@ using System.Linq;
 
 namespace Store.DataAccess.Repositories
 {
-    public class InitializeCategoryRepository : IEditionsCategoryRepository
-    {
-        private readonly DataBaseContext dataBaseInitialization;
+    //public class InitializeCategoryRepository : IEditionsCategoryRepository
+    //{
+    //    private readonly DataBaseContext dataBaseInitialization;
 
-        public InitializeCategoryRepository(DataBaseContext dataBaseInitialization)
-        {
-            this.dataBaseInitialization = dataBaseInitialization;
-        }
+    //    public InitializeCategoryRepository(DataBaseContext dataBaseInitialization)
+    //    {
+    //        this.dataBaseInitialization = dataBaseInitialization;
+    //    }
 
-        public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
-    }
+        //public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
+    //}
 
     //public class CategoryRepository : IRepository<Category>
     //{

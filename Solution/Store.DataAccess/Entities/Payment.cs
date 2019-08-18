@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Store.DataAccess.Entities
+﻿namespace Store.DataAccess.Entities
 {
     public class Payment
     {

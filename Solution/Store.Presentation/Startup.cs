@@ -73,11 +73,11 @@ namespace Store.Presentation
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
-                DataBaseInitialization.Initialize(content);
-            }
+            //using (var scope = app.ApplicationServices.CreateScope())
+            //{
+            //    DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+            //    DataBaseInitialization.Initialize(content);
+            //}
 
 
         }

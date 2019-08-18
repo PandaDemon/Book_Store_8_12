@@ -1,7 +1,5 @@
-﻿using Store.DataAccess.Entities.Base;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
@@ -32,7 +30,7 @@ namespace Store.DataAccess.Entities
         [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
-        public ICollection<UsersInRoles> UsersInRoles { get; set; }
+        public ICollection<UserInRole> UsersInRoles { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }

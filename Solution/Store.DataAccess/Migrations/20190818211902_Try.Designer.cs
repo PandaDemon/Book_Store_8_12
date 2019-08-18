@@ -10,8 +10,8 @@ using Store.DataAccess.Initialization;
 namespace Store.DataAccess.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190816151612_Initial")]
-    partial class Initial
+    [Migration("20190818211902_Try")]
+    partial class Try
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,7 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("Author");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.Base.AuthorInPrintingEditions", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.AuthorInPrintingEditions", b =>
                 {
                     b.Property<int>("AuthorId");
 
@@ -53,26 +53,13 @@ namespace Store.DataAccess.Migrations
                     b.ToTable("AuthorInPrintingEditions");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.Base.UsersInRoles", b =>
-                {
-                    b.Property<int>("RoleId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("RoleId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UsersInRoles");
-                });
-
             modelBuilder.Entity("Store.DataAccess.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CategoryName")
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -86,7 +73,7 @@ namespace Store.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FullCurrencyName")
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -110,6 +97,9 @@ namespace Store.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Order");
@@ -126,9 +116,6 @@ namespace Store.DataAccess.Migrations
                     b.Property<int>("OrderId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Payment");
                 });
@@ -149,7 +136,7 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<bool>("IsInStock");
 
-                    b.Property<float>("Price");
+                    b.Property<double>("Price");
 
                     b.Property<string>("PrintingEditionName")
                         .IsRequired()
@@ -170,7 +157,7 @@ namespace Store.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -202,16 +189,25 @@ namespace Store.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int>("RolesId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RolesId");
 
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.Base.AuthorInPrintingEditions", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.UserInRole", b =>
+                {
+                    b.Property<int>("RoleId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserInRole");
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.AuthorInPrintingEditions", b =>
                 {
                     b.HasOne("Store.DataAccess.Entities.Author", "Author")
                         .WithMany("AuthorInPrintingEditions")
@@ -224,32 +220,16 @@ namespace Store.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.Base.UsersInRoles", b =>
-                {
-                    b.HasOne("Store.DataAccess.Entities.Role", "Role")
-                        .WithMany("UsersInRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Store.DataAccess.Entities.User", "User")
-                        .WithMany("UsersInRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
                 {
+                    b.HasOne("Store.DataAccess.Entities.Payment", "Payment")
+                        .WithOne("Order")
+                        .HasForeignKey("Store.DataAccess.Entities.Order", "PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Store.DataAccess.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Store.DataAccess.Entities.Payment", b =>
-                {
-                    b.HasOne("Store.DataAccess.Entities.Order", "Order")
-                        .WithOne("Payment")
-                        .HasForeignKey("Store.DataAccess.Entities.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -266,11 +246,16 @@ namespace Store.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Store.DataAccess.Entities.User", b =>
+            modelBuilder.Entity("Store.DataAccess.Entities.UserInRole", b =>
                 {
                     b.HasOne("Store.DataAccess.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RolesId")
+                        .WithMany("UsersInRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Store.DataAccess.Entities.User", "User")
+                        .WithMany("UsersInRoles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

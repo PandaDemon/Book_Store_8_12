@@ -1,5 +1,4 @@
-﻿using Store.DataAccess.Entities.Base;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,16 +13,12 @@ namespace Store.DataAccess.Entities
         [StringLength(50)]
         public string PrintingEditionName { get; set; }
 
-        //[ForeignKey("Author")]
-        //public int AuthorId { get; set; }
-        //public virtual Author Author { get; set; }
-
         public string Desc { get; set; }
 
         public string Img { get; set; }
 
         [Required]
-        public float Price { get; set; }
+        public double Price { get; set; }
 
         public bool IsInStock { get; set; }
 
@@ -33,7 +28,6 @@ namespace Store.DataAccess.Entities
 
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
-
         public virtual Currency Currency { get; set; }
 
         public ICollection<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
