@@ -53,22 +53,6 @@ namespace Store.DataAccess.Initialization
                 .WithMany(s => s.AuthorInPrintingEditions)
                 .HasForeignKey(sc => sc.PrintingEdidtionId);
 
-<<<<<<< Updated upstream
-            //modelBuilder.Entity<Order>()
-            //    .HasOne<User>(s => s.User)
-            //    .WithMany(g => g.Orders)
-            //    .HasForeignKey(s => s.UserId);
-
-            //modelBuilder.Entity<Order>()
-            //    .HasOne<Payment>(s => s.Payment)
-            //    .WithOne(ad => ad.Order)
-            //    .HasForeignKey<Payment>(ad => ad.OrderId);
-
-            //modelBuilder.Entity<PrintingEdition>()
-            //    .HasOne<Currency>(s => s.Currency)
-            //    .WithMany(g => g.PrintingEditions)
-            //    .HasForeignKey(s => s.CurrencyId);
-=======
 
             modelBuilder.Entity<Order>()
                 .HasOne<User>(s => s.User)
@@ -86,7 +70,6 @@ namespace Store.DataAccess.Initialization
                 .HasOne<Currency>(s => s.Currency)
                 .WithMany(g => g.PrintingEditions)
                 .HasForeignKey(s => s.CurrencyId);
->>>>>>> Stashed changes
         }
     }
 }
