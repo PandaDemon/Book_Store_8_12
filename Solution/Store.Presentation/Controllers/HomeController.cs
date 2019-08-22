@@ -1,18 +1,31 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Store.BusinessLogic.Services;
+using Store.DataAccess.Entities;
+using Store.Presentation.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Store.Presentation.Models;
 
 namespace Store.Presentation.Controllers
 {
     public class HomeController : Controller
     {
+        //private DataBaseContext _context;
+        //private IAuthor _dirRep;
+        private DataManager _dataManager;
+
+        public HomeController(/*DataBaseContext context, IAuthor dirRep,*/ DataManager dataManager)
+        {
+            //_context = context;
+            //dirRep = _dirRep;
+            _dataManager = dataManager;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            //List<Author> _dirs = _dirRep.GetAllAutor().ToList();
+            List<PrintingEdition> _dirs = _dataManager.PrintingEdition.GetAllPrintingEdition().ToList();
+            return View(_dirs);
         }
 
         public IActionResult About()

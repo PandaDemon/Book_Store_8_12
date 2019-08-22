@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Store.BusinessLogic.Services;
+using Store.BusinessLogic.Services.Implementations;
+using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Initialization;
 
 namespace Store.Presentation
@@ -34,7 +37,10 @@ namespace Store.Presentation
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
             services.AddTransient<DataBaseContext>();
 
-            //services.InjectDataBase(_confString);
+            services.AddTransient<IAuthor, EFAuthorRepository>();
+            services.AddTransient<IPrintingEdition, EFPrintingEditionRepository>();
+            services.AddTransient<ICategory, EFCategoryRepository>();
+            services.AddScoped<DataManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

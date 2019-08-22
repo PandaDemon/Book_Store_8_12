@@ -91,12 +91,11 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<int>("PaymentId");
 
+                    b.Property<int>("Quantity");
+
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PaymentId")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -113,7 +112,12 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<int>("OrderId");
 
+                    b.Property<int>("PaymentNumber");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Payment");
                 });
@@ -134,11 +138,13 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<bool>("IsInStock");
 
-                    b.Property<double>("Price");
-
-                    b.Property<string>("PrintingEditionName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<double>("Price");
+
+                    b.Property<int>("Quantity");
 
                     b.HasKey("Id");
 
@@ -220,14 +226,17 @@ namespace Store.DataAccess.Migrations
 
             modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
                 {
-                    b.HasOne("Store.DataAccess.Entities.Payment", "Payment")
-                        .WithOne("Order")
-                        .HasForeignKey("Store.DataAccess.Entities.Order", "PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Store.DataAccess.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Store.DataAccess.Entities.Payment", b =>
+                {
+                    b.HasOne("Store.DataAccess.Entities.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("Store.DataAccess.Entities.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
