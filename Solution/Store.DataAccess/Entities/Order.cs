@@ -14,6 +14,9 @@ namespace Store.DataAccess.Entities
 
         public bool IsClose { get; set; }
 
+        [Display(Name = "Quantity")]
+        public int Quantity { get; set; }
+
         [ForeignKey("Payment")]
         public int PaymentId { get; set; }
         public virtual Payment Payment { get; set; }

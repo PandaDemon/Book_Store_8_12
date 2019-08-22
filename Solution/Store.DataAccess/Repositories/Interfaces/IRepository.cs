@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IRepository <T> where T : class
+    public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         T Get(int id);
@@ -14,7 +14,7 @@ namespace Store.DataAccess.Repositories.Interfaces
         void Update(T item);
         void Delete(int id);
     }
-    
+
     public interface IUnitOfWork : IDisposable
     {
         IRepository<Category> Categories { get; }

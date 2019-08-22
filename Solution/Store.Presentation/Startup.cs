@@ -32,11 +32,9 @@ namespace Store.Presentation
         {
 
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
-
-
             services.AddTransient<DataBaseContext>();
 
-
+            //services.InjectDataBase(_confString);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -73,11 +71,19 @@ namespace Store.Presentation
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //using (var scope = app.ApplicationServices.CreateScope())
-            //{
-            //    DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
-            //    DataBaseInitialization.Initialize(content);
-            //}
+
+            //////
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                //DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+                //DataBaseInitialization.Initialize(content);
+
+                DataBaseContext applicationDataBaseContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+                applicationDataBaseContext.Database.Migrate();
+
+                //DataBaseInitialization applicationDataBaseInitializer = scope.ServiceProvider.GetRequiredService<DataBaseInitialization>();
+                DataBaseInitialization.Initialize(applicationDataBaseContext);
+            }
 
 
         }

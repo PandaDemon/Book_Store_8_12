@@ -8,18 +8,18 @@ using System.Linq;
 
 namespace Store.DataAccess.Repositories
 {
-    //public class PrintingEditionRepository : IAllEditionsRepository
-    //{
-        //private readonly DataBaseContext dataBaseInitialization;
+    public class PrintingEditionRepository : IAllEditionsRepository
+    {
+        private readonly DataBaseContext dataBaseInitialization;
 
-        //public PrintingEditionRepository(DataBaseContext dataBaseInitialization)
-        //{
-        //    this.dataBaseInitialization = dataBaseInitialization;
-        //}
+        public PrintingEditionRepository(DataBaseContext dataBaseInitialization)
+        {
+            this.dataBaseInitialization = dataBaseInitialization;
+        }
 
-        //public IEnumerable<PrintingEdition> PrintingEditions => dataBaseInitialization.PrintingEdition.Include(c => c.Category);
+        public IEnumerable<PrintingEdition> PrintingEditions => dataBaseInitialization.PrintingEdition.Include(c => c.Category);
 
-        //public PrintingEdition getObjectEdition(int EditionId) => dataBaseInitialization.PrintingEdition.FirstOrDefault(p => p.Id == EditionId);
+        public PrintingEdition getObjectEdition(int EditionId) => dataBaseInitialization.PrintingEdition.FirstOrDefault(p => p.Id == EditionId);
 
 
 
@@ -61,5 +61,5 @@ namespace Store.DataAccess.Repositories
         //    if (order != null)
         //        db.PrintingEdition.Remove(order);
         //}
-    //}
+    }
 }

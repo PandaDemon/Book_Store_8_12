@@ -11,7 +11,7 @@ namespace Store.DataAccess.Entities
         [Required]
         [Display(Name = "First Name")]
         [StringLength(50)]
-        public string PrintingEditionName { get; set; }
+        public string Name { get; set; }
 
         public string Desc { get; set; }
 
@@ -21,6 +21,9 @@ namespace Store.DataAccess.Entities
         public double Price { get; set; }
 
         public bool IsInStock { get; set; }
+
+        [Display(Name = "Quantity")]
+        public int Quantity { get; set; }
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }

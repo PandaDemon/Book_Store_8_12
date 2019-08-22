@@ -17,7 +17,7 @@ namespace Store.DataAccess.Repositories
     //        this.dataBaseInitialization = dataBaseInitialization;
     //    }
 
-        //public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
+    //public IEnumerable<Category> AllCategories => dataBaseInitialization.Category;
     //}
 
     //public class CategoryRepository : IRepository<Category>
