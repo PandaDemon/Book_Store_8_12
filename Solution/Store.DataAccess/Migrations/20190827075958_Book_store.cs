@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Store.DataAccess.Migrations
 {
-    public partial class Book_Store : Migration
+    public partial class Book_store : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

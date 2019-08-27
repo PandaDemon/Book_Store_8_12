@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Store.DataAccess.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required]
         [Display(Name = "First Name")]
@@ -20,17 +21,17 @@ namespace Store.DataAccess.Entities
         [Display(Name = "Avatar")]
         public string Img { get; set; }
 
-        [Required]
-        [Display(Name = "Email")]
-        [StringLength(50)]
-        public string Email { get; set; }
+        //[Required]
+        //[Display(Name = "Email")]
+        //[StringLength(50)]
+        //public string Email { get; set; }
 
         [Required]
         [Display(Name = "Password")]
         [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
-        public ICollection<UserInRole> UsersInRoles { get; set; }
+        //public ICollection<UserInRole> UsersInRoles { get; set; }
         public ICollection<Order> Orders { get; set; }
     }
 }

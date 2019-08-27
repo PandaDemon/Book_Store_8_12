@@ -21,10 +21,10 @@ namespace Store.DataAccess.Initialization
             context.SaveChanges();
 
 
-            var firstOrder = new Order { Quantity = 3, UserId = firstUser.Id, OrderDate = DateTime.Now };
-            var secondOrder = new Order { Quantity = 3, UserId = secondUser.Id, OrderDate = DateTime.Now };
-            context.Order.AddRange(firstOrder, secondOrder);
-            context.SaveChanges();
+            //var firstOrder = new Order { Quantity = 3, UserId = firstUser.Id, OrderDate = DateTime.Now };
+            //var secondOrder = new Order { Quantity = 3, UserId = secondUser.Id, OrderDate = DateTime.Now };
+            //context.Order.AddRange(firstOrder, secondOrder);
+            //context.SaveChanges();
 
 
             var roles = new Role[]
@@ -49,13 +49,13 @@ namespace Store.DataAccess.Initialization
             context.SaveChanges();
 
 
-            var payments = new Payment[]
-            {
-                new Payment {PaymentNumber = 876876, IsPaid = true, OrderId = firstOrder.Id},
-                new Payment {PaymentNumber = 817263, IsPaid = true, OrderId = secondOrder.Id},
-            };
-            context.Payment.AddRange(payments);
-            context.SaveChanges();
+            //var payments = new Payment[]
+            //{
+            //    new Payment {PaymentNumber = 876876, IsPaid = true, OrderId = firstOrder.Id},
+            //    new Payment {PaymentNumber = 817263, IsPaid = true, OrderId = secondOrder.Id},
+            //};
+            //context.Payment.AddRange(payments);
+            //context.SaveChanges();
 
 
             var currency = new Currency[]
@@ -105,14 +105,14 @@ namespace Store.DataAccess.Initialization
             context.SaveChanges();
 
 
-            var usersInRoles = new UserInRole[]
-            {
-                new UserInRole {UserId = firstUser.Id, RoleId = roles.First().Id},
-                new UserInRole {UserId = firstUser.Id, RoleId = roles.ElementAt(1).Id}
-            };
-            context.UserInRole.AddRange(usersInRoles);
-            context.SaveChanges();
-            context.Dispose();
+            //var usersInRoles = new UserInRole[]
+            //{
+            //    new UserInRole {UserId = firstUser.Id, RoleId = roles.First().Id},
+            //    new UserInRole {UserId = firstUser.Id, RoleId = roles.ElementAt(1).Id}
+            //};
+            //context.UserInRole.AddRange(usersInRoles);
+            //context.SaveChanges();
+            //context.Dispose();
 
         }
     }

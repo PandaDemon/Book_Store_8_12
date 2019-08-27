@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Services;
 using Store.DataAccess.Entities;
-using Store.Presentation.Models;
+using Store.BusinessLogic.User.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

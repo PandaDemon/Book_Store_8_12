@@ -26,15 +26,15 @@ namespace Store.DataAccess.Initialization
         {
             modelBuilder.Entity<UserInRole>().HasKey(sc => new { sc.RoleId, sc.UserId });
 
-            modelBuilder.Entity<UserInRole>()
-                .HasOne<User>(sc => sc.User)
-                .WithMany(s => s.UsersInRoles)
-                .HasForeignKey(sc => sc.UserId);
+            //modelBuilder.Entity<UserInRole>()
+            //    .HasOne<User>(sc => sc.User)
+            //    .WithMany(s => s.UsersInRoles)
+            //    .HasForeignKey(sc => sc.UserId);
 
-            modelBuilder.Entity<UserInRole>()
-                .HasOne<Role>(sc => sc.Role)
-                .WithMany(s => s.UsersInRoles)
-                .HasForeignKey(sc => sc.RoleId);
+            //modelBuilder.Entity<UserInRole>()
+            //    .HasOne<Role>(sc => sc.Role)
+            //    .WithMany(s => s.UsersInRoles)
+            //    .HasForeignKey(sc => sc.RoleId);
 
             modelBuilder.Entity<AuthorInPrintingEditions>().HasKey(sc => new { sc.AuthorId, sc.PrintingEdidtionId });
 
