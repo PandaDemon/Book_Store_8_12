@@ -76,7 +76,9 @@ namespace Store.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
+
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl)
@@ -107,6 +109,7 @@ namespace Store.Presentation.Controllers
         public async Task<IActionResult> LogOff()
         {
             await signInManager.SignOutAsync();
+
             return RedirectToAction("Index", "Home");
         }
 

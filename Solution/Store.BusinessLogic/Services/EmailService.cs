@@ -12,13 +12,13 @@ namespace Store.BusinessLogic.Services
             var pass = "mp512055120";
             try
             {
-                using (var mm = new MailMessage())
+                using (var mailMessage = new MailMessage())
                 {
-                    mm.From = new MailAddress(from);
-                    mm.To.Add(new MailAddress(mailAddress));
+                    mailMessage.From = new MailAddress(from);
+                    mailMessage.To.Add(new MailAddress(mailAddress));
 
-                    mm.Subject = messageSubject;
-                    mm.Body = messageBody;
+                    mailMessage.Subject = messageSubject;
+                    mailMessage.Body = messageBody;
 
                     using (var client = new SmtpClient("smtp.mail.ru", 25))
                     {
@@ -26,13 +26,14 @@ namespace Store.BusinessLogic.Services
                         client.UseDefaultCredentials = false;
                         client.Credentials = new NetworkCredential(from, pass);
                         client.EnableSsl = true;
-                        mm.IsBodyHtml = true;
-                        client.Send(mm);
+
+                        mailMessage.IsBodyHtml = true;
+
+                        client.Send(mailMessage);
                     }
 
                 }
-                var messegeSucces = String.Format("Email sent to {0}.\nSubject:{1}\nBody:{2}",
-                        mailAddress, messageSubject, messageBody);
+                var messegeSucces = $"Email sent to {mailAddress}.\nSubject:{messageSubject}\nBody:{messageBody}";
 
                 return messegeSucces;
             }
