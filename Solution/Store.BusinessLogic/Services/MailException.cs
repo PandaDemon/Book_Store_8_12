@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Store.BusinessLogic.Services
 {
     [Serializable]
-    internal class MailException
+    public class MailException : Exception
     {
         public MailException()
         {

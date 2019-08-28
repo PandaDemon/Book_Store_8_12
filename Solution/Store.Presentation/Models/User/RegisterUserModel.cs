@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Store.BusinessLogic.Models.User
+namespace Store.Presentation.Models.User
 {
     public class RegisterUserModel
     {

@@ -8,8 +8,8 @@ namespace Store.BusinessLogic.Services
     {
         public static string SendMail(string mailAddress, string messageSubject, string messageBody)
         {
-            var from = "fista_shka@mail.ru";
-            var pass = "Fyfcnfcbz1991";
+            var from = "mpanukov@gmail.com";
+            var pass = "mp512055120";
             try
             {
                 using (var mm = new MailMessage())
@@ -37,7 +37,6 @@ namespace Store.BusinessLogic.Services
                 return messegeSucces;
             }
             catch (Exception e)
-
             {
                 var message = String.Format("Cant send mail. Subject: {0}. To: {1}. Body: {2}.",
                     messageSubject, mailAddress, messageBody);

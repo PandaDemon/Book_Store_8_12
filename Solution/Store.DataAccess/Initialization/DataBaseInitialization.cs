@@ -1,6 +1,7 @@
-﻿using Store.DataAccess.Entities;
-using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Store.DataAccess.Entities;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Store.DataAccess.Initialization
 {
@@ -9,32 +10,6 @@ namespace Store.DataAccess.Initialization
         public static void Initialize(DataBaseContext context)
         {
             context.Database.EnsureCreated();
-
-            if (context.User.Any())
-            {
-                return;
-            }
-
-            var firstUser = new User { FirstName = "Michael", LastName = "Panukov", Password = "m055120", Email = "mpanukov@gmail.com", Img = "https://cdn.mos.cms.futurecdn.net/xMe8cQKSfR3YCSKR6i4sFP-970-80.jpg" };
-            var secondUser = new User { FirstName = "Asya", LastName = "Timchenko", Password = "t055120", Email = "Asya@gmail.com", Img = "https://cdn.mos.cms.futurecdn.net/xMe8cQKSfR3YCSKR6i4sFP-970-80.jpg" };
-            context.User.AddRange(firstUser, secondUser);
-            context.SaveChanges();
-
-
-            //var firstOrder = new Order { Quantity = 3, UserId = firstUser.Id, OrderDate = DateTime.Now };
-            //var secondOrder = new Order { Quantity = 3, UserId = secondUser.Id, OrderDate = DateTime.Now };
-            //context.Order.AddRange(firstOrder, secondOrder);
-            //context.SaveChanges();
-
-
-            var roles = new Role[]
-            {
-                new Role {Name = "admin"},
-                new Role {Name = "user"}
-             };
-            context.Role.AddRange(roles);
-            context.SaveChanges();
-
 
             var authors = new Author[]
             {
@@ -48,16 +23,6 @@ namespace Store.DataAccess.Initialization
             context.Author.AddRange(authors);
             context.SaveChanges();
 
-
-            //var payments = new Payment[]
-            //{
-            //    new Payment {PaymentNumber = 876876, IsPaid = true, OrderId = firstOrder.Id},
-            //    new Payment {PaymentNumber = 817263, IsPaid = true, OrderId = secondOrder.Id},
-            //};
-            //context.Payment.AddRange(payments);
-            //context.SaveChanges();
-
-
             var currency = new Currency[]
             {
                 new Currency {Name = "UAN"},
@@ -68,7 +33,6 @@ namespace Store.DataAccess.Initialization
             context.Currency.AddRange(currency);
             context.SaveChanges();
 
-
             var categoty = new Category[]
             {
                 new Category { Name = "book"},
@@ -77,7 +41,6 @@ namespace Store.DataAccess.Initialization
             };
             context.Category.AddRange(categoty);
             context.SaveChanges();
-
 
             var printingeditions = new PrintingEdition[]
             {
@@ -91,7 +54,6 @@ namespace Store.DataAccess.Initialization
             context.PrintingEdition.AddRange(printingeditions);
             context.SaveChanges();
 
-
             var authorsInPrintingEditions = new AuthorInPrintingEditions[]
             {
                 new AuthorInPrintingEditions {AuthorId = authors.First().Id, PrintingEdidtionId = printingeditions.First().Id},
@@ -103,17 +65,31 @@ namespace Store.DataAccess.Initialization
             };
             context.AuthorInPrintingEditions.AddRange(authorsInPrintingEditions);
             context.SaveChanges();
+            context.Dispose();
 
+        }
 
-            //var usersInRoles = new UserInRole[]
-            //{
-            //    new UserInRole {UserId = firstUser.Id, RoleId = roles.First().Id},
-            //    new UserInRole {UserId = firstUser.Id, RoleId = roles.ElementAt(1).Id}
-            //};
-            //context.UserInRole.AddRange(usersInRoles);
-            //context.SaveChanges();
-            //context.Dispose();
-
+        public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            string adminEmail = "admin@gmail.com";
+            string password = "m055120";
+            if (await roleManager.FindByNameAsync("admin") == null)
+            {
+                await roleManager.CreateAsync(new Role { Name = "admin" });
+            }
+            if (await roleManager.FindByNameAsync("user") == null)
+            {
+                await roleManager.CreateAsync(new Role { Name = "user" });
+            }
+            if (await userManager.FindByNameAsync(adminEmail) == null)
+            {
+                User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "JO", LastName = "Jo", Password = password, Img = "img" };
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "admin");
+                }
+            }
         }
     }
 }

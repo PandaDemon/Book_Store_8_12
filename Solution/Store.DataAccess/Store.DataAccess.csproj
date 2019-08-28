@@ -13,6 +13,24 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190827064252_test.cs" />
     <Compile Remove="Migrations\20190827064252_test.Designer.cs" />
+    <Compile Remove="Migrations\20190827075958_Book_store.cs" />
+    <Compile Remove="Migrations\20190827075958_Book_store.Designer.cs" />
+    <Compile Remove="Migrations\20190828071813_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828071813_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828074714_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828074714_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828075655_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828075655_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828080147_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828080147_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828081136_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828081136_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828081335_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828081335_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828081509_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828081509_Book_Store.Designer.cs" />
+    <Compile Remove="Migrations\20190828083801_Book_Store.cs" />
+    <Compile Remove="Migrations\20190828083801_Book_Store.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

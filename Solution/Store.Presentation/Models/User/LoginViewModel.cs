@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Store.BusinessLogic.Models.User
+namespace Store.Presentation.Models.User
 {
     public class LoginViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Store.BusinessLogic.Models.User
+﻿namespace Store.Presentation.Models
 {
     public class ErrorViewModel
     {

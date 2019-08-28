@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Store.BusinessLogic.Models.User
+﻿namespace Store.Presentation.Models.User
 {
     public class ChangePasswordViewModel
     {

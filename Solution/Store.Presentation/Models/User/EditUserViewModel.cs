@@ -1,4 +1,4 @@
-﻿namespace Store.BusinessLogic.Models
+﻿namespace Store.Presentation.Models.User
 {
     public class EditUserViewModel
     {

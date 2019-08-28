@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Store.BusinessLogic.Models.Role
+namespace Store.Presentation.Models.Role
 {
     public class ChangeRoleViewModel
     {

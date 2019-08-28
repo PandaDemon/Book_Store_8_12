@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Services;
 using Store.DataAccess.Entities;
-using Store.BusinessLogic.User.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Store.Presentation.Models;
 
 namespace Store.Presentation.Controllers
 {

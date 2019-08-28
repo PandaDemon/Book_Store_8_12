@@ -26,10 +26,10 @@ namespace Store.Presentation.Middlewares
             {
                 try
                 {
-                    _logger.LogError("log error", ex);
-                    _logger.LogInformation("log inform", ex);
-                    _logger.LogDebug("log debug", ex);
-                    _logger.LogCritical("critical exception", ex);
+                    _logger.LogError("Log error", ex);
+                    _logger.LogInformation("Log inform", ex);
+                    _logger.LogDebug("Log debug", ex);
+                    _logger.LogCritical("Critical exception", ex);
                 }
                 catch (Exception innerEx)
                 {

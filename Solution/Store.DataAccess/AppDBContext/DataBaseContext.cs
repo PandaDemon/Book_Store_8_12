@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Store.DataAccess.Entities;
 
 namespace Store.DataAccess.Initialization
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext : IdentityDbContext<User>
     {
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
@@ -13,18 +14,19 @@ namespace Store.DataAccess.Initialization
         public DbSet<PrintingEdition> PrintingEdition { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Author> Author { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Role> Role { get; set; }
+        //public DbSet<User> User { get; set; }
+        //public DbSet<Role> Role { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
-        public DbSet<UserInRole> UserInRole { get; set; }
+        //public DbSet<UserInRole> UserInRole { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserInRole>().HasKey(sc => new { sc.RoleId, sc.UserId });
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<UserInRole>().HasKey(sc => new { sc.RoleId, sc.UserId });
 
             //modelBuilder.Entity<UserInRole>()
             //    .HasOne<User>(sc => sc.User)

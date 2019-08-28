@@ -74,7 +74,7 @@ namespace Store.Presentation
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Register}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
 
 

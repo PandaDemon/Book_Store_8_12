@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.BusinessLogic.Models.Role;
+using Store.Presentation.Models.Role;
 using Store.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,6 @@ namespace Store.Presentation.Controllers
             this.roleManager = roleManager;
             this.userManager = userManager;
         }
-
 
         public IActionResult Index() => View(roleManager.Roles.ToList());
 
@@ -58,10 +57,8 @@ namespace Store.Presentation.Controllers
             {
                 IdentityResult result = await roleManager.DeleteAsync(role);
             }
-
             return PartialView();
         }
-
         public IActionResult UserList() => View(userManager.Users.ToList());
 
         public async Task<IActionResult> EditUserRole(string userId)
@@ -76,10 +73,7 @@ namespace Store.Presentation.Controllers
                 ChangeRoleViewModel model = new ChangeRoleViewModel { UserEmail = user.Email, AllRoles = allRoles, UserRoles = userRoles, UserId = userId };
                 return View(model);
             }
-
             return NotFound();
-
-
         }
 
         [HttpPost]
@@ -97,16 +91,11 @@ namespace Store.Presentation.Controllers
 
                 var removedRoles = userRoles.Except(roles);
 
-
                 await userManager.AddToRolesAsync(user, addedRoles);
-
-
 
                 await userManager.RemoveFromRolesAsync(user, removedRoles);
 
-
                 return PartialView();
-
             }
             return NotFound();
         }
