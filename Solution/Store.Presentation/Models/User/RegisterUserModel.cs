@@ -9,7 +9,7 @@ namespace Store.Presentation.Models.User
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Логин")]
+        [Display(Name = "Login")]
         public string UserName { get; set; }
 
         [Required]

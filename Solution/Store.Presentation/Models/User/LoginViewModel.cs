@@ -14,11 +14,11 @@ namespace Store.Presentation.Models.User
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Запомнить?")]
+        [Display(Name = "Remember? ")]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }

@@ -24,8 +24,8 @@ namespace Store.Presentation.Controllers
         public IActionResult Index()
         {
             //List<Author> _dirs = _dirRep.GetAllAutor().ToList();
-            List<PrintingEdition> _dirs = _dataManager.PrintingEdition.GetAllPrintingEdition().ToList();
-            return View(_dirs);
+            List<PrintingEdition> listPrintingEdition = _dataManager.PrintingEdition.GetAllPrintingEdition().ToList();
+            return View(listPrintingEdition);
         }
 
         public IActionResult About()

@@ -49,7 +49,6 @@ namespace Store.Presentation
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -81,18 +80,12 @@ namespace Store.Presentation
             //////
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                //DataBaseContext content = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
-                //DataBaseInitialization.Initialize(content);
 
                 DataBaseContext applicationDataBaseContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
                 applicationDataBaseContext.Database.Migrate();
 
-                //DataBaseInitialization applicationDataBaseInitializer = scope.ServiceProvider.GetRequiredService<DataBaseInitialization>();
                 DataBaseInitialization.Initialize(applicationDataBaseContext);
             }
-
-
         }
-
     }
 }
