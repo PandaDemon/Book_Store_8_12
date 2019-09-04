@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Store.DataAccess.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    interface IPrintingEdition
+    public interface IPrintingEdition
     {
+        IEnumerable<PrintingEdition> GetAllPrintingEdition(bool includeCategory = false);
+        PrintingEdition GetPrintingEditionById(int printingEditionId, bool includeCategory = false);
+        void SavePrintingEdition(PrintingEdition printingEdition);
+        void DeletePrintingEdition(PrintingEdition printingEdition);
     }
 }

@@ -14,7 +14,7 @@ namespace Store.DataAccess.Initialization
         public DbSet<PrintingEdition> PrintingEdition { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Author> Author { get; set; }
-        //public DbSet<User> User { get; set; }
+        public DbSet<User> User { get; set; }
         //public DbSet<Role> Role { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Payment> Payment { get; set; }
@@ -23,8 +23,12 @@ namespace Store.DataAccess.Initialization
         //public DbSet<UserInRole> UserInRole { get; set; }
 
 
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<UserInRole>().HasKey(sc => new { sc.RoleId, sc.UserId });
 

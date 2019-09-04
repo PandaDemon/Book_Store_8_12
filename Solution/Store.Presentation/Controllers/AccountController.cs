@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.Presentation.Models.User;
+using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services;
 using Store.DataAccess.Entities;
 using System.Threading.Tasks;

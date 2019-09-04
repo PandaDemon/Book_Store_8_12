@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Store.DataAccess.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    interface IAuthor
+    public interface IAuthor
     {
+        IEnumerable<Author> GetAllAutor(bool includePtintingEdition = false);
+        Author GetAuthorById(int authorId, bool includePrintingEdition = false);
+        void SaveAuthor(Author author);
+        void DeleteAuthor(Author author);
     }
 }

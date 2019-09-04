@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace Store.Presentation
 {
@@ -7,6 +8,7 @@ namespace Store.Presentation
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("System.Net.Http.UseSocketsHttpHandler", false);
             CreateWebHostBuilder(args).Build().Run();
         }
 

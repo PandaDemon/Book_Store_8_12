@@ -1,4 +1,5 @@
-﻿using Store.BusinessLogic.Services.Interfaces;
+﻿
+using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.BusinessLogic.Services
 {

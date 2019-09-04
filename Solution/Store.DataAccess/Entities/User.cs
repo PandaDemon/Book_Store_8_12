@@ -6,6 +6,7 @@ namespace Store.DataAccess.Entities
 {
     public class User : IdentityUser
     {
+
         [Required]
         [Display(Name = "First Name")]
         [StringLength(50)]

@@ -20,8 +20,6 @@ namespace Store.DataAccess.Repositories.EFRepositories
 
         public string Email { get; set; }
 
-        //public ICollection<UserInRoleRepository> UsersInRoles { get; set; }
-
         public ICollection<Order> Orders { get; set; }
     }
 }

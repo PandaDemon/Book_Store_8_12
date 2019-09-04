@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.Presentation.Models.User;
+using Store.BusinessLogic.Models.User;
 using Store.DataAccess.Entities;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +19,11 @@ namespace Store.Presentation.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index() => View(userManager.Users.ToList());
+       // public IActionResult Index() => View(userManager.Users.ToList());
 
-        public IActionResult Create() => View();
+      //  public IActionResult Create() => View();
 
+        [Route("create")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
@@ -32,7 +33,8 @@ namespace Store.Presentation.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return PartialView();
+                 //  return PartialView();
+                 
                 }
                 else
                 {
@@ -42,10 +44,11 @@ namespace Store.Presentation.Controllers
                     }
                 }
             }
-            return View(model);
+            //return View(model);
+            return View();
         }
 
-        public async Task<IActionResult> Edit(string id)
+       /* public async Task<IActionResult> Edit(string id)
         {
             User user = await userManager.FindByIdAsync(id);
             if (user == null)
@@ -54,8 +57,8 @@ namespace Store.Presentation.Controllers
             }
             EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, UserName = user.FirstName, Image = user.Img, LastName = user.LastName };
             return View(model);
-        }
-
+        }*/
+/*
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
@@ -85,8 +88,8 @@ namespace Store.Presentation.Controllers
                 }
             }
             return View(model);
-        }
-
+        }*/
+/*
         [HttpPost]
         public async Task<ActionResult> Delete(string email)
         {
@@ -108,8 +111,8 @@ namespace Store.Presentation.Controllers
             }
             ChangePasswordViewModel model = new ChangePasswordViewModel { Id = user.Id, Email = user.Email };
             return View(model);
-        }
-
+        }*/
+/*
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -139,6 +142,6 @@ namespace Store.Presentation.Controllers
                 }
             }
             return View(model);
-        }
+        }*/
     }
 }

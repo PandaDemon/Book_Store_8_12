@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    interface IAuthorInPrintingEdition
+    public interface IAuthorInPrintingEdition
     {
     }
 }

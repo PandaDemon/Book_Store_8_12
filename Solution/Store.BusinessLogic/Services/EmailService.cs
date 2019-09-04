@@ -33,9 +33,9 @@ namespace Store.BusinessLogic.Services
                     }
 
                 }
-                var messegeSucces = $"Email sent to {mailAddress}.\nSubject:{messageSubject}\nBody:{messageBody}";
+                var messegeSuccess = $"Email sent to {mailAddress}.\nSubject:{messageSubject}\nBody:{messageBody}";
 
-                return messegeSucces;
+                return messegeSuccess;
             }
             catch (Exception e)
             {

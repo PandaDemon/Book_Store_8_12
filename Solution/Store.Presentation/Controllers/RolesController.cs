@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿/*using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.Presentation.Models.Role;
+using Store.BusinessLogic.Models.Role;
 using Store.DataAccess.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,3 +101,4 @@ namespace Store.Presentation.Controllers
         }
     }
 }
+*/
