@@ -4,20 +4,19 @@ import { RegistrationData } from './models/RegistrationData';
 
 @Component
     ({
-        selector: 'my-about',
-        templateUrl: '/partial/aboutComponent'
+        selector: 'my-registration',
+        templateUrl: '/partial/registrationComponent'
     })
 
-export class AboutComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
     registrationData: RegistrationData = null;
     errorMessage: string;
 
     constructor(private sampleDataService: SampleDataService) { }
 
     ngOnInit() {
-        this.sampleDataService.getSampleData()
-            .subscribe((data: RegistrationData) => this.registrationData = data,
-                error => this.errorMessage = <any>error);
+        this.getRegistrationData();
+
     }
 
     getRegistrationData() {

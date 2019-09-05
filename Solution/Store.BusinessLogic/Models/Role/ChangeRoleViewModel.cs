@@ -6,13 +6,13 @@ namespace Store.BusinessLogic.Models.Role
     {
         public string UserId { get; set; }
         public string UserEmail { get; set; }
-        public List<Store.DataAccess.Entities.Role> AllRoles { get; set; }
+        public List<DataAccess.Entities.Role> AllRoles { get; set; }
 
         public IList<string> UserRoles { get; set; }
 
         public ChangeRoleViewModel()
         {
-            AllRoles = new List<Store.DataAccess.Entities.Role>();
+            AllRoles = new List<DataAccess.Entities.Role>();
             UserRoles = new List<string>();
         }
     }

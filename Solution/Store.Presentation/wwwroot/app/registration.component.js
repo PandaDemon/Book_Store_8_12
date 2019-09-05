@@ -11,22 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var SampleData_services_1 = require("./services/SampleData.services");
-var AboutComponent = (function () {
-    function AboutComponent(sampleDataService) {
+var RegistrationComponent = (function () {
+    function RegistrationComponent(sampleDataService) {
         this.sampleDataService = sampleDataService;
         this.registrationData = null;
     }
-    AboutComponent.prototype.ngOnInit = function () {
+    RegistrationComponent.prototype.ngOnInit = function () {
+        this.getRegistrationData();
+    };
+    RegistrationComponent.prototype.getRegistrationData = function () {
         var _this = this;
         this.sampleDataService.getSampleData()
             .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
     };
-    AboutComponent.prototype.getRegistrationData = function () {
-        var _this = this;
-        this.sampleDataService.getSampleData()
-            .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
-    };
-    AboutComponent.prototype.addRegistrationData = function (event) {
+    RegistrationComponent.prototype.addRegistrationData = function (event) {
         var _this = this;
         event.preventDefault();
         if (!this.registrationData)
@@ -34,14 +32,14 @@ var AboutComponent = (function () {
         this.sampleDataService.addSampleData(this.registrationData)
             .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
     };
-    AboutComponent = __decorate([
+    RegistrationComponent = __decorate([
         core_1.Component({
-            selector: 'my-about',
-            templateUrl: '/partial/aboutComponent'
+            selector: 'my-registration',
+            templateUrl: '/partial/registrationComponent'
         }),
         __metadata("design:paramtypes", [SampleData_services_1.SampleDataService])
-    ], AboutComponent);
-    return AboutComponent;
+    ], RegistrationComponent);
+    return RegistrationComponent;
 }());
-exports.AboutComponent = AboutComponent;
-//# sourceMappingURL=about.component.js.map
+exports.RegistrationComponent = RegistrationComponent;
+//# sourceMappingURL=registration.component.js.map

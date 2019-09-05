@@ -71,11 +71,13 @@ namespace Store.Presentation
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, DataBaseContext context)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                DataBaseInitialization.Initialize(context);
             }
             else
             {
@@ -109,7 +111,7 @@ namespace Store.Presentation
                 DataBaseContext applicationDataBaseContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
                 applicationDataBaseContext.Database.Migrate();
 
-                DataBaseInitialization.Initialize(applicationDataBaseContext);
+                //DataBaseInitialization.Initialize(applicationDataBaseContext);
             }
 
             app.UseSwagger();

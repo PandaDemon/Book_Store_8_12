@@ -4,7 +4,7 @@
 
 
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "Registration";
 }
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
@@ -69,6 +69,9 @@
                                    class="form-control" placeholder="Password"
                                    [(ngModel)]="registrationData.password">
                         </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-warning" (click)="addRegistrationData($event)">Save to database</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,6 +79,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Data Display</div>
                     <div class="panel-body">
+                        <tag-dd for="Id"></tag-dd>
 
                         <tag-dd for="UserName"></tag-dd>
 
@@ -83,6 +87,9 @@
 
                         <tag-dd for="Password"></tag-dd>
 
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-info" (click)="getRegistrationData()">Get Last Record</button>
                     </div>
                 </div>
             </div>
