@@ -69,6 +69,9 @@
                                    class="form-control" placeholder="Password"
                                    [(ngModel)]="registrationData.password">
                         </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-warning" (click)="addTestData($event)">Save to database</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,12 +80,17 @@
                     <div class="panel-heading">Data Display</div>
                     <div class="panel-body">
 
+                        <tag-dd for="Id"></tag-dd>
+
                         <tag-dd for="UserName"></tag-dd>
 
                         <tag-dd for="Email"></tag-dd>
 
                         <tag-dd for="Password"></tag-dd>
 
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-info" (click)="getTestData()">Get Last Record</button>
                     </div>
                 </div>
             </div>

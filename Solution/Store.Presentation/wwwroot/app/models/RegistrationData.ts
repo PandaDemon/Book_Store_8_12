@@ -1,9 +1,8 @@
 ﻿import { Component } from '@angular/core';
 
-export class RegistrationData {
-    id: number;
+export class TestData {
+    id   : number;
     username: string;
-    currency: number;
     email: string;
     password: string;
 }

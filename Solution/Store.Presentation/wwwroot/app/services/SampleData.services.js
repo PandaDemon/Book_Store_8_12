@@ -22,12 +22,12 @@ var SampleDataService = (function () {
             .map(function (resp) { return resp.json(); })
             .catch(this.handleError);
     };
-    SampleDataService.prototype.addSampleData = function (registrationData) {
+    SampleDataService.prototype.addSampleData = function (testData) {
         var headers = new http_1.Headers({
             'Content-Type': 'application/json'
         });
         return this.http
-            .post(this.url, JSON.stringify(registrationData), { headers: headers })
+            .post(this.url, JSON.stringify(testData), { headers: headers })
             .map(function (resp) { return resp.json(); })
             .catch(this.handleError);
     };

@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SampleDataService } from './services/SampleData.services';
-import { RegistrationData } from './models/RegistrationData';
+import { TestData } from './models/TestData';
 
 @Component
     ({
@@ -9,29 +9,26 @@ import { RegistrationData } from './models/RegistrationData';
     })
 
 export class AboutComponent implements OnInit {
-    registrationData: RegistrationData = null;
+    testData: TestData = null;
     errorMessage: string;
 
     constructor(private sampleDataService: SampleDataService) { }
 
     ngOnInit() {
-        this.sampleDataService.getSampleData()
-            .subscribe((data: RegistrationData) => this.registrationData = data,
-                error => this.errorMessage = <any>error);
+        this.getTestData();
     }
 
-    getRegistrationData() {
+    getTestData() {
         this.sampleDataService.getSampleData()
-            .subscribe((data: RegistrationData) => this.registrationData = data, error => this.errorMessage = <any>error);
+            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
     }
 
-    addRegistrationData(event: Event): void {
+    addTestData(event: Event): void {
         event.preventDefault();
 
-        if (!this.registrationData)
+        if (!this.testData)
             return;
 
-        this.sampleDataService.addSampleData(this.registrationData)
-            .subscribe((data: RegistrationData) => this.registrationData = data, error => this.errorMessage = <any>error);
-    }
+        this.sampleDataService.addSampleData(this.testData)
+            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
 }
