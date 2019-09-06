@@ -15,8 +15,21 @@ export class AboutComponent implements OnInit {
     constructor(private sampleDataService: SampleDataService) { }
 
     ngOnInit() {
+        this.getTestData();
+    }
+
+    getTestData() {
         this.sampleDataService.getSampleData()
-            .subscribe((data: TestData) => this.testData = data,
-                error => this.errorMessage = <any>error);
+            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
+    }
+
+    addTestData(event: Event): void {
+        event.preventDefault();
+
+        if (!this.testData)
+            return;
+
+        this.sampleDataService.addSampleData(this.testData)
+            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
     }
 }
