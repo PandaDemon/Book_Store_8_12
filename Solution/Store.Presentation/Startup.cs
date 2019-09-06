@@ -11,11 +11,13 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Store.BusinessLogic.Services;
 using Store.DataAccess.Entities;
+using Store.DataAccess.Helpers;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.EFRepositories;
 using Store.DataAccess.Repositories.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
+
 
 namespace Store.Presentation
 {
@@ -77,7 +79,7 @@ namespace Store.Presentation
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                DataBaseInitialization.Initialize(context);
+                //DataBaseInitialization.Initialize(context);
             }
             else
             {

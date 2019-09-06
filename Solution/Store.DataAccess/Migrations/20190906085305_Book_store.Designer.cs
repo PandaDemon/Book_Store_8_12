@@ -10,8 +10,8 @@ using Store.DataAccess.Initialization;
 namespace Store.DataAccess.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190905074501_Book_Store")]
-    partial class Book_Store
+    [Migration("20190906085305_Book_store")]
+    partial class Book_store
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

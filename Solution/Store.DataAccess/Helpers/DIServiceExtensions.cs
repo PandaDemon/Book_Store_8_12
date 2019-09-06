@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.DataAccess.Repositories.Interfaces
+namespace Store.DataAccess.Helpers
 {
-    interface IPayment
+    class DIServiceExtensions
     {
     }
 }

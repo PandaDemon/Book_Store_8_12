@@ -14,7 +14,7 @@ var SampleData_services_1 = require("./services/SampleData.services");
 var AboutComponent = (function () {
     function AboutComponent(sampleDataService) {
         this.sampleDataService = sampleDataService;
-        this.registrationData = null;
+        this.testData = null;
     }
     AboutComponent.prototype.ngOnInit = function () {
         this.getTestData();
@@ -22,20 +22,7 @@ var AboutComponent = (function () {
     AboutComponent.prototype.getTestData = function () {
         var _this = this;
         this.sampleDataService.getSampleData()
-            .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
-    };
-    AboutComponent.prototype.getRegistrationData = function () {
-        var _this = this;
-        this.sampleDataService.getSampleData()
-            .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
-    };
-    AboutComponent.prototype.addRegistrationData = function (event) {
-        var _this = this;
-        event.preventDefault();
-        if (!this.registrationData)
-            return;
-        this.sampleDataService.addSampleData(this.registrationData)
-            .subscribe(function (data) { return _this.registrationData = data; }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (data) { return _this.testData = data; }, function (error) { return _this.errorMessage = error; });
     };
     AboutComponent.prototype.addTestData = function (event) {
         var _this = this;

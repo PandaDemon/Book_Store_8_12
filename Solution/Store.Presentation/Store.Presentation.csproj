@@ -34,14 +34,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Store.BusinessLogic\Store.BusinessLogic.csproj" />
-    <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Views\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\app\services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.BusinessLogic\Store.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

@@ -31,4 +31,5 @@ export class AboutComponent implements OnInit {
 
         this.sampleDataService.addSampleData(this.testData)
             .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
+    }
 }

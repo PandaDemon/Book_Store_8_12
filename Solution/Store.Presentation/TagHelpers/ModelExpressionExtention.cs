@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Store.Presentation.TagHelpers
 {
@@ -17,6 +13,14 @@ namespace Store.Presentation.TagHelpers
             propertyName = char.ToLower(propertyName[0]).ToString() + propertyName.Substring(1);
 
             return className + "." + propertyName;
+        }
+
+        public static string AngularPropertyName(this ModelExpression modelExpression)
+        {
+            string propertyName = modelExpression.Name;
+            propertyName = char.ToLower(propertyName[0]).ToString() + propertyName.Substring(1);
+
+            return propertyName;
         }
     }
 }
