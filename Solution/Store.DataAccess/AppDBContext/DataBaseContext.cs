@@ -15,12 +15,10 @@ namespace Store.DataAccess.Initialization
         public DbSet<Category> Category { get; set; }
         public DbSet<Author> Author { get; set; }
         public DbSet<User> User { get; set; }
-        //public DbSet<Role> Role { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Currency> Currency { get; set; }
         public DbSet<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
-        //public DbSet<UserInRole> UserInRole { get; set; }
 
 
 
@@ -30,23 +28,12 @@ namespace Store.DataAccess.Initialization
         {
 
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<UserInRole>().HasKey(sc => new { sc.RoleId, sc.UserId });
-
-            //modelBuilder.Entity<UserInRole>()
-            //    .HasOne<User>(sc => sc.User)
-            //    .WithMany(s => s.UsersInRoles)
-            //    .HasForeignKey(sc => sc.UserId);
-
-            //modelBuilder.Entity<UserInRole>()
-            //    .HasOne<Role>(sc => sc.Role)
-            //    .WithMany(s => s.UsersInRoles)
-            //    .HasForeignKey(sc => sc.RoleId);
 
             modelBuilder.Entity<AuthorInPrintingEditions>().HasKey(sc => new { sc.AuthorId, sc.PrintingEdidtionId });
 
             modelBuilder.Entity<AuthorInPrintingEditions>()
                 .HasOne<Author>(sc => sc.Author)
-                .WithMany(s => s.AuthorInPrintingEditions)
+                .WithMany()
                 .HasForeignKey(sc => sc.AuthorId);
 
 
@@ -67,7 +54,7 @@ namespace Store.DataAccess.Initialization
 
             modelBuilder.Entity<PrintingEdition>()
                 .HasOne<Currency>(s => s.Currency)
-                .WithMany(g => g.PrintingEditions)
+                .WithMany()
                 .HasForeignKey(s => s.CurrencyId);
         }
     }

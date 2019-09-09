@@ -9,7 +9,5 @@ namespace Store.DataAccess.Entities
 
         [Required]
         public string Name { get; set; }
-
-        public ICollection<PrintingEdition> PrintingEditions { get; set; }
     }
 }

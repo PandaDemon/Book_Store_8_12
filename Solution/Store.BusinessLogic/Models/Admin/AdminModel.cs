@@ -4,6 +4,6 @@ namespace Store.BusinessLogic.Models.Admin
 {
     public class AdminModel
     {
-        public IEnumerable<Author> Authors { get; set; }
+        
     }
 }

@@ -10,14 +10,14 @@ namespace Store.BusinessLogic.Services.Interfaces
     {
         Task<UserModel> FindByEmailAsync(string email);
         Task<UserModel> FindUserByIdAsync(string id);
-        Task<IdentityResult> CreateUserAsync(CreateUserModel сreateUserViewModel);
-        Task EditApplicationUser(EditUserModel editUserViewModel);
-        Task DeleteUserAsync(string email);
-        Task ChangeUserPassword(ChangePasswordModel changePasswordViewModel);
+        Task<IdentityResult> UserCreateAsync(UserCreateModel сreateUserViewModel);
+        Task UserEdit(UserEditModel editUserViewModel);
+        Task UserDeleteAsync(string email);
+        Task UserChangePassword(UserChangePasswordModel changePasswordViewModel);
         IEnumerable<UserModel> GetAll();
-        Task<string> GenerateEmailConfirmationTokenAsync(RegisterUserModel сreateUserViewModel);
-        bool IsUserExist(EditUserModel editUserViewModel);
-        Task<IdentityResult> RegisterUser(RegisterUserModel model);
+        Task<string> GenerateEmailConfirmationTokenAsync(UserRegisterModel сreateUserViewModel);
+        bool IsUserExist(UserEditModel editUserViewModel);
+        Task<IdentityResult> RegisterUser(UserRegisterModel model);
         Task<IdentityResult> ConfirmEmail(UserModel user, string code);
         Task<bool> IsEmailConfirmedAsync(UserModel user);
 
@@ -27,7 +27,7 @@ namespace Store.BusinessLogic.Services.Interfaces
         Task<string> GeneratePasswordResetTokenAsync(UserModel user);
         Task<IdentityResult> ResetPasswordAsync(UserModel user, string code, string password);
 
-        Task<SignInResult> SignInAsync(LoginUserModel user);
+        Task<SignInResult> SignInAsync(UserLoginModel user);
         Task SignOutAsync();
     }
 }

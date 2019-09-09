@@ -12,7 +12,5 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public ICollection<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
     }
 }

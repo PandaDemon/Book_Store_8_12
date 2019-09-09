@@ -2,7 +2,7 @@
 
 namespace Store.BusinessLogic.Models.User
 {
-    public class RecoveryPasswordModel
+    public class UserRecoveryPasswordModel
     {
         [Required]
         [EmailAddress]

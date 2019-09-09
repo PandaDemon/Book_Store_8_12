@@ -1,6 +1,6 @@
 ﻿namespace Store.BusinessLogic.Models.User
 {
-    public class CreateUserModel
+    public class UserCreateModel
     {
         public string Email { get; set; }
         public string Password { get; set; }

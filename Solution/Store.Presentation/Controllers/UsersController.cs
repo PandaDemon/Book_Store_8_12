@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Models.User;
+using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
@@ -11,137 +16,136 @@ namespace Store.Presentation.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        UserManager<User> userManager;
+        private IUserService _userService;
 
-
-        public UsersController(UserManager<User> userManager)
+        public UsersController(IUserService applicationUserService)
         {
-            this.userManager = userManager;
+            this._userService = applicationUserService;
         }
 
-       // public IActionResult Index() => View(userManager.Users.ToList());
+        public IEnumerable<UserModel> Index() => _userService.GetAll();
 
-      //  public IActionResult Create() => View();
 
-        [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserViewModel model)
+        [Authorize(Roles = "admin")]
+        public async Task<HttpStatusCode> Create(UserCreateModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email };
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                try
                 {
-                 //  return PartialView();
-                 
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.ToString());
-                    }
-                }
-            }
-            //return View(model);
-            return View();
-        }
-
-       /* public async Task<IActionResult> Edit(string id)
-        {
-            User user = await userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, UserName = user.FirstName, Image = user.Img, LastName = user.LastName };
-            return View(model);
-        }*/
-/*
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                User user = await userManager.FindByIdAsync(model.Id);
-                if (user != null)
-                {
-                    user.Email = model.Email;
-                    user.UserName = model.Email;
-                    user.LastName = model.LastName;
-                    user.FirstName = model.FirstName;
-                    user.Img = model.Image;
-
-                    var result = await userManager.UpdateAsync(user);
+                    var result = await _userService.UserCreateAsync(model);
                     if (result.Succeeded)
                     {
-                        return PartialView();
+                        return HttpStatusCode.Created;
                     }
                     else
                     {
                         foreach (var error in result.Errors)
                         {
-                            ModelState.AddModelError(string.Empty, error.ToString());
+                            ModelState.AddModelError(string.Empty, error.Description);
                         }
                     }
                 }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.ToString());
+                }
             }
-            return View(model);
-        }*/
-/*
-        [HttpPost]
-        public async Task<ActionResult> Delete(string email)
-        {
-            User user = await userManager.FindByEmailAsync(email);
-            if (user != null)
-            {
-                IdentityResult result = await userManager.DeleteAsync(user);
-            }
-            return PartialView();
+            return HttpStatusCode.NoContent;
         }
 
-        public async Task<IActionResult> ChangePassword(string id)
+        public async Task<HttpStatusCode> EditAsync(string id)
         {
-            User user = await userManager.FindByIdAsync(id);
+            var userEditModel = await _userService.FindUserByIdAsync(id);
 
-            if (user != null)
+            if (_userService.FindUserByIdAsync(id) == null)
             {
-                return NotFound();
+                return HttpStatusCode.NotFound;
             }
-            ChangePasswordViewModel model = new ChangePasswordViewModel { Id = user.Id, Email = user.Email };
-            return View(model);
-        }*/
-/*
+
+            return HttpStatusCode.OK;
+        }
+
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public HttpStatusCode Edit(UserEditModel model)
         {
 
             if (ModelState.IsValid)
             {
-                User user = await userManager.FindByIdAsync(model.Id);
-                if (user != null)
+
+                if (_userService.IsUserExist(model))
                 {
-                    IdentityResult result =
-                        await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
+                    try
                     {
-                        return PartialView();
+                        _userService.UserEdit(model);
+                        return HttpStatusCode.OK;
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.ToString());
-                        }
+                        ModelState.AddModelError(string.Empty, ex.ToString());
                     }
+
+                }
+            }
+            return HttpStatusCode.NotFound;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<HttpStatusCode> Delete(string email)
+        {
+            await _userService.UserDeleteAsync(email);
+            return HttpStatusCode.OK;
+        }
+
+        [HttpGet]
+        public async Task<HttpStatusCode> ChangePasswordAsync(string id)
+        {
+            var userEditModel = await _userService.FindUserByIdAsync(id);
+
+            if (userEditModel != null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+            var model = new UserChangePasswordModel { Id = userEditModel.Id, Email = userEditModel.Email };
+            return HttpStatusCode.OK;
+        }
+
+        [HttpPost]
+        public async Task<HttpStatusCode> ChangePasswordAsync(UserChangePasswordModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                UserModel editUserViewModel = await _userService.FindByEmailAsync(model.Email);
+                if (editUserViewModel != null)
+                {
+                    try
+                    {
+                        await _userService.UserChangePassword(model);
+                        return HttpStatusCode.OK;
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, ex.ToString());
+                    }
+
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "There is no such user");
                 }
             }
-            return View(model);
-        }*/
+            return HttpStatusCode.NotFound;
+
+        }
+
+        [HttpGet]
+        public async Task<UserModel> GetUserProfileAsync(string id)
+        {
+            UserModel editUserViewModel = await _userService.FindUserByIdAsync(id);
+            return editUserViewModel;
+        }
     }
 }

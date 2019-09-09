@@ -16,7 +16,5 @@ namespace Store.DataAccess.Entities
         [Display(Name = "Last Name")]
         [StringLength(50)]
         public string LastName { get; set; }
-
-        public ICollection<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
     }
 }

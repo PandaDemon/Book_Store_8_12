@@ -2,25 +2,22 @@
 
 namespace Store.BusinessLogic.Models.User
 {
-    public class RegisterUserModel
+    public class UserResetPasswordModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Login")]
-        public string UserName { get; set; }
-
-        [Required]
+        [StringLength(100, ErrorMessage = "Password must contain at least 6 symbols", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password", ErrorMessage = "Pasword do not match")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        public string PasswordConfirm { get; set; }
+        [Compare("Password", ErrorMessage = "Passwords does not match")]
+        public string ConfirmPassword { get; set; }
+
+        public string Code { get; set; }
     }
 }

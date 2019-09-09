@@ -3,15 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using Store.BusinessLogic.Services;
 using Store.DataAccess.Entities;
-using Store.DataAccess.Helpers;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.EFRepositories;
 using Store.DataAccess.Repositories.Interfaces;
@@ -76,7 +73,6 @@ namespace Store.Presentation
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //DataBaseInitialization.Initialize(context);
             }
             else
             {
@@ -103,14 +99,10 @@ namespace Store.Presentation
             });
 
 
-            //////
             using (var scope = app.ApplicationServices.CreateScope())
             {
-
                 DataBaseContext applicationDataBaseContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
                 applicationDataBaseContext.Database.Migrate();
-
-                //DataBaseInitialization.Initialize(applicationDataBaseContext);
             }
 
             app.UseSwagger();
