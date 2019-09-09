@@ -46,10 +46,7 @@ namespace Store.Presentation
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
             services.AddTransient<DataBaseContext>();
 
-            services.AddTransient<IAuthor, EFAuthorRepository>();
-            services.AddTransient<IPrintingEdition, EFPrintingEditionRepository>();
             services.AddTransient<ICategory, EFCategoryRepository>();
-            services.AddScoped<DataManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

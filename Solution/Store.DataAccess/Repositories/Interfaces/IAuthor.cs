@@ -5,9 +5,13 @@ namespace Store.DataAccess.Repositories.Interfaces
 {
     public interface IAuthor
     {
-        IEnumerable<Author> GetAllAutor(bool includePtintingEdition = false);
-        Author GetAuthorById(int authorId, bool includePrintingEdition = false);
-        void SaveAuthor(Author author);
-        void DeleteAuthor(Author author);
+        IEnumerable<Author> GetAll();
+        Author Get(int id);
+        IEnumerable<Author> FilterAuthors(string filter);
+        IEnumerable<Author> SortByFirstName(string sortOrder);
+        IEnumerable<Author> SortByLastName(string sortOrder);
+        void Create(Author item);
+        void Update(Author item);
+        void Delete(int id);
     }
 }

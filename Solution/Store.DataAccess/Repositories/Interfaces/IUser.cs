@@ -1,16 +1,20 @@
-﻿using Store.DataAccess.Repositories.EFRepositories;
-using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Store.DataAccess.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IUser
+    public interface IUserRepository
     {
-        IEnumerable<UserRepository> GetAll();
-        UserRepository Get(int id);
-        IEnumerable<UserRepository> Find(Func<UserRepository, Boolean> predicate);
-        void Create(UserRepository item);
-        void Update(UserRepository item);
-        void Delete(int id);
+        IEnumerable<User> GetAll();
+        Task<User> GetAsync(string id);
+        Task<User> FindByEmailAsync(string email);
+        Task<IdentityResult> Create(User item);
+        Task UpdateAsync(User item);
+        Task Delete(string id);
+        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+        Task<IdentityResult> ConfirmEmail(User user, string code);
+        Task<bool> IsEmailConfirmed(User user);
     }
 }
