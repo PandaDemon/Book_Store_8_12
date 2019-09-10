@@ -11,8 +11,8 @@ namespace Store.BusinessLogic.Services
 {
     class UserService : IUserService
     {
-        private UserManager<User> userManager;
-        private SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
 
         public UserService(SignInManager<User> signInManager, UserManager<User> userManager)
@@ -113,10 +113,10 @@ namespace Store.BusinessLogic.Services
             var user = await userManager.FindByEmailAsync(сreateUserViewModel.Email);
             return await userManager.GenerateEmailConfirmationTokenAsync(user);
         }
-        public Task<IdentityResult> Register(UserRegisterModel model)
+        public async Task<IdentityResult> Register(UserRegisterModel model)
         {
             var user = new User { Email = model.Email, Password = model.Password, UserName = model.Email };
-            return userManager.CreateAsync(user);
+            return await userManager.CreateAsync(user, model.Password);
         }
         public async Task<IdentityResult> ConfirmEmail(UserModel model, string code)
         {
