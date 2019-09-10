@@ -10,8 +10,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
-using Store.DataAccess.Repositories.EFRepositories;
-using Store.DataAccess.Repositories.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 
@@ -42,8 +40,6 @@ namespace Store.Presentation
 
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
             services.AddTransient<DataBaseContext>();
-
-            services.AddTransient<ICategory, EFCategoryRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

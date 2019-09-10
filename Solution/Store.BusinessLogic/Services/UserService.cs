@@ -44,12 +44,12 @@ namespace Store.BusinessLogic.Services
             };
             return userFromBase;
         }
-        public async Task<IdentityResult> UserCreateAsync(UserCreateModel сreateUserViewModel)
+        public async Task<IdentityResult> CreateAsync(UserCreateModel сreateUserViewModel)
         {
             var user = new User { Email = сreateUserViewModel.Email, Password = сreateUserViewModel.Password, UserName = сreateUserViewModel.Email };
             return await userManager.CreateAsync(user);
         }
-        public async Task UserEdit(UserEditModel editUserViewModel)
+        public async Task Edit(UserEditModel editUserViewModel)
         {
             var user = new User
             {
@@ -63,7 +63,7 @@ namespace Store.BusinessLogic.Services
             await userManager.UpdateAsync(user);
 
         }
-        public async Task UserDeleteAsync(string email)
+        public async Task DeleteAsync(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
             if (user != null)
@@ -72,7 +72,7 @@ namespace Store.BusinessLogic.Services
             }
 
         }
-        public async Task UserChangePassword(UserChangePasswordModel changePasswordViewModel)
+        public async Task ChangePassword(UserChangePasswordModel changePasswordViewModel)
         {
             var user = new User
             {
@@ -113,7 +113,7 @@ namespace Store.BusinessLogic.Services
             var user = await userManager.FindByEmailAsync(сreateUserViewModel.Email);
             return await userManager.GenerateEmailConfirmationTokenAsync(user);
         }
-        public Task<IdentityResult> RegisterUser(UserRegisterModel model)
+        public Task<IdentityResult> Register(UserRegisterModel model)
         {
             var user = new User { Email = model.Email, Password = model.Password, UserName = model.Email };
             return userManager.CreateAsync(user);

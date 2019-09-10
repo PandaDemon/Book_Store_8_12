@@ -9,6 +9,5 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public int Id { get; set; }
 
         public string CurrencyName { get; set; }
-        public ICollection<EFPrintingEditionRepository> PrintingEditions { get; set; }
     }
 }

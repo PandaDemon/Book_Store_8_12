@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -34,7 +31,7 @@ namespace Store.Presentation.Controllers
             {
                 try
                 {
-                    var result = await _userService.UserCreateAsync(model);
+                    var result = await _userService.CreateAsync(model);
                     if (result.Succeeded)
                     {
                         return HttpStatusCode.Created;
@@ -78,7 +75,7 @@ namespace Store.Presentation.Controllers
                 {
                     try
                     {
-                        _userService.UserEdit(model);
+                        _userService.Edit(model);
                         return HttpStatusCode.OK;
                     }
                     catch (Exception ex)
@@ -95,7 +92,7 @@ namespace Store.Presentation.Controllers
         [Authorize(Roles = "admin")]
         public async Task<HttpStatusCode> Delete(string email)
         {
-            await _userService.UserDeleteAsync(email);
+            await _userService.DeleteAsync(email);
             return HttpStatusCode.OK;
         }
 
@@ -123,7 +120,7 @@ namespace Store.Presentation.Controllers
                 {
                     try
                     {
-                        await _userService.UserChangePassword(model);
+                        await _userService.ChangePassword(model);
                         return HttpStatusCode.OK;
                     }
                     catch (Exception ex)

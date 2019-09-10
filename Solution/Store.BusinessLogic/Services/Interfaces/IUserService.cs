@@ -10,14 +10,14 @@ namespace Store.BusinessLogic.Services.Interfaces
     {
         Task<UserModel> FindByEmailAsync(string email);
         Task<UserModel> FindUserByIdAsync(string id);
-        Task<IdentityResult> UserCreateAsync(UserCreateModel сreateUserViewModel);
-        Task UserEdit(UserEditModel editUserViewModel);
-        Task UserDeleteAsync(string email);
-        Task UserChangePassword(UserChangePasswordModel changePasswordViewModel);
+        Task<IdentityResult> CreateAsync(UserCreateModel сreateUserModel);
+        Task Edit(UserEditModel editUserModel);
+        Task DeleteAsync(string email);
+        Task ChangePassword(UserChangePasswordModel changePasswordModel);
         IEnumerable<UserModel> GetAll();
-        Task<string> GenerateEmailConfirmationTokenAsync(UserRegisterModel сreateUserViewModel);
-        bool IsUserExist(UserEditModel editUserViewModel);
-        Task<IdentityResult> RegisterUser(UserRegisterModel model);
+        Task<string> GenerateEmailConfirmationTokenAsync(UserRegisterModel сreateUserModel);
+        bool IsUserExist(UserEditModel editUserModel);
+        Task<IdentityResult> Register(UserRegisterModel model);
         Task<IdentityResult> ConfirmEmail(UserModel user, string code);
         Task<bool> IsEmailConfirmedAsync(UserModel user);
 

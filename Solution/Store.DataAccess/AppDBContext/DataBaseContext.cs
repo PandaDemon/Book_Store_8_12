@@ -39,12 +39,17 @@ namespace Store.DataAccess.Initialization
 
             modelBuilder.Entity<AuthorInPrintingEditions>()
                 .HasOne<PrintingEdition>(sc => sc.PrintingEdition)
-                .WithMany(s => s.AuthorInPrintingEditions)
+                .WithMany()
                 .HasForeignKey(sc => sc.PrintingEdidtionId);
+
+            modelBuilder.Entity<PrintingEdition>()
+                .HasOne<Category>(s => s.Category)
+                .WithMany()
+                .HasForeignKey(s => s.CategoryId);
 
             modelBuilder.Entity<Order>()
                 .HasOne<User>(s => s.User)
-                .WithMany(g => g.Orders)
+                .WithMany()
                 .HasForeignKey(s => s.UserId);
 
             modelBuilder.Entity<Order>()

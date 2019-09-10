@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 //Этот новый контроллер будет использоваться для доставки HTML-шаблонов и представлений на клиентскую сторону с Angular компонентами.
 namespace Store.Presentation.Controllers

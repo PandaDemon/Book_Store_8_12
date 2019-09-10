@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Store.BusinessLogic.JwtProvider;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services;
 using Store.BusinessLogic.Services.Interfaces;
@@ -8,18 +10,18 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-    [AllowAnonymous]
     public class AccountController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
-        public AccountController(IUserService applicationUserService)
+        public AccountController(IUserService userService)
         {
-            this._userService = applicationUserService;
+            _userService = userService;
         }
 
 
@@ -53,24 +55,31 @@ namespace Store.Presentation.Controllers
             IdentityResult res = new IdentityResult();
             if (ModelState.IsValid)
             {
-                var result = await _userService.RegisterUser(model);
+                var result = await _userService.Register(model);
                 res = result;
                 if (result.Succeeded)
                 {
 
                     string code1 = await _userService.GenerateEmailConfirmationTokenAsync(model);
                     var applicationUserView = await _userService.FindByEmailAsync(model.Email);
+                    //var callbackUrl = Url.Route("http://localhost:56189/Account/ConfirmEmail?", new { userId = applicationUserView.Id, code = code1 });
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = applicationUserView.Id, code = code1 },
                             protocol: Request.Scheme);
+
+                    //EmailService.SendEmail(model.Email, "Confirm email", "To complete the registration, follow the link :: <a href = \" "
+                    //  + callbackUrl + "\"> complete registration </a> ");
+
                     return Ok(result);
                 }
-                else
+                /*else
                 {
+                    return result.Errors;
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                       ModelState.AddModelError(string.Empty, error.Description);
                     }
-                }
+                    
+                }*/
             }
             return res;
 
@@ -82,11 +91,99 @@ namespace Store.Presentation.Controllers
             return "login";
         }
 
+        //[HttpPost]
+        //public async Task<HttpStatusCode> Login(LoginModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //        var user = await _userService.FindByEmailAsync(model.Email);
+        //        var result = await _userService.SignInAsync(model);
+
+
+        //        if (await _userService.IsEmailConfirmedAsync(user) && result.Succeeded)
+        //        {
+        //            ClaimsIdentity identity = await _userService.GetIdentityAsync(model.Email, model.Password);
+
+
+        //            if (identity == null)
+        //            {
+        //                return HttpStatusCode.RedirectMethod;
+        //            }
+
+        //            var encodedJwt = JwtProvider.GenerateToken(identity.Claims);
+
+
+        //            var response = new
+        //            {
+        //                access_token = encodedJwt,
+        //                username = identity.Name
+        //            };
+        //            //JwtSecurityToken<string> refreshToken = new IdentityUserToken<string>();
+
+        //            /* refreshToken.Name = "refreshToken";
+        //             refreshToken.UserId = user.Id;
+        //             refreshToken.Value = JwtHelper.GenerateRefreshToken();
+        //             refreshToken.LoginProvider = "http://localhost:56189/";
+        //             await _applicationUserService.CreateToken(refreshToken);*/
+
+        //        }
+
+
+
+        //    }
+        //    return HttpStatusCode.OK;
+        //}
+
         [HttpPost]
         public async Task<HttpStatusCode> LogOff()
         {
             await _userService.SignOutAsync();
             return HttpStatusCode.Redirect;
+        }
+
+
+
+        [HttpPost]
+        public async Task<HttpStatusCode> RefreshAsync(string token, string refreshToken)
+        {
+            var principal = GetPrincipalFromExpiredToken(token);
+            var username = principal.Identity.Name;
+            UserModel user = await _userService.FindByEmailAsync(username);
+            //string savedRefreshToken = _applicationUserService.ConfirmTokens(username);
+            //_applicationUserService.FindTokenByUserName()
+            //retrieve the refresh token from a data store
+            //if (savedRefreshToken != refreshToken)
+            // throw new SecurityTokenException("Invalid refresh token");
+
+            var newJwtToken = JwtProvider.GenerateToken(principal.Claims);
+            IdentityUserToken<string> userTokenRefresh = new IdentityUserToken<string>();
+
+            userTokenRefresh.Name = "refreshToken";
+            userTokenRefresh.UserId = user.Id;
+            userTokenRefresh.Value = newJwtToken;
+            return HttpStatusCode.OK;
+        }
+
+
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, 
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the server key used to sign the JWT token is here, use more than 16 chars")),
+                ValidateLifetime = false 
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return principal;
         }
 
         [HttpGet]
@@ -95,22 +192,26 @@ namespace Store.Presentation.Controllers
             return "Forgot tPassword";
         }
 
-        [HttpPost]
-        public async Task<HttpStatusCode> ForgotPassword(UserRecoveryPasswordModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                UserModel user = await _userService.FindByEmailAsync(model.Email);
-                if (user == null || !await _userService.IsEmailConfirmedAsync(user))
-                {
-                    return HttpStatusCode.Found;
-                }
+        //[HttpPost]
+        //public async Task<HttpStatusCode> ResetPassword(ResetPasswordModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        UserModel user = await _userService.FindByEmailAsync(model.Email);
+        //        if (user == null || !await _userService.IsEmailConfirmedAsync(user))
+        //        {
+        //            return HttpStatusCode.Found;
+        //        }
 
-                string code1 = await _userService.GeneratePasswordResetTokenAsync(user);
-            }
-            return HttpStatusCode.NotFound;
+        //        string code1 = await _userService.GeneratePasswordResetTokenAsync(user);
+        //        var callbackUrl = Url.RouteUrl("ResetPassword", new { userId = user.Id, code = code1 });
+        //        EmailService.SendEmail(model.Email, "Reset Password",
+        //            $"To reset your password, follow the link: <a href='{callbackUrl}'>link</a>");
+        //        return HttpStatusCode.Found;
+        //    }
+        //    return HttpStatusCode.NotFound;
 
-        }
+        //}
 
         [HttpGet]
         public HttpStatusCode ResetPassword(string code = null)
@@ -118,29 +219,28 @@ namespace Store.Presentation.Controllers
             return code == null ? HttpStatusCode.Locked : HttpStatusCode.Redirect;
         }
 
-        [HttpPost]
-        public async Task<HttpStatusCode> ResetPassword(UserResetPasswordModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return HttpStatusCode.BadRequest;
-            }
-            var user = await _userService.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                return HttpStatusCode.NotFound;
-            }
-            var result = await _userService.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return HttpStatusCode.Accepted;
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-            return HttpStatusCode.OK;
-        }
-
+        //[HttpPost]
+        //public async Task<HttpStatusCode> ResetPassword(ResetPasswordModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return HttpStatusCode.BadRequest;
+        //    }
+        //    var user = await _userService.FindByEmailAsync(model.Email);
+        //    if (user == null)
+        //    {
+        //        return HttpStatusCode.NotFound;
+        //    }
+        //    var result = await _userService.ResetPasswordAsync(user, model.Code, model.Password);
+        //    if (result.Succeeded)
+        //    {
+        //        return HttpStatusCode.Accepted;
+        //    }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error.Description);
+        //    }
+        //    return HttpStatusCode.OK;
+        //}
     }
 }

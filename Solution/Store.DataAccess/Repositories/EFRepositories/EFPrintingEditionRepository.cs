@@ -12,9 +12,12 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public string NameEdition { get; set; }
         public string Image { get; set; }
         public double Price { get; set; }
-        public int CurrencyId { get; set; }
 
+        public int CurrencyId { get; set; }
         public virtual EFCurrencyRepository Currency { get; set; }
-        public ICollection<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
+
+        public int CategoryId { get; set; }
+        public virtual EFCategoryRepository Category { get; set; }
+
     }
 }

@@ -7,7 +7,7 @@ namespace Store.DataAccess.Repositories.Interfaces
     public interface IPrintingEdition
     {
         IEnumerable<PrintingEdition> FilterByAuthor(string authorName);
-        IEnumerable<PrintingEdition> FilterByType(string sortOrder);
+        IEnumerable<PrintingEdition> FilterByCategory(int sortCategory);
         IEnumerable<PrintingEdition> FilterByPrice(string sortOrder);
         IEnumerable<PrintingEdition> FilterTitle(string filter);
         IEnumerable<PrintingEdition> GetAll();

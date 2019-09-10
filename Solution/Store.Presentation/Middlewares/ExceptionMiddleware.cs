@@ -35,7 +35,6 @@ namespace Store.Presentation.Middlewares
                 {
                     _logger.LogError(0, innerEx, "Error handling exception");
                 }
-
             }
         }
     }

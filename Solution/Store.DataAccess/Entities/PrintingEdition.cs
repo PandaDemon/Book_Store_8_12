@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
@@ -32,8 +31,5 @@ namespace Store.DataAccess.Entities
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
-
-        public ICollection<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
-
     }
 }

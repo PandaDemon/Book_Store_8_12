@@ -24,7 +24,5 @@ namespace Store.DataAccess.Entities
         [Display(Name = "Password")]
         [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
-
-        public ICollection<Order> Orders { get; set; }
     }
 }

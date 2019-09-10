@@ -12,9 +12,5 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public string Password { get; set; }
         public string Image { get; set; }
         public string Email { get; set; }
-
-        public ICollection<EFUserInRoleRepository> UsersInRoles { get; set; }
-        public ICollection<EFOrderRepository> Orders { get; set; }
-
     }
 }
