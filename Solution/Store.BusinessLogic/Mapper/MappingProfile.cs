@@ -10,29 +10,22 @@ namespace Store.BusinessLogic.Mapper
     {
         public MappingProfile()
         {
+           
+            CreateMap<User, UserModel>();
+            CreateMap<UserModel, User>();
+            CreateMap<UserCreateModel, User>();
+            CreateMap<UserEditModel, User>();
+            CreateMap<UserChangePasswordModel, User>();
+            CreateMap<UserRegisterModel, User>();
+            CreateMap<PrintingEdition, PrintingEditionModel>();
+            CreateMap<PrintingEditionModel, PrintingEdition>();
+
             CreateMap<Author, AuthorModel>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(c => c.FirstName + " " + c.LastName));
 
-            CreateMap<AuthorModel, Author>()
-                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(c => c.FirstName))
+            CreateMap<AuthorModel, Author>().ForMember(dest => dest.FirstName, opt => opt.MapFrom(c => c.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(c => c.LastName))
                 .ForSourceMember(x => x.FirstName, opt => opt.DoNotValidate());
-
-            CreateMap<PrintingEdition, PrintingEditionModel>();
-
-            CreateMap<PrintingEditionModel, PrintingEdition>();
-
-            CreateMap<User, UserModel>();
-
-            CreateMap<UserModel, User>();
-
-            CreateMap<UserCreateModel, User>();
-
-            CreateMap<UserEditModel, User>();
-
-            CreateMap<UserChangePasswordModel, User>();
-
-            CreateMap<UserRegisterModel, User>();
 
         }
     }

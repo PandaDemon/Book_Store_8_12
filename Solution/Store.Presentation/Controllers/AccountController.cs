@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Store.BusinessLogic.JwtProvider;
 using Store.BusinessLogic.Models.User;
-using Store.BusinessLogic.Services;
 using Store.BusinessLogic.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
@@ -71,21 +70,13 @@ namespace Store.Presentation.Controllers
 
                     return Ok(result);
                 }
-                /*else
-                {
-                    return result.Errors;
-                    foreach (var error in result.Errors)
-                    {
-                       ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                    
-                }*/
+                
             }
             return res;
 
         }
 
-        [HttpGet]
+        [HttpGet("Login")]
         public string Login(string returnUrl = null)
         {
             return "login";
@@ -150,12 +141,6 @@ namespace Store.Presentation.Controllers
             var principal = GetPrincipalFromExpiredToken(token);
             var username = principal.Identity.Name;
             UserModel user = await _userService.FindByEmailAsync(username);
-            //string savedRefreshToken = _applicationUserService.ConfirmTokens(username);
-            //_applicationUserService.FindTokenByUserName()
-            //retrieve the refresh token from a data store
-            //if (savedRefreshToken != refreshToken)
-            // throw new SecurityTokenException("Invalid refresh token");
-
             var newJwtToken = JwtProvider.GenerateToken(principal.Claims);
             IdentityUserToken<string> userTokenRefresh = new IdentityUserToken<string>();
 
@@ -192,26 +177,6 @@ namespace Store.Presentation.Controllers
             return "Forgot tPassword";
         }
 
-        //[HttpPost]
-        //public async Task<HttpStatusCode> ResetPassword(ResetPasswordModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        UserModel user = await _userService.FindByEmailAsync(model.Email);
-        //        if (user == null || !await _userService.IsEmailConfirmedAsync(user))
-        //        {
-        //            return HttpStatusCode.Found;
-        //        }
-
-        //        string code1 = await _userService.GeneratePasswordResetTokenAsync(user);
-        //        var callbackUrl = Url.RouteUrl("ResetPassword", new { userId = user.Id, code = code1 });
-        //        EmailService.SendEmail(model.Email, "Reset Password",
-        //            $"To reset your password, follow the link: <a href='{callbackUrl}'>link</a>");
-        //        return HttpStatusCode.Found;
-        //    }
-        //    return HttpStatusCode.NotFound;
-
-        //}
 
         [HttpGet]
         public HttpStatusCode ResetPassword(string code = null)
@@ -219,28 +184,5 @@ namespace Store.Presentation.Controllers
             return code == null ? HttpStatusCode.Locked : HttpStatusCode.Redirect;
         }
 
-        //[HttpPost]
-        //public async Task<HttpStatusCode> ResetPassword(ResetPasswordModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return HttpStatusCode.BadRequest;
-        //    }
-        //    var user = await _userService.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //    {
-        //        return HttpStatusCode.NotFound;
-        //    }
-        //    var result = await _userService.ResetPasswordAsync(user, model.Code, model.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        return HttpStatusCode.Accepted;
-        //    }
-        //    foreach (var error in result.Errors)
-        //    {
-        //        ModelState.AddModelError(string.Empty, error.Description);
-        //    }
-        //    return HttpStatusCode.OK;
-        //}
     }
 }

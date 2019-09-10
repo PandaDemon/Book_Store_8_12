@@ -12,8 +12,7 @@ namespace Store.BusinessLogic.JwtProvider
             var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = GetValidationParameters();
 
-            SecurityToken validatedToken;
-            IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
+            IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out SecurityToken validatedToken);
             return principal;
         }
 

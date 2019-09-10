@@ -36,9 +36,9 @@ namespace Store.BusinessLogic.JwtProvider
 
                 return principal;
             }
-            catch (Exception e)
+            catch (Exception exeption)
             {
-                logger.LogError($"Token validation failed: {e.Message}");
+                logger.LogError($"Token validation failed: {exeption.Message}");
                 return null;
             }
         }
