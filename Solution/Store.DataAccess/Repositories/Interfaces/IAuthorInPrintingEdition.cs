@@ -20,8 +20,8 @@ namespace Store.DataAccess.Repositories.Interfaces
 
         IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionName(string sortOrder);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionType(string filter);
+        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionCategory(int categoryId);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionStatus(string filter);
+        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionIsInStock(bool isInStock);
     }
 }

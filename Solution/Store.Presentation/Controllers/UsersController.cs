@@ -13,17 +13,17 @@ namespace Store.Presentation.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserService applicationUserService)
+        public UsersController(IUserService userService)
         {
-            this._userService = applicationUserService;
+            _userService = userService;
         }
 
         public IEnumerable<UserModel> Index() => _userService.GetAll();
 
 
-        [HttpPost]
+        [HttpPost ("Create")]
         [Authorize(Roles = "admin")]
         public async Task<HttpStatusCode> Create(UserCreateModel model)
         {
@@ -51,6 +51,8 @@ namespace Store.Presentation.Controllers
             }
             return HttpStatusCode.NoContent;
         }
+
+
 
         public async Task<HttpStatusCode> EditAsync(string id)
         {
@@ -88,7 +90,7 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.NotFound;
         }
 
-        [HttpPost]
+        [HttpPost("Delete")]
         [Authorize(Roles = "admin")]
         public async Task<HttpStatusCode> Delete(string email)
         {

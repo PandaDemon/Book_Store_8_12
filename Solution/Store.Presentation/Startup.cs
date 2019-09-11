@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,38 +9,47 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Store.BusinessLogic.Common;
+using Store.BusinessLogic.JwtProvider;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.IO;
-
+using System.Linq;
 
 namespace Store.Presentation
 {
     public class Startup
     {
-        private IConfigurationRoot _confString;
-
-        public Startup(IHostingEnvironment hostEnv)
-        {
-            _confString = new ConfigurationBuilder().SetBasePath(hostEnv.ContentRootPath).AddJsonFile("appsettings.json").Build();
-        }
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
 
+        public Startup(IHostingEnvironment hostEnv, IServiceScopeFactory serivceScopeFactory)
+        {
+            string environmentName = hostEnv.EnvironmentName.Split(';').LastOrDefault();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnv.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+        }
+
+        //public Startup(IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
-            services.AddTransient<DataBaseContext>();
+            services.InjectDataBase(Configuration);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -60,6 +70,34 @@ namespace Store.Presentation
             })
             .AddEntityFrameworkStores<DataBaseContext>()
             .AddDefaultTokenProviders();
+
+
+            services.AddScoped<RoleManager<IdentityRole>>();
+            services.AddScoped<UserManager<User>>();
+
+
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = false;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

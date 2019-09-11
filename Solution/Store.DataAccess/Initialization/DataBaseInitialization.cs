@@ -7,8 +7,15 @@ namespace Store.DataAccess.Initialization
 {
     public class DataBaseInitialization
     {
-        public static void Initialize(DataBaseContext context)
+        public void Initialize(DataBaseContext context)
         {
+
+            context.Database.EnsureCreated();
+
+            if (context.Author.Any())
+            {
+                return;
+            }
             //context.Database.EnsureCreated();
 
             //var users = new User
@@ -81,27 +88,30 @@ namespace Store.DataAccess.Initialization
 
         }
 
-        //public static async Task Initialize(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
-        //{
-        //    string adminEmail = "admin@gmail.com";
-        //    string password = "m055120";
-        //    if (await roleManager.FindByNameAsync("admin") == null)
-        //    {
-        //        await roleManager.CreateAsync(new Role { Name = "admin" });
-        //    }
-        //    if (await roleManager.FindByNameAsync("user") == null)
-        //    {
-        //        await roleManager.CreateAsync(new Role { Name = "user" });
-        //    }
-        //    if (await userManager.FindByNameAsync(adminEmail) == null)
-        //    {
-        //        User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "JO", LastName = "Jo", Password = password, Img = "img" };
-        //        IdentityResult result = await userManager.CreateAsync(admin, password);
-        //        if (result.Succeeded)
-        //        {
-        //            await userManager.AddToRoleAsync(admin, "admin");
-        //        }
-        //    }
-        //}
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            string adminEmail = "admin222@gmail.com";
+            string password = "123456sdff_sA";
+            if (await roleManager.FindByNameAsync("user") == null)
+            {
+                await roleManager.CreateAsync(new Role { Name = "user" });
+            }
+
+            if (await roleManager.FindByNameAsync("admin") == null)
+            {
+                await roleManager.CreateAsync(new Role { Name = "admin" });
+            }
+
+            if (await userManager.FindByNameAsync(adminEmail) == null)
+            {
+                User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "Michael", LastName = "Panukov", Password = password, Img = "img" };
+                IdentityResult result = await userManager.CreateAsync(admin, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "admin");
+                    await userManager.CreateAsync(admin, password);
+                }
+            }
+        }
     }
 }

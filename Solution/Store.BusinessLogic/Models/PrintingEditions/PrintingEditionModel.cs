@@ -2,12 +2,12 @@
 {
     public class PrintingEditionModel
     {
-        public string NameEdition { get; set; }
+        public string Name { get; set; }
         public double Price { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public string Type { get; set; }
-        public string Image { get; set; }
+        public string Desc { get; set; }
+        public bool IsInStock { get; set; }
+        public int CategoryId { get; set; }
+        public string Img { get; set; }
         public int CurrencyId { get; set; }
     }
 }

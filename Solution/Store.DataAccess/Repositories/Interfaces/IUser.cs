@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUser
     {
         IEnumerable<User> GetAll();
         Task<User> GetAsync(string id);

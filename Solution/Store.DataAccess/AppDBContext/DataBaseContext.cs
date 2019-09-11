@@ -21,9 +21,6 @@ namespace Store.DataAccess.Initialization
         public DbSet<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
 
 
-
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

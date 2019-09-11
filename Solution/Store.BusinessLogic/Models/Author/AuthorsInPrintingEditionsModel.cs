@@ -4,10 +4,10 @@
     {
         public string AuthorFirstName { get; set; }
         public string AuthorLastName { get; set; }
-        public string PrintingEditionTitle { get; set; }
+        public string PrintingEditionName { get; set; }
         public double PrintingEditionPrice { get; set; }
-        public string PrintingEditionStatus { get; set; }
-        public string PrtintingEditionType { get; set; }
+        public bool PrintingEditionIsInStock { get; set; }
+        public int PrtintingEditionCategory { get; set; }
         public string PrtintingEditionDescription { get; set; }
         public string PrintingEditionImage { get; set; }
         

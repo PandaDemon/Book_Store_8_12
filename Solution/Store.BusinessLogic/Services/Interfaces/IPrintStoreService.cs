@@ -11,13 +11,13 @@ namespace Store.BusinessLogic.Services.Interfaces
         IEnumerable<AuthorsInPrintingEditionsModel> GetAllAuthorsInPrintingEditions();
         IEnumerable<PrintingEditionModel> GetAuthorPrintingEditions(string authorName);
 
-        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionType(string filterType);
+        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionCategory(int filterCategory);
 
-        IEnumerable<AuthorsInPrintingEditionsModel> SortByPrintingEditionPrice(string filterType);
+        IEnumerable<AuthorsInPrintingEditionsModel> SortByPrintingEditionPrice(string filterPrice);
 
-        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionTitle(string filter);
+        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionName(string filter);
 
-        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionStatus(string filter);
+        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionIsInStock(bool isInStock);
 
         IEnumerable<AuthorsInPrintingEditionsModel> FilterByAuthor(string filter);
 

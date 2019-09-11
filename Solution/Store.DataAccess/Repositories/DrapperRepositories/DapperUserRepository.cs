@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperUserRepository : IUserRepository
+    public class DapperUserRepository : IUser
     {
         private readonly DataBaseContext _context;
         private readonly UserManager<User> _userManager;

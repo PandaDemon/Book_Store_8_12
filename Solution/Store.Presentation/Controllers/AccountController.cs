@@ -24,7 +24,7 @@ namespace Store.Presentation.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("ConfirmEmail")]
         public async Task<UserModel> ConfirmEmail(string userId, string code)
         {
             if (userId != null && code != null)
@@ -48,7 +48,7 @@ namespace Store.Presentation.Controllers
             return null;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<Object> Register([FromBody]UserRegisterModel model)
         {
             IdentityResult res = new IdentityResult();
@@ -70,7 +70,6 @@ namespace Store.Presentation.Controllers
 
                     return Ok(result);
                 }
-                
             }
             return res;
 
@@ -82,49 +81,45 @@ namespace Store.Presentation.Controllers
             return "login";
         }
 
-        //[HttpPost]
-        //public async Task<HttpStatusCode> Login(LoginModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+        [HttpPost("Login")]
+        public async Task<HttpStatusCode> Login(UserLoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
 
-        //        var user = await _userService.FindByEmailAsync(model.Email);
-        //        var result = await _userService.SignInAsync(model);
-
-
-        //        if (await _userService.IsEmailConfirmedAsync(user) && result.Succeeded)
-        //        {
-        //            ClaimsIdentity identity = await _userService.GetIdentityAsync(model.Email, model.Password);
+                var user = await _userService.FindByEmailAsync(model.Email);
+                var result = await _userService.SignInAsync(model);
 
 
-        //            if (identity == null)
-        //            {
-        //                return HttpStatusCode.RedirectMethod;
-        //            }
-
-        //            var encodedJwt = JwtProvider.GenerateToken(identity.Claims);
+                if (await _userService.IsEmailConfirmedAsync(user) && result.Succeeded)
+                {
+                    ClaimsIdentity identity = await _userService.GetIdentityAsync(model.Email, model.Password);
 
 
-        //            var response = new
-        //            {
-        //                access_token = encodedJwt,
-        //                username = identity.Name
-        //            };
-        //            //JwtSecurityToken<string> refreshToken = new IdentityUserToken<string>();
+                    if (identity == null)
+                    {
+                        return HttpStatusCode.RedirectMethod;
+                    }
 
-        //            /* refreshToken.Name = "refreshToken";
-        //             refreshToken.UserId = user.Id;
-        //             refreshToken.Value = JwtHelper.GenerateRefreshToken();
-        //             refreshToken.LoginProvider = "http://localhost:56189/";
-        //             await _applicationUserService.CreateToken(refreshToken);*/
-
-        //        }
+                    var encodedJwt = JwtProvider.GenerateToken(identity.Claims);
 
 
+                    var response = new
+                    {
+                        access_token = encodedJwt,
+                        username = identity.Name
+                    };
+                    //JwtSecurityToken<string> refreshToken = new IdentityUserToken<string>();
 
-        //    }
-        //    return HttpStatusCode.OK;
-        //}
+                    /* refreshToken.Name = "refreshToken";
+                     refreshToken.UserId = user.Id;
+                     refreshToken.Value = JwtHelper.GenerateRefreshToken();
+                     refreshToken.LoginProvider = "http://localhost:56189/";
+                     await _applicationUserService.CreateToken(refreshToken);*/
+                }
+            }
+            return HttpStatusCode.OK;
+        }
 
         [HttpPost]
         public async Task<HttpStatusCode> LogOff()
@@ -174,11 +169,11 @@ namespace Store.Presentation.Controllers
         [HttpGet]
         public string ForgotPassword()
         {
-            return "Forgot tPassword";
+            return "Forgot Password";
         }
 
 
-        [HttpGet]
+        [HttpGet("ResetPassword")]
         public HttpStatusCode ResetPassword(string code = null)
         {
             return code == null ? HttpStatusCode.Locked : HttpStatusCode.Redirect;
