@@ -19,11 +19,11 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public void Create(PrintingEdition item, Author author)
         {
-            item.Currency = _context.Currency.Find(item.CurrencyId);
-            _context.PrintingEdition.Add(item);
+            item.Currency = _context.Currencies.Find(item.CurrencyId);
+            _context.PrintingEditions.Add(item);
             _context.SaveChanges();
-            var printE = _context.PrintingEdition.FirstOrDefault(x => x.Name == item.Name);
-            var authorN = _context.Author.FirstOrDefault(x => x.FirstName == author.FirstName && x.LastName == author.LastName);
+            var printE = _context.PrintingEditions.FirstOrDefault(x => x.Name == item.Name);
+            var authorN = _context.Authors.FirstOrDefault(x => x.FirstName == author.FirstName && x.LastName == author.LastName);
 
 
             AuthorInPrintingEditions authorInPrintingEditions = new AuthorInPrintingEditions
@@ -39,17 +39,17 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public async Task DeleteAsync(int id)
         {
-            var printingEdition = await _context.PrintingEdition.FindAsync(id);
+            var printingEdition = await _context.PrintingEditions.FindAsync(id);
             if (printingEdition != null)
             {
-                _context.PrintingEdition.Remove(printingEdition);
+                _context.PrintingEditions.Remove(printingEdition);
                 _context.SaveChanges();
             }
         }
 
         public IEnumerable<PrintingEdition> FilterTitle(string filter)
         {
-            return _context.PrintingEdition.Where(x => x.Name.Contains(filter));
+            return _context.PrintingEditions.Where(x => x.Name.Contains(filter));
         }
 
         public IEnumerable<PrintingEdition> FilterByAuthor(string authorName)
@@ -65,10 +65,10 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             switch (sortOrder)
             {
                 case "low":
-                    return _context.PrintingEdition.OrderByDescending(x => x.Price);
+                    return _context.PrintingEditions.OrderByDescending(x => x.Price);
 
                 case "high":
-                    return _context.PrintingEdition.OrderBy(x => x.Price);
+                    return _context.PrintingEditions.OrderBy(x => x.Price);
 
             }
             throw new NotImplementedException();
@@ -76,22 +76,22 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public IEnumerable<PrintingEdition> FilterByCategory(int sortCategory)
         {
-            return _context.PrintingEdition.Where(x => x.CategoryId == sortCategory);
+            return _context.PrintingEditions.Where(x => x.CategoryId == sortCategory);
         }
 
         public PrintingEdition Get(int id)
         {
-            return _context.PrintingEdition.Find(id);
+            return _context.PrintingEditions.Find(id);
         }
 
         public IEnumerable<PrintingEdition> GetAll()
         {
-            return _context.PrintingEdition;
+            return _context.PrintingEditions;
         }
 
         public void Update(PrintingEdition item)
         {
-            var upPrintingEdition = _context.PrintingEdition.Find(item.Id);
+            var upPrintingEdition = _context.PrintingEditions.Find(item.Id);
             if (upPrintingEdition != null)
             {
                 upPrintingEdition.Img = item.Img;
@@ -102,7 +102,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
                 upPrintingEdition.Desc = item.Desc;
                 upPrintingEdition.Currency = item.Currency;
 
-                _context.PrintingEdition.Update(upPrintingEdition);
+                _context.PrintingEditions.Update(upPrintingEdition);
             }
         }
     }

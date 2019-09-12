@@ -9,40 +9,40 @@ namespace Store.BusinessLogic.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrder _orderRepository;
+        private readonly IOrder _order;
         private readonly IMapper _mapper;
 
-        public OrderService(IOrder orderRepository, IMapper mapper)
+        public OrderService(IOrder order, IMapper mapper)
         {
-            _orderRepository = orderRepository;
+            _order = order;
             _mapper = mapper;
         }
-        public void CreateOrder(PrintingOrderModel model)
+        public void Create(PrintingOrderModel model)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteOrder(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PrintingOrderModel> GetAllOrders(string order)
+        public IEnumerable<PrintingOrderModel> GetAll(string order)
         {
             throw new NotImplementedException();
         }
 
-        public PrintingOrderModel GetOrderById(int id)
+        public PrintingOrderModel GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PrintingOrderModel> GetUserOrders(int id)
+        public IEnumerable<PrintingOrderModel> GetUser(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateInformationAboutOrder(PrintingOrderModel model)
+        public void UpdateInformationOrder(PrintingOrderModel model)
         {
             throw new NotImplementedException();
         }

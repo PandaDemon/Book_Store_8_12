@@ -16,28 +16,26 @@ namespace Store.BusinessLogic.Services
         private readonly IAuthorInPrintingEdition _authorInPrintingEdition;
         private readonly IMapper _mapper;
 
-        public PrintStoreService(IAuthorInPrintingEdition authorInPrintingEditionRepository,
-            IAuthor authorRepository,
-            IPrintingEdition printingEditionRepository,
+        public PrintStoreService(IAuthorInPrintingEdition authorInPrintingEdition,
+            IAuthor author,
+            IPrintingEdition printingEdition,
             IMapper mapper)
         {
-            _authorInPrintingEdition = authorInPrintingEditionRepository;
-            _author = authorRepository;
-            _printingEdition = printingEditionRepository;
+            _authorInPrintingEdition = authorInPrintingEdition;
+            _author = author;
+            _printingEdition = printingEdition;
             _mapper = mapper;
         }
 
         public IEnumerable<AuthorsInPrintingEditionsModel> SortByPrintingEditionPrice(string filterPrice)
         {
             var priningEditions = _authorInPrintingEdition.FilterByPrintingEditionPrice(filterPrice);
-
             var model = new List<AuthorsInPrintingEditionsModel>();
 
             foreach (var p in priningEditions)
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 Author author = _author.Get(p.AuthorId);
-
                 model.Add(new AuthorsInPrintingEditionsModel
                 {
                     AuthorFirstName = author.FirstName,
@@ -57,14 +55,12 @@ namespace Store.BusinessLogic.Services
         public IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionCategory(int filterCategory)
         {
             var priningEditions = _authorInPrintingEdition.FilterByPrintingEditionCategory(filterCategory);
-
             var model = new List<AuthorsInPrintingEditionsModel>();
 
             foreach (var p in priningEditions)
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 Author author = _author.Get(p.AuthorId);
-
                 model.Add(new AuthorsInPrintingEditionsModel
                 {
                     AuthorFirstName = author.FirstName,
@@ -75,7 +71,6 @@ namespace Store.BusinessLogic.Services
                     PrtintingEditionCategory = pe.CategoryId,
                     PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
-
                 });
             }
             return model;
@@ -84,29 +79,24 @@ namespace Store.BusinessLogic.Services
         public IEnumerable<AuthorModel> GetAllAuthors()
         {
             var authors = _author.GetAll();
-
             var model = new List<AuthorModel>();
 
             foreach (var a in authors)
             {
                 model.Add(_mapper.Map<AuthorModel>(a));
             }
-
             return model;
         }
 
         public IEnumerable<AuthorsInPrintingEditionsModel> GetAllAuthorsInPrintingEditions()
         {
             var priningEditions = _authorInPrintingEdition.GetAll();
-
             var model = new List<AuthorsInPrintingEditionsModel>();
-
 
             foreach (var p in priningEditions)
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 Author author = _author.Get(p.AuthorId);
-
                 model.Add(new AuthorsInPrintingEditionsModel
                 {
                     AuthorFirstName = author.FirstName,
@@ -129,7 +119,6 @@ namespace Store.BusinessLogic.Services
 
             foreach (var p in priningEditions)
             {
-
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 model.Add(_mapper.Map<PrintingEditionModel>(pe));
             }
@@ -145,7 +134,6 @@ namespace Store.BusinessLogic.Services
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 model.Add(_mapper.Map<PrintingEditionModel>(pe));
-
             };
             return model;
         }
@@ -153,15 +141,12 @@ namespace Store.BusinessLogic.Services
         public IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionName(string filter)
         {
             var priningEditions = _authorInPrintingEdition.FilterByPrintingEditionName(filter);
-
             var model = new List<AuthorsInPrintingEditionsModel>();
-
 
             foreach (var p in priningEditions)
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 Author author = _author.Get(p.AuthorId);
-
                 model.Add(new AuthorsInPrintingEditionsModel
                 {
                     AuthorFirstName = author.FirstName,
@@ -172,11 +157,8 @@ namespace Store.BusinessLogic.Services
                     PrtintingEditionCategory = pe.CategoryId,
                     PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
-
                 });
-
             }
-
             return model;
         }
 
@@ -188,15 +170,12 @@ namespace Store.BusinessLogic.Services
         public IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionIsInStock(bool isInStock)
         {
             var priningEditions = _authorInPrintingEdition.FilterByPrintingEditionIsInStock(isInStock);
-
             var model = new List<AuthorsInPrintingEditionsModel>();
-
 
             foreach (var p in priningEditions)
             {
                 PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
                 Author author = _author.Get(p.AuthorId);
-
                 model.Add(new AuthorsInPrintingEditionsModel
                 {
                     AuthorFirstName = author.FirstName,
@@ -208,7 +187,6 @@ namespace Store.BusinessLogic.Services
                     PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
                 });
-
             }
             return model;
         }

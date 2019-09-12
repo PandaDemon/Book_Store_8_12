@@ -23,8 +23,8 @@ namespace Store.Presentation.Controllers
         public IEnumerable<UserModel> Index() => _userService.GetAll();
 
 
-        [HttpPost ("Create")]
-        [Authorize(Roles = "admin")]
+        [HttpPost("Create")]
+        //[Authorize(Roles = "admin")]
         public async Task<HttpStatusCode> Create(UserCreateModel model)
         {
             if (ModelState.IsValid)
@@ -32,6 +32,7 @@ namespace Store.Presentation.Controllers
                 try
                 {
                     var result = await _userService.CreateAsync(model);
+
                     if (result.Succeeded)
                     {
                         return HttpStatusCode.Created;
@@ -52,13 +53,11 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.NoContent;
         }
 
-
-
         public async Task<HttpStatusCode> EditAsync(string id)
         {
-            var userEditModel = await _userService.FindUserByIdAsync(id);
+            var userEditModel = await _userService.FindByIdAsync(id);
 
-            if (_userService.FindUserByIdAsync(id) == null)
+            if (_userService.FindByIdAsync(id) == null)
             {
                 return HttpStatusCode.NotFound;
             }
@@ -66,25 +65,19 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.OK;
         }
 
-        [HttpPost]
+        [HttpPost("Edit")]
         public HttpStatusCode Edit(UserEditModel model)
         {
-
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _userService.IsUserExist(model))
             {
-
-                if (_userService.IsUserExist(model))
+                try
                 {
-                    try
-                    {
-                        _userService.Edit(model);
-                        return HttpStatusCode.OK;
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError(string.Empty, ex.ToString());
-                    }
-
+                    _userService.Edit(model);
+                    return HttpStatusCode.OK;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.ToString());
                 }
             }
             return HttpStatusCode.NotFound;
@@ -98,10 +91,10 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.OK;
         }
 
-        [HttpGet]
+        [HttpGet("ChangePassword")]
         public async Task<HttpStatusCode> ChangePasswordAsync(string id)
         {
-            var userEditModel = await _userService.FindUserByIdAsync(id);
+            var userEditModel = await _userService.FindByIdAsync(id);
 
             if (userEditModel != null)
             {
@@ -111,7 +104,7 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.OK;
         }
 
-        [HttpPost]
+        [HttpPost("ChangePassword")]
         public async Task<HttpStatusCode> ChangePasswordAsync(UserChangePasswordModel model)
         {
 
@@ -129,7 +122,6 @@ namespace Store.Presentation.Controllers
                     {
                         ModelState.AddModelError(string.Empty, ex.ToString());
                     }
-
                 }
                 else
                 {
@@ -137,13 +129,12 @@ namespace Store.Presentation.Controllers
                 }
             }
             return HttpStatusCode.NotFound;
-
         }
 
-        [HttpGet]
+        [HttpGet("GetUser")]
         public async Task<UserModel> GetUserProfileAsync(string id)
         {
-            UserModel editUserViewModel = await _userService.FindUserByIdAsync(id);
+            UserModel editUserViewModel = await _userService.FindByIdAsync(id);
             return editUserViewModel;
         }
     }

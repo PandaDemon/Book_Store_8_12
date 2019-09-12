@@ -17,16 +17,16 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         }
         public void Create(Author item)
         {
-            _context.Author.Add(item);
+            _context.Authors.Add(item);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Author author = _context.Author.Find(id);
+            Author author = _context.Authors.Find(id);
             if (author != null)
             {
-                _context.Author.Remove(author);
+                _context.Authors.Remove(author);
                 _context.SaveChanges();
             }
         }
@@ -36,24 +36,23 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             switch (sortOrder)
             {
                 case "low":
-                    return _context.Author.OrderByDescending(x => x.FirstName);
+                    return _context.Authors.OrderByDescending(x => x.FirstName);
 
                 case "high":
-                    return _context.Author.OrderBy(x => x.FirstName);
+                    return _context.Authors.OrderBy(x => x.FirstName);
 
             }
             throw new NotImplementedException();
-
         }
 
         public Author Get(int id)
         {
-            return _context.Author.Find(id);
+            return _context.Authors.Find(id);
         }
 
         public IEnumerable<Author> GetAll()
         {
-            return _context.Author;
+            return _context.Authors;
         }
 
         public IEnumerable<Author> SortByLastName(string sortOrder)
@@ -61,18 +60,17 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             switch (sortOrder)
             {
                 case "low":
-                    return _context.Author.OrderByDescending(x => x.LastName);
+                    return _context.Authors.OrderByDescending(x => x.LastName);
 
                 case "high":
-                    return _context.Author.OrderBy(x => x.LastName);
-
+                    return _context.Authors.OrderBy(x => x.LastName);
             }
             throw new NotImplementedException();
         }
 
         public void Update(Author item)
         {
-            var updateAuthor = _context.Author.Find(item.Id);
+            var updateAuthor = _context.Authors.Find(item.Id);
             if (updateAuthor != null)
             {
                 updateAuthor.FirstName = item.FirstName;
@@ -83,7 +81,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public IEnumerable<Author> FilterAuthors(string filter)
         {
-            return _context.Author.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter));
+            return _context.Authors.Where(x => x.FirstName.Contains(filter) || x.LastName.Contains(filter));
         }
     }
 }

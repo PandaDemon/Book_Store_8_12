@@ -14,6 +14,7 @@ namespace Store.DataAccess.Entities
 
         public string Desc { get; set; }
 
+        [Display(Name = "Avatar")]
         public string Img { get; set; }
 
         [Required]

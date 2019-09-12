@@ -9,24 +9,22 @@ namespace Store.DataAccess.Initialization
     {
         public void Initialize(DataBaseContext context)
         {
-
             context.Database.EnsureCreated();
 
-            if (context.Author.Any())
+            if (context.Authors.Any())
             {
                 return;
             }
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             //var users = new User
             //{
             //    UserName = "Michael",
             //    Email = "mpanukov@gmail.com",
-            //    Password = "password",
             //    FirstName = "Michael",
             //    LastName = "Panukov"
             //};
-            //context.User.AddRange(users);
+            //context.Users.AddRange(users);
             //context.SaveChanges();
 
             //var authors = new Author[]
@@ -38,9 +36,8 @@ namespace Store.DataAccess.Initialization
             //        new Author {FirstName = "Magazines", LastName = "Magazines"},
             //        new Author {FirstName = "Newspapers", LastName = "Newspapers"}
             //};
-            //context.Author.AddRange(authors);
+            //context.Authors.AddRange(authors);
             //context.SaveChanges();
-
 
             //var currency = new Currency[]
             //{
@@ -49,7 +46,7 @@ namespace Store.DataAccess.Initialization
             //        new Currency {Name = "EUR"}
 
             //};
-            //context.Currency.AddRange(currency);
+            //context.Currencies.AddRange(currency);
             //context.SaveChanges();
 
             //var categoty = new Category[]
@@ -58,7 +55,7 @@ namespace Store.DataAccess.Initialization
             //        new Category { Name = "magazine"},
             //        new Category { Name = "newspaper"}
             //};
-            //context.Category.AddRange(categoty);
+            //context.Categories.AddRange(categoty);
             //context.SaveChanges();
 
             //var printingeditions = new PrintingEdition[]
@@ -70,7 +67,7 @@ namespace Store.DataAccess.Initialization
             //        new PrintingEdition {Name = "The Times", Desc = "newspaper", Price = 2.30, IsInStock = true, Quantity = 3, CategoryId = categoty.Last().Id, Img = "https://www.historic-newspapers.co.uk/images/newspapers/lrg-newspaper.jpg",CurrencyId = currency.ElementAt(1).Id },
             //        new PrintingEdition {Name = "Food & Wine", Desc = "interesting magazine", IsInStock = false, Quantity = 3, Price = 5.0, CategoryId = categoty.ElementAt(2).Id, Img = "https://images-na.ssl-images-amazon.com/images/I/61OkFg4sOGL._SY445_.jpg", CurrencyId = currency.ElementAt(2).Id}
             //};
-            //context.PrintingEdition.AddRange(printingeditions);
+            //context.PrintingEditions.AddRange(printingeditions);
             //context.SaveChanges();
 
             //var authorsInPrintingEditions = new AuthorInPrintingEditions[]
@@ -85,13 +82,12 @@ namespace Store.DataAccess.Initialization
             //context.AuthorInPrintingEditions.AddRange(authorsInPrintingEditions);
             //context.SaveChanges();
             //context.Dispose();
-
         }
 
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminEmail = "admin222@gmail.com";
-            string password = "123456sdff_sA";
+            string adminEmail = "panukov@gmail.com";
+            string password = "admin_Password";
             if (await roleManager.FindByNameAsync("user") == null)
             {
                 await roleManager.CreateAsync(new Role { Name = "user" });
@@ -104,13 +100,8 @@ namespace Store.DataAccess.Initialization
 
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "Michael", LastName = "Panukov", Password = password, Img = "img" };
+                User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "Michael", LastName = "Panukov",PasswordHash = password, Img = "img" };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "admin");
-                    await userManager.CreateAsync(admin, password);
-                }
             }
         }
     }

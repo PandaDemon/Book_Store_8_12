@@ -15,8 +15,8 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public DapperUserRepository(DataBaseContext context, UserManager<User> userManager)
         {
-            this._userManager = userManager;
-            this._context = context;
+            _userManager = userManager;
+            _context = context;
         }
 
         public async Task<IdentityResult> ConfirmEmail(User user, string code)
@@ -28,29 +28,24 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         public async Task<IdentityResult> Create(User item)
         {
-
-            var result = await _userManager.CreateAsync(item, item.Password);
-
+            var result = await _userManager.CreateAsync(item);
             return result;
-
-
         }
 
         public async Task Delete(string id)
         {
-            User applicationUser = await _userManager.FindByIdAsync(id);
+            User User = await _userManager.FindByIdAsync(id);
 
-            if (applicationUser != null)
+            if (User != null)
             {
                 try
                 {
-                    var result = await _userManager.DeleteAsync(applicationUser);
+                    var result = await _userManager.DeleteAsync(User);
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    var e = ex;
+                    var infoException = exception;
                 }
-
             }
         }
 
@@ -70,7 +65,6 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             return await _userManager.FindByIdAsync(id);
         }
 
-
         public IEnumerable<User> GetAll()
         {
             return _userManager.Users;
@@ -79,7 +73,6 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         public async Task UpdateAsync(User item)
         {
             User user = _context.Users.Find(item.Id);
-            user.Password = item.Password;
             user.Img = item.Img;
             user.LastName = item.LastName;
             user.FirstName = item.FirstName;

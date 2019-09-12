@@ -11,9 +11,9 @@ namespace Store.BusinessLogic.Services
 {
     public class PrintingEditionService : IPrintingEditionService
     {
-        private readonly IPrintingEdition _printingEditionRepository;
-        private readonly IAuthor _authorRepository;
-        private readonly IAuthorInPrintingEdition _authorInPrintingEditionRepository;
+        private readonly IPrintingEdition _printingEdition;
+        private readonly IAuthor _author;
+        private readonly IAuthorInPrintingEdition _authorInPrintingEdition;
         private readonly IMapper _mapper;
 
         public PrintingEditionService(IPrintingEdition printingEdition,
@@ -21,23 +21,22 @@ namespace Store.BusinessLogic.Services
             IAuthorInPrintingEdition authorInPrintingEdition,
             IMapper mapper)
         {
-            _printingEditionRepository = printingEdition;
-            _authorRepository = author;
-            _authorInPrintingEditionRepository = authorInPrintingEdition;
+            _printingEdition = printingEdition;
+            _author = author;
+            _authorInPrintingEdition = authorInPrintingEdition;
             _mapper = mapper;
-            
         }
+
         public void CreatePrintingEdition(PrintingEditionModel model, AuthorModel authorView)
         {
             var printingEdition = _mapper.Map<PrintingEdition>(model);
-
             var author = _mapper.Map<Author>(authorView);
-            _printingEditionRepository.Create(printingEdition, author);
+            _printingEdition.Create(printingEdition, author);
         }
 
         public void DeletePrintingEdition(int id)
         {
-            _printingEditionRepository.DeleteAsync(id);
+            _printingEdition.DeleteAsync(id);
         }
 
         public IEnumerable<AuthorsInPrintingEditionsModel> FilterByAuthor(string filter)
@@ -52,29 +51,28 @@ namespace Store.BusinessLogic.Services
 
         public PrintingEditionModel GetPrintingEditionById(int id)
         {
-            PrintingEdition printingEdition = _printingEditionRepository.Get(id);
+            PrintingEdition printingEdition = _printingEdition.Get(id);
             var printingEditionModel = _mapper.Map<PrintingEditionModel>(printingEdition);
             return printingEditionModel;
         }
 
         public IEnumerable<AuthorModel> GetPritningEditionAuthors(int id)
         {
-            PrintingEdition printingEdition = _printingEditionRepository.Get(id);
-            var authors = _authorInPrintingEditionRepository.FindByPrintingEdition(printingEdition.Name);
+            PrintingEdition printingEdition = _printingEdition.Get(id);
+            var authors = _authorInPrintingEdition.FindByPrintingEdition(printingEdition.Name);
             var model = new List<AuthorModel>();
             foreach (var au in authors)
             {
-                Author author = _authorRepository.Get(au.AuthorId);
+                Author author = _author.Get(au.AuthorId);
                 model.Add(_mapper.Map<AuthorModel>(author));
             };
             return model;
         }
 
-
         public void UpdateInformationAboutPrintinEdition(PrintingEditionModel model)
         {
             var printingEdition = _mapper.Map<PrintingEdition>(model);
-            _printingEditionRepository.Update(printingEdition);
+            _printingEdition.Update(printingEdition);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace Store.DataAccess.Entities
 {
     public class User : IdentityUser
     {
-
         [Required]
         [Display(Name = "First Name")]
         [StringLength(50)]
@@ -19,10 +18,5 @@ namespace Store.DataAccess.Entities
 
         [Display(Name = "Avatar")]
         public string Img { get; set; }
-
-        [Required]
-        [Display(Name = "Password")]
-        [StringLength(50, MinimumLength = 8)]
-        public string Password { get; set; }
     }
 }

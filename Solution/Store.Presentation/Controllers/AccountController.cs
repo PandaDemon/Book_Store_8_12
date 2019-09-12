@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Store.BusinessLogic.JwtProvider;
 using Store.BusinessLogic.Models.User;
+using Store.BusinessLogic.Services;
 using Store.BusinessLogic.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,7 +30,7 @@ namespace Store.Presentation.Controllers
         {
             if (userId != null && code != null)
             {
-                var user = await _userService.FindUserByIdAsync(userId);
+                var user = await _userService.FindByIdAsync(userId);
                 await _userService.ConfirmEmail(user, code);
                 var result = _userService.ConfirmEmail(user, code);
                 if (result.Result.Succeeded)
@@ -43,7 +44,6 @@ namespace Store.Presentation.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-
             }
             return null;
         }
@@ -58,21 +58,19 @@ namespace Store.Presentation.Controllers
                 res = result;
                 if (result.Succeeded)
                 {
-
                     string code1 = await _userService.GenerateEmailConfirmationTokenAsync(model);
-                    var applicationUserView = await _userService.FindByEmailAsync(model.Email);
-                    //var callbackUrl = Url.Route("http://localhost:56189/Account/ConfirmEmail?", new { userId = applicationUserView.Id, code = code1 });
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = applicationUserView.Id, code = code1 },
-                            protocol: Request.Scheme);
+                    var userView = await _userService.FindByEmailAsync(model.Email);
+                    var callbackUrl = Url.RouteUrl("http://localhost:56189/Account/ConfirmEmail?", new { userId = userView.Id, code = code1 });
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userView.Id, code = code1 },
+                    //        protocol: Request.Scheme);
 
-                    //EmailService.SendEmail(model.Email, "Confirm email", "To complete the registration, follow the link :: <a href = \" "
-                    //  + callbackUrl + "\"> complete registration </a> ");
+                    EmailService.SendMail(model.Email, "Confirm email", "To complete the registration, follow the link :: <a href = \" "
+                      + callbackUrl + "\"> complete registration </a> ");
 
                     return Ok(result);
                 }
             }
             return res;
-
         }
 
         [HttpGet("Login")]
@@ -86,24 +84,17 @@ namespace Store.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var user = await _userService.FindByEmailAsync(model.Email);
                 var result = await _userService.SignInAsync(model);
-
 
                 if (await _userService.IsEmailConfirmedAsync(user) && result.Succeeded)
                 {
                     ClaimsIdentity identity = await _userService.GetIdentityAsync(model.Email, model.Password);
-
-
                     if (identity == null)
                     {
                         return HttpStatusCode.RedirectMethod;
                     }
-
                     var encodedJwt = JwtProvider.GenerateToken(identity.Claims);
-
-
                     var response = new
                     {
                         access_token = encodedJwt,
@@ -111,11 +102,11 @@ namespace Store.Presentation.Controllers
                     };
                     //JwtSecurityToken<string> refreshToken = new IdentityUserToken<string>();
 
-                    /* refreshToken.Name = "refreshToken";
-                     refreshToken.UserId = user.Id;
-                     refreshToken.Value = JwtHelper.GenerateRefreshToken();
-                     refreshToken.LoginProvider = "http://localhost:56189/";
-                     await _applicationUserService.CreateToken(refreshToken);*/
+                    //refreshToken.Name = "refreshToken";
+                    //refreshToken.UserId = user.Id;
+                    //refreshToken.Value = JwtProvider.GenerateRefreshToken();
+                    //refreshToken.LoginProvider = "http://localhost:56189/";
+                    //await _userService.CreateToken(refreshToken);
                 }
             }
             return HttpStatusCode.OK;
@@ -127,8 +118,6 @@ namespace Store.Presentation.Controllers
             await _userService.SignOutAsync();
             return HttpStatusCode.Redirect;
         }
-
-
 
         [HttpPost]
         public async Task<HttpStatusCode> RefreshAsync(string token, string refreshToken)
@@ -145,7 +134,6 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.OK;
         }
 
-
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -156,13 +144,11 @@ namespace Store.Presentation.Controllers
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the server key used to sign the JWT token is here, use more than 16 chars")),
                 ValidateLifetime = false 
             };
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 throw new SecurityTokenException("Invalid token");
-
             return principal;
         }
 
@@ -172,12 +158,10 @@ namespace Store.Presentation.Controllers
             return "Forgot Password";
         }
 
-
         [HttpGet("ResetPassword")]
         public HttpStatusCode ResetPassword(string code = null)
         {
             return code == null ? HttpStatusCode.Locked : HttpStatusCode.Redirect;
         }
-
     }
 }

@@ -145,7 +145,7 @@ namespace Store.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.AuthorInPrintingEditions", b =>
@@ -172,7 +172,7 @@ namespace Store.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.Currency", b =>
@@ -186,7 +186,7 @@ namespace Store.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currency");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
@@ -209,7 +209,7 @@ namespace Store.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.Payment", b =>
@@ -229,7 +229,7 @@ namespace Store.DataAccess.Migrations
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.PrintingEdition", b =>
@@ -262,7 +262,7 @@ namespace Store.DataAccess.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.ToTable("PrintingEdition");
+                    b.ToTable("PrintingEditions");
                 });
 
             modelBuilder.Entity("Store.DataAccess.Entities.User", b =>
@@ -299,10 +299,6 @@ namespace Store.DataAccess.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50);
 
                     b.Property<string>("PasswordHash");
 
@@ -378,12 +374,12 @@ namespace Store.DataAccess.Migrations
             modelBuilder.Entity("Store.DataAccess.Entities.AuthorInPrintingEditions", b =>
                 {
                     b.HasOne("Store.DataAccess.Entities.Author", "Author")
-                        .WithMany("AuthorInPrintingEditions")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Store.DataAccess.Entities.PrintingEdition", "PrintingEdition")
-                        .WithMany("AuthorInPrintingEditions")
+                        .WithMany()
                         .HasForeignKey("PrintingEdidtionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -391,7 +387,7 @@ namespace Store.DataAccess.Migrations
             modelBuilder.Entity("Store.DataAccess.Entities.Order", b =>
                 {
                     b.HasOne("Store.DataAccess.Entities.User", "User")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
 
@@ -406,12 +402,12 @@ namespace Store.DataAccess.Migrations
             modelBuilder.Entity("Store.DataAccess.Entities.PrintingEdition", b =>
                 {
                     b.HasOne("Store.DataAccess.Entities.Category", "Category")
-                        .WithMany("PrintingEdition")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Store.DataAccess.Entities.Currency", "Currency")
-                        .WithMany("PrintingEditions")
+                        .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

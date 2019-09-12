@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Store.BusinessLogic.Models.User;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace Store.BusinessLogic.Services.Interfaces
     public interface IUserService
     {
         Task<UserModel> FindByEmailAsync(string email);
-        Task<UserModel> FindUserByIdAsync(string id);
+        Task<UserModel> FindByIdAsync(string id);
         Task<IdentityResult> CreateAsync(UserCreateModel сreateUserModel);
         Task Edit(UserEditModel editUserModel);
         Task DeleteAsync(string email);
@@ -20,14 +21,12 @@ namespace Store.BusinessLogic.Services.Interfaces
         Task<IdentityResult> Register(UserRegisterModel model);
         Task<IdentityResult> ConfirmEmail(UserModel user, string code);
         Task<bool> IsEmailConfirmedAsync(UserModel user);
-
         Task<ClaimsIdentity> GetIdentityAsync(string username, string password);
         Task<bool> ConfirmTokens(UserModel user, string refreshToken);
-
         Task<string> GeneratePasswordResetTokenAsync(UserModel user);
         Task<IdentityResult> ResetPasswordAsync(UserModel user, string code, string password);
-
         Task<SignInResult> SignInAsync(UserLoginModel user);
         Task SignOutAsync();
+        Task CreateToken(JwtSecurityToken refreshToken);
     }
 }

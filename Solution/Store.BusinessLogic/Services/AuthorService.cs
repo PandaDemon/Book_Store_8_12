@@ -23,7 +23,6 @@ namespace Store.BusinessLogic.Services
         public void CreateAuthor(AuthorModel model)
         {
             var author = _mapper.Map<Author>(model);
-
             _author.Create(author);
         }
 
@@ -35,14 +34,11 @@ namespace Store.BusinessLogic.Services
         public IEnumerable<AuthorModel> FilterAuthor(string filter)
         {
             var authors = _author.FilterAuthors(filter);
-
             var model = new List<AuthorModel>();
-
             foreach (var a in authors)
             {
                 model.Add(_mapper.Map<AuthorModel>(a));
             }
-
             return model;
         }
 
@@ -50,8 +46,6 @@ namespace Store.BusinessLogic.Services
         {
             Author author = _author.Get(id);
             var model = _mapper.Map<AuthorModel>(author);
-
-
             return model;
         }
 
@@ -59,42 +53,32 @@ namespace Store.BusinessLogic.Services
         {
             IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEdition.FindByAuthor(_author.Get(id).LastName);
             var model = new List<PrintingEditionModel>();
-
-
             foreach (var printEdition in printingEditions)
             {
                 model.Add(_mapper.Map<PrintingEditionModel>(printEdition.PrintingEdition));
-
             }
-
             return model;
         }
 
         public IEnumerable<AuthorModel> SortByFirstName(string order)
         {
             var authors = _author.SortByFirstName(order);
-
             var model = new List<AuthorModel>();
-
             foreach (var a in authors)
             {
                 model.Add(_mapper.Map<AuthorModel>(a));
             }
-
             return model;
         }
 
         public IEnumerable<AuthorModel> SortByLastName(string order)
         {
             var authors = _author.SortByLastName(order);
-
             var model = new List<AuthorModel>();
-
             foreach (var a in authors)
             {
                 model.Add(_mapper.Map<AuthorModel>(a));
             }
-
             return model;
         }
 

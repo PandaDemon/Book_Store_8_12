@@ -22,18 +22,18 @@ namespace Store.Presentation.Middlewares
             {
                 await _next(context);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 try
                 {
-                    _logger.LogError("Log error", ex);
-                    _logger.LogInformation("Log inform", ex);
-                    _logger.LogDebug("Log debug", ex);
-                    _logger.LogCritical("Critical exception", ex);
+                    _logger.LogError("Log error", exception);
+                    _logger.LogInformation("Log inform", exception);
+                    _logger.LogDebug("Log debug", exception);
+                    _logger.LogCritical("Critical exception", exception);
                 }
-                catch (Exception innerEx)
+                catch (Exception innerException)
                 {
-                    _logger.LogError(0, innerEx, "Error handling exception");
+                    _logger.LogError(0, innerException, "Error handling exception");
                 }
             }
         }

@@ -21,7 +21,7 @@ namespace Store.Presentation.Api
         [HttpGet]
         public User Get()
         {
-            return Context.User.LastOrDefault();
+            return Context.Users.LastOrDefault();
         }
 
 

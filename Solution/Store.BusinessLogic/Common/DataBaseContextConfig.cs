@@ -36,11 +36,10 @@ namespace Store.BusinessLogic.Common
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var rolesManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            await DataBaseInitialization.InitializeAsync(userManager, rolesManager);
+            await DataBaseInitialization.InitializeAsync(
+                userManager, rolesManager);
 
             dataBaseInitialization.Initialize(dataBaseContext);
-
         }
-
     }
 }

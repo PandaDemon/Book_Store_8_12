@@ -11,13 +11,13 @@ namespace Store.DataAccess.Initialization
 
         }
 
-        public DbSet<PrintingEdition> PrintingEdition { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Author> Author { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<Payment> Payment { get; set; }
-        public DbSet<Currency> Currency { get; set; }
+        public DbSet<PrintingEdition> PrintingEditions { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        //public DbSet<User> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
         public DbSet<AuthorInPrintingEditions> AuthorInPrintingEditions { get; set; }
 
 

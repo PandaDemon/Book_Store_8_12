@@ -43,8 +43,7 @@ namespace Store.DataAccess.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    Img = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(maxLength: 50, nullable: false)
+                    Img = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,7 +51,7 @@ namespace Store.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Author",
+                name: "Authors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -62,11 +61,11 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Author", x => x.Id);
+                    table.PrimaryKey("PK_Authors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -75,11 +74,11 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Currency",
+                name: "Currencies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -88,7 +87,7 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +197,7 @@ namespace Store.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -211,9 +210,9 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_UserId",
+                        name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -221,7 +220,7 @@ namespace Store.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrintingEdition",
+                name: "PrintingEditions",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -237,23 +236,23 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrintingEdition", x => x.Id);
+                    table.PrimaryKey("PK_PrintingEditions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PrintingEdition_Category_CategoryId",
+                        name: "FK_PrintingEditions_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PrintingEdition_Currency_CurrencyId",
+                        name: "FK_PrintingEditions_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
-                        principalTable: "Currency",
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -264,11 +263,11 @@ namespace Store.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payment_Order_OrderId",
+                        name: "FK_Payments_Orders_OrderId",
                         column: x => x.OrderId,
-                        principalTable: "Order",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -284,15 +283,15 @@ namespace Store.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_AuthorInPrintingEditions", x => new { x.AuthorId, x.PrintingEdidtionId });
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_Author_AuthorId",
+                        name: "FK_AuthorInPrintingEditions_Authors_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Author",
+                        principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_PrintingEdition_PrintingEdidtionId",
+                        name: "FK_AuthorInPrintingEditions_PrintingEditions_PrintingEdidtionId",
                         column: x => x.PrintingEdidtionId,
-                        principalTable: "PrintingEdition",
+                        principalTable: "PrintingEditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -342,24 +341,24 @@ namespace Store.DataAccess.Migrations
                 column: "PrintingEdidtionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserId",
-                table: "Order",
+                name: "IX_Orders_UserId",
+                table: "Orders",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payment_OrderId",
-                table: "Payment",
+                name: "IX_Payments_OrderId",
+                table: "Payments",
                 column: "OrderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrintingEdition_CategoryId",
-                table: "PrintingEdition",
+                name: "IX_PrintingEditions_CategoryId",
+                table: "PrintingEditions",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrintingEdition_CurrencyId",
-                table: "PrintingEdition",
+                name: "IX_PrintingEditions_CurrencyId",
+                table: "PrintingEditions",
                 column: "CurrencyId");
         }
 
@@ -384,25 +383,25 @@ namespace Store.DataAccess.Migrations
                 name: "AuthorInPrintingEditions");
 
             migrationBuilder.DropTable(
-                name: "Payment");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Author");
+                name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "PrintingEdition");
+                name: "PrintingEditions");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Currency");
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
