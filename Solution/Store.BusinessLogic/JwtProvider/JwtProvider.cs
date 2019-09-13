@@ -10,10 +10,10 @@ namespace Store.BusinessLogic.JwtProvider
 {
     public class JwtProvider
     {
-        public const string ISSUER = "BookStoreServer";
-        public const string AUDIENCE = "http://localhost:56189/";
-        const string KEY = "cd099ee4-be37-4bda!123";
-        public const int LIFETIME = 5;
+        public const string ISSUER = "Book_Store_14_08";
+        public const string AUDIENCE = "http://localhost:44350/";
+        const string KEY = "o8!s-l&9u4q83-78mnk2D9";
+        public const int LIFETIME = 10;
 
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {

@@ -4,6 +4,5 @@ namespace Store.DataAccess.Entities
 {
     public class Role : IdentityRole
     {
-        
     }
 }

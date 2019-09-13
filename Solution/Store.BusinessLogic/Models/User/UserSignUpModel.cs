@@ -2,7 +2,7 @@
 
 namespace Store.BusinessLogic.Models.User
 {
-    public class UserRegisterModel
+    public class UserSignUpModel
     {
         [Required]
         [Display(Name = "Email")]
@@ -11,6 +11,14 @@ namespace Store.BusinessLogic.Models.User
         [Required]
         [Display(Name = "Login")]
         public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "FirstName")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "LastName")]
+        public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

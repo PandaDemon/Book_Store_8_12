@@ -114,15 +114,15 @@ namespace Store.BusinessLogic.Services
             return userModels;
         }
 
-        public async Task<string> GenerateEmailConfirmationTokenAsync(UserRegisterModel сreateUserViewModel)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(UserSignUpModel сreateUserViewModel)
         {
             var user = await userManager.FindByEmailAsync(сreateUserViewModel.Email);
             return await userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
-        public async Task<IdentityResult> Register(UserRegisterModel model)
+        public async Task<IdentityResult> SignUp(UserSignUpModel model)
         {
-            var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.Email };
+            var user = new User { Email = model.Email, UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, PasswordHash = model.Password };
             return await userManager.CreateAsync(user, model.Password);
         }
 
@@ -184,7 +184,7 @@ namespace Store.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public async Task<SignInResult> SignInAsync(UserLoginModel model)
+        public async Task<SignInResult> SignInAsync(UserSignInModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);

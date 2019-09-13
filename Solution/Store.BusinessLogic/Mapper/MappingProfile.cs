@@ -10,13 +10,12 @@ namespace Store.BusinessLogic.Mapper
     {
         public MappingProfile()
         {
-           
             CreateMap<User, UserModel>();
             CreateMap<UserModel, User>();
             CreateMap<UserCreateModel, User>();
             CreateMap<UserEditModel, User>();
             CreateMap<UserChangePasswordModel, User>();
-            CreateMap<UserRegisterModel, User>();
+            CreateMap<UserSignUpModel, User>();
             CreateMap<PrintingEdition, PrintingEditionModel>();
             CreateMap<PrintingEditionModel, PrintingEdition>();
 

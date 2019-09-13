@@ -7,22 +7,15 @@ namespace Store.DataAccess.Entities
     {
         public int Id { get; set; }
 
-        [Required]
-        [Display(Name = "First Name")]
         [StringLength(50)]
         public string Name { get; set; }
 
         public string Desc { get; set; }
 
-        [Display(Name = "Avatar")]
-        public string Img { get; set; }
+        public string AvatarUrl { get; set; }
 
-        [Required]
         public double Price { get; set; }
 
-        public bool IsInStock { get; set; }
-
-        [Display(Name = "Quantity")]
         public int Quantity { get; set; }
 
         [ForeignKey("Category")]

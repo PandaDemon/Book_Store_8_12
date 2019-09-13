@@ -77,7 +77,6 @@ namespace Store.Presentation
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
                 })
                 .AddJwtBearer(cfg =>
                 {
@@ -85,11 +84,12 @@ namespace Store.Presentation
                     cfg.SaveToken = false;
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero,
-                        IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true
+                        ClockSkew = TimeSpan.Zero
+                        
                     };
                 });
         }

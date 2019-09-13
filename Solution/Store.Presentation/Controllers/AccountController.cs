@@ -28,33 +28,34 @@ namespace Store.Presentation.Controllers
         [HttpGet("ConfirmEmail")]
         public async Task<UserModel> ConfirmEmail(string userId, string code)
         {
-            if (userId != null && code != null)
+            if (userId == null || code == null)
             {
-                var user = await _userService.FindByIdAsync(userId);
-                await _userService.ConfirmEmail(user, code);
-                var result = _userService.ConfirmEmail(user, code);
-                if (result.Result.Succeeded)
+                return null;
+            }
+            var user = await _userService.FindByIdAsync(userId);
+            await _userService.ConfirmEmail(user, code);
+            var result = _userService.ConfirmEmail(user, code);
+            if (result.Result.Succeeded)
+            {
+                return user;
+            }
+            else
+            {
+                foreach (var error in result.Result.Errors)
                 {
-                    return user;
-                }
-                else
-                {
-                    foreach (var error in result.Result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
             return null;
         }
-
-        [HttpPost("Register")]
-        public async Task<Object> Register([FromBody]UserRegisterModel model)
+        [HttpPost("SignUp")]
+        public async Task<Object> SignUp(/*[FromBody]*/UserSignUpModel model)
         {
             IdentityResult res = new IdentityResult();
             if (ModelState.IsValid)
             {
-                var result = await _userService.Register(model);
+                var result = await _userService.SignUp(model);
                 res = result;
                 if (result.Succeeded)
                 {
@@ -74,13 +75,13 @@ namespace Store.Presentation.Controllers
         }
 
         [HttpGet("Login")]
-        public string Login(string returnUrl = null)
+        public string SignIn(string returnUrl = null)
         {
             return "login";
         }
 
         [HttpPost("Login")]
-        public async Task<HttpStatusCode> Login(UserLoginModel model)
+        public async Task<IActionResult> SignIn(UserSignInModel model)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +93,7 @@ namespace Store.Presentation.Controllers
                     ClaimsIdentity identity = await _userService.GetIdentityAsync(model.Email, model.Password);
                     if (identity == null)
                     {
-                        return HttpStatusCode.RedirectMethod;
+                        return BadRequest();
                     }
                     var encodedJwt = JwtProvider.GenerateToken(identity.Claims);
                     var response = new
@@ -109,7 +110,7 @@ namespace Store.Presentation.Controllers
                     //await _userService.CreateToken(refreshToken);
                 }
             }
-            return HttpStatusCode.OK;
+            return Ok();
         }
 
         [HttpPost]
@@ -138,11 +139,11 @@ namespace Store.Presentation.Controllers
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, 
+                ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the server key used to sign the JWT token is here, use more than 16 chars")),
-                ValidateLifetime = false 
+                ValidateLifetime = false
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);

@@ -17,6 +17,8 @@ namespace Store.DataAccess.Initialization
             }
             context.Database.EnsureCreated();
 
+            // TODO: finish task
+
             //var users = new User
             //{
             //    UserName = "Michael",
