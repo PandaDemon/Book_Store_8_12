@@ -11,14 +11,14 @@ namespace Store.BusinessLogic.Services
 {
     public class PrintingEditionService : IPrintingEditionService
     {
-        private readonly IPrintingEdition _printingEdition;
-        private readonly IAuthor _author;
-        private readonly IAuthorInPrintingEdition _authorInPrintingEdition;
+        private readonly IPrintingEditionRepository _printingEdition;
+        private readonly IAuthorRepository _author;
+        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEdition;
         private readonly IMapper _mapper;
 
-        public PrintingEditionService(IPrintingEdition printingEdition,
-            IAuthor author,
-            IAuthorInPrintingEdition authorInPrintingEdition,
+        public PrintingEditionService(IPrintingEditionRepository printingEdition,
+            IAuthorRepository author,
+            IAuthorInPrintingEditionRepository authorInPrintingEdition,
             IMapper mapper)
         {
             _printingEdition = printingEdition;

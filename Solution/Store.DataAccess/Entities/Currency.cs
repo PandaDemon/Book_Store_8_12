@@ -6,8 +6,9 @@ namespace Store.DataAccess.Entities
     public class Currency
     {
         public int Id { get; set; }
-
-        [Display(Name = "Currency")]
+        [StringLength(50)]
         public string Name { get; set; }
+        [StringLength(150)]
+        public string Desc { get; set; }
     }
 }

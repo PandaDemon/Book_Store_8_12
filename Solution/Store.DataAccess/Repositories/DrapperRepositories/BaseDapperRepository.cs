@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperRoleRepository
+    class BaseDapperRepository
     {
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IAuthorInPrintingEdition
+    public interface IAuthorInPrintingEditionRepository
     {
         IEnumerable<AuthorInPrintingEditions> GetAll();
         AuthorInPrintingEditions Get(int id);
@@ -22,6 +22,5 @@ namespace Store.DataAccess.Repositories.Interfaces
 
         IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionCategory(int categoryId);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionIsInStock(bool isInStock);
     }
 }

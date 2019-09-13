@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperUserRepository : IUser
+    public class UserDapperRepository : IUserRepository
     {
         private readonly DataBaseContext _context;
         private readonly UserManager<User> _userManager;
 
-        public DapperUserRepository(DataBaseContext context, UserManager<User> userManager)
+        public UserDapperRepository(DataBaseContext context, UserManager<User> userManager)
         {
             _userManager = userManager;
             _context = context;
@@ -73,7 +73,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         public async Task UpdateAsync(User item)
         {
             User user = _context.Users.Find(item.Id);
-            user.Img = item.Img;
+            user.AvatarUrl = item.AvatarUrl;
             user.LastName = item.LastName;
             user.FirstName = item.FirstName;
             user.Email = item.Email;

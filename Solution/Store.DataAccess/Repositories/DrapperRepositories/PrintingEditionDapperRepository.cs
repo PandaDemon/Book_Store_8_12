@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperPrintingEditionRepository : IPrintingEdition
+    public class PrintingEditionDapperRepository : IPrintingEditionRepository
     {
         private readonly DataBaseContext _context;
 
-        public DapperPrintingEditionRepository(DataBaseContext context)
+        public PrintingEditionDapperRepository(DataBaseContext context)
         {
             this._context = context;
         }
@@ -94,10 +94,9 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             var upPrintingEdition = _context.PrintingEditions.Find(item.Id);
             if (upPrintingEdition != null)
             {
-                upPrintingEdition.Img = item.Img;
+                upPrintingEdition.AvatarUrl = item.AvatarUrl;
                 upPrintingEdition.Name = item.Name;
                 upPrintingEdition.Price = item.Price;
-                upPrintingEdition.IsInStock = item.IsInStock;
                 upPrintingEdition.Category = item.Category;
                 upPrintingEdition.Desc = item.Desc;
                 upPrintingEdition.Currency = item.Currency;

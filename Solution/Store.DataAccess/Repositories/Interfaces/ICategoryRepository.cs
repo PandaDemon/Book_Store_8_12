@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface ICategory
+    public interface ICategoryRepository
     {
         IEnumerable<Category> GetAllCategory(bool includePrintingEdition = false);
         Category GetCategoryById(int сategoryId, bool includePrintingEdition = false);

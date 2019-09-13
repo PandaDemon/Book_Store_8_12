@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperCurrencyRepository
+    public class OrderDapperRepository
     {
     }
 }

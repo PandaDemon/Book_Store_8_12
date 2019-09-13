@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface ICurrency
+    public interface ICurrencyRepository
     {
         IEnumerable<Currency> GetAll();
         Currency Get(int id);

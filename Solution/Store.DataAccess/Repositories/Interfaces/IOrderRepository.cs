@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IOrder
+    public interface IOrderRepository
     {
         IEnumerable<Order> GetAll();
         Order Get(int id);

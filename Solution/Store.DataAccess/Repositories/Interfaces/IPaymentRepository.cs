@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IPayment
+    public interface IPaymentRepository
     {
         IEnumerable<Payment> GetAll();
         Payment Get(int id);

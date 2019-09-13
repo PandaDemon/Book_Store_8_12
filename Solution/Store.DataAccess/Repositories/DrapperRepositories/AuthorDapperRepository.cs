@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperAuthorRepository : IAuthor
+    public class AuthorDapperRepository : IAuthorRepository
     {
         private readonly DataBaseContext _context;
 
-        public DapperAuthorRepository(DataBaseContext context)
+        public AuthorDapperRepository(DataBaseContext context)
         {
             _context = context;
         }

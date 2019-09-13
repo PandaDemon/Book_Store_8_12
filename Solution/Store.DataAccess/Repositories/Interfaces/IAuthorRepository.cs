@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IAuthor
+    public interface IAuthorRepository
     {
         IEnumerable<Author> GetAll();
         Author Get(int id);

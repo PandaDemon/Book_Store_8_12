@@ -6,10 +6,7 @@ namespace Store.DataAccess.Entities
     public class Payment
     {
         public int Id { get; set; }
-
-        [Display(Name = "Payment number")]
         public int PaymentNumber { get; set; }
-
         public bool IsPaid { get; set; }
 
         [ForeignKey("Order")]

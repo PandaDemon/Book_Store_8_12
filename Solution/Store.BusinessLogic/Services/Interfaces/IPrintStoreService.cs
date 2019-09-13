@@ -13,7 +13,5 @@ namespace Store.BusinessLogic.Services.Interfaces
         IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionCategory(int filterCategory);
         IEnumerable<AuthorsInPrintingEditionsModel> SortByPrintingEditionPrice(string filterPrice);
         IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionName(string filter);
-        IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionIsInStock(bool isInStock);
-        IEnumerable<AuthorsInPrintingEditionsModel> FilterByAuthor(string filter);
     }
 }

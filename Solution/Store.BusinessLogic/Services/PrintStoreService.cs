@@ -11,14 +11,14 @@ namespace Store.BusinessLogic.Services
 {
     public class PrintStoreService : IPrintStoreService
     {
-        private readonly IAuthor _author;
-        private readonly IPrintingEdition _printingEdition;
-        private readonly IAuthorInPrintingEdition _authorInPrintingEdition;
+        private readonly IAuthorRepository _author;
+        private readonly IPrintingEditionRepository _printingEdition;
+        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEdition;
         private readonly IMapper _mapper;
 
-        public PrintStoreService(IAuthorInPrintingEdition authorInPrintingEdition,
-            IAuthor author,
-            IPrintingEdition printingEdition,
+        public PrintStoreService(IAuthorInPrintingEditionRepository authorInPrintingEdition,
+            IAuthorRepository author,
+            IPrintingEditionRepository printingEdition,
             IMapper mapper)
         {
             _authorInPrintingEdition = authorInPrintingEdition;
@@ -42,9 +42,8 @@ namespace Store.BusinessLogic.Services
                     AuthorLastName = author.LastName,
                     PrintingEditionName = pe.Name,
                     PrintingEditionPrice = pe.Price,
-                    PrintingEditionImage = pe.Img,
+                    PrintingEditionImage = pe.AvatarUrl,
                     PrtintingEditionCategory = pe.CategoryId,
-                    PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
 
                 });
@@ -67,9 +66,8 @@ namespace Store.BusinessLogic.Services
                     AuthorLastName = author.LastName,
                     PrintingEditionName = pe.Name,
                     PrintingEditionPrice = pe.Price,
-                    PrintingEditionImage = pe.Img,
+                    PrintingEditionImage = pe.AvatarUrl,
                     PrtintingEditionCategory = pe.CategoryId,
-                    PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
                 });
             }
@@ -103,9 +101,8 @@ namespace Store.BusinessLogic.Services
                     AuthorLastName = author.LastName,
                     PrintingEditionName = pe.Name,
                     PrintingEditionPrice = pe.Price,
-                    PrintingEditionImage = pe.Img,
+                    PrintingEditionImage = pe.AvatarUrl,
                     PrtintingEditionCategory = pe.CategoryId,
-                    PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
                 });
             }
@@ -153,38 +150,8 @@ namespace Store.BusinessLogic.Services
                     AuthorLastName = author.LastName,
                     PrintingEditionName = pe.Name,
                     PrintingEditionPrice = pe.Price,
-                    PrintingEditionImage = pe.Img,
+                    PrintingEditionImage = pe.AvatarUrl,
                     PrtintingEditionCategory = pe.CategoryId,
-                    PrintingEditionIsInStock = pe.IsInStock,
-                    PrtintingEditionDescription = pe.Desc
-                });
-            }
-            return model;
-        }
-
-        public IEnumerable<AuthorsInPrintingEditionsModel> FilterByAuthor(string filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<AuthorsInPrintingEditionsModel> FilterByPrintingEditionIsInStock(bool isInStock)
-        {
-            var priningEditions = _authorInPrintingEdition.FilterByPrintingEditionIsInStock(isInStock);
-            var model = new List<AuthorsInPrintingEditionsModel>();
-
-            foreach (var p in priningEditions)
-            {
-                PrintingEdition pe = _printingEdition.Get(p.PrintingEdidtionId);
-                Author author = _author.Get(p.AuthorId);
-                model.Add(new AuthorsInPrintingEditionsModel
-                {
-                    AuthorFirstName = author.FirstName,
-                    AuthorLastName = author.LastName,
-                    PrintingEditionName = pe.Name,
-                    PrintingEditionPrice = pe.Price,
-                    PrintingEditionImage = pe.Img,
-                    PrtintingEditionCategory = pe.CategoryId,
-                    PrintingEditionIsInStock = pe.IsInStock,
                     PrtintingEditionDescription = pe.Desc
                 });
             }

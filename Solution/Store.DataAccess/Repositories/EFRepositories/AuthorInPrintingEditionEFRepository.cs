@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class EFAuthorInPrintingEditionRepository
+    public class AuthorInPrintingEditionEFRepository
     {
         public int AuthorId { get; set; }
         public Author Author { get; set; }

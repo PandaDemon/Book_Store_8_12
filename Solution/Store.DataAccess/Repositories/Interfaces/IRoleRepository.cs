@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IRole
+    public interface IRoleRepository
     {
         IEnumerable<IdentityRole> GetAll();
         IdentityRole Get(string id);

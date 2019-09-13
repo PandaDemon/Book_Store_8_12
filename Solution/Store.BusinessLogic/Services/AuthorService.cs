@@ -10,11 +10,11 @@ namespace Store.BusinessLogic.Services
 {
     class AuthorService : IAuthorService
     {
-        private readonly IAuthorInPrintingEdition _authorInPrintingEdition;
-        private readonly IAuthor _author;
+        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEdition;
+        private readonly IAuthorRepository _author;
         private readonly IMapper _mapper;
 
-        public AuthorService(IAuthor authorRepository, IAuthorInPrintingEdition authorInPrintingEditionRepository, IMapper mapper)
+        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, IMapper mapper)
         {
             _author = authorRepository;
             _authorInPrintingEdition = authorInPrintingEditionRepository;

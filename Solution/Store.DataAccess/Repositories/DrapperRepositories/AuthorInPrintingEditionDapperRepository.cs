@@ -8,11 +8,11 @@ using System.Text;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class DapperAuthorInPrintingEditionRepository : IAuthorInPrintingEdition
+    public class AuthorInPrintingEditionDapperRepository : IAuthorInPrintingEditionRepository
     {
         private readonly DataBaseContext _context;
 
-        public DapperAuthorInPrintingEditionRepository(DataBaseContext context)
+        public AuthorInPrintingEditionDapperRepository(DataBaseContext context)
         {
             _context = context;
         }
@@ -92,11 +92,6 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             var result = _context.AuthorInPrintingEditions.ToList();
             return result;
-        }
-
-        public IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionIsInStock(bool isInStock)
-        {
-            return _context.AuthorInPrintingEditions.Where(x => x.PrintingEdition.IsInStock == isInStock);
         }
     }
 }

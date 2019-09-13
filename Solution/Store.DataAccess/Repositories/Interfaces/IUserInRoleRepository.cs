@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IUserInRole
+    public interface IUserInRoleRepository
     {
         IEnumerable<User> GetAll();
         User Get(int id);

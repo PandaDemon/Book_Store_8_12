@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IPrintingEdition
+    public interface IPrintingEditionRepository
     {
         IEnumerable<PrintingEdition> FilterByAuthor(string authorName);
         IEnumerable<PrintingEdition> FilterByCategory(int sortCategory);
