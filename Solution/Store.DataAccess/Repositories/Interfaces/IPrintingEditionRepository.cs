@@ -4,16 +4,9 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IPrintingEditionRepository
+    public interface IPrintingEditionRepository : IBaseRepository<PrintingEdition>
     {
-        IEnumerable<PrintingEdition> FilterByAuthor(string authorName);
-        IEnumerable<PrintingEdition> FilterByCategory(int sortCategory);
-        IEnumerable<PrintingEdition> FilterByPrice(string sortOrder);
-        IEnumerable<PrintingEdition> FilterTitle(string filter);
-        IEnumerable<PrintingEdition> GetAll();
-        PrintingEdition Get(int id);
-        void Create(PrintingEdition item, Author author);
-        void Update(PrintingEdition item);
-        Task DeleteAsync(int id);
+        IEnumerable<PrintingEdition> FilterForPrintingEdition(string filterCategoty, double filterPrice, string filterName);
+        IEnumerable<PrintingEdition> SortByPrice(double price);
     }
 }

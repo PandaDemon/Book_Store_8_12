@@ -1,19 +1,40 @@
-﻿using Store.DataAccess.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Store.DataAccess.Entities;
+using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class EFOrderRepository
+    public class OrderEFRepository : IOrderRepository
     {
-        public int Id { get; set; }
-        public DateTime DatePurchase { get; set; }
-        public string Description { get; set; }
-        public int Quantity { get; set; }
-        public int UserId { get; set; }
+        public void Create(Order item)
+        {
+            throw new NotImplementedException();
+        }
 
-        public virtual User User { get; set; }
-        public virtual Payment Payment { get; set; }
+        public void Delete(Order item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Order> FindByUser(Func<Order, bool> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Order Get(Order item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Order> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Order item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

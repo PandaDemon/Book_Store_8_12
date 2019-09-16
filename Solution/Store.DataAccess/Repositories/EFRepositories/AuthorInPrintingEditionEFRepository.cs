@@ -1,16 +1,16 @@
 ﻿using Store.DataAccess.Entities;
+using Store.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class AuthorInPrintingEditionEFRepository
+    public class AuthorInPrintingEditionEFRepository : IAuthorInPrintingEditionRepository
     {
-        public int AuthorId { get; set; }
-        public Author Author { get; set; }
-
-        public int PrintingEdidtionId { get; set; }
-        public PrintingEdition PrintingEdition { get; set; }
+        //public IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionPrice(string filterType)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -1,17 +1,40 @@
-﻿using Store.DataAccess.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Store.DataAccess.Entities;
+using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class EFPaymentRepository
+    public class PaymentEFRepository : IPaymentRepository
     {
-        public int Id { get; set; }
-        public bool IsPayed { get; set; }
-        public int PaymentNumber { get; set; }
+        public void Create(Payment item)
+        {
+            throw new NotImplementedException();
+        }
 
-        public int OrderId { get; set; }
-        public Order Order { get; set; }
+        public void Delete(Payment item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Payment> FindByOrder(Func<Payment, bool> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Payment Get(Payment item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Payment> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Payment item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

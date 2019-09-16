@@ -1,23 +1,62 @@
-﻿using Store.DataAccess.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Store.DataAccess.Entities;
+using Store.DataAccess.Initialization;
+using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class EFPrintingEditionRepository
+    public class PrintingEditionEFRepository : IPrintingEditionRepository
     {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public string Type { get; set; }
-        public string NameEdition { get; set; }
-        public string Image { get; set; }
-        public double Price { get; set; }
+        readonly DataBaseContext _context;
 
-        public int CurrencyId { get; set; }
-        public virtual EFCurrencyRepository Currency { get; set; }
+        public PrintingEditionEFRepository(DataBaseContext context)
+        {
+            _context = context;
+        }
 
-        public int CategoryId { get; set; }
-        public virtual EFCategoryRepository Category { get; set; }
+        public void Create(PrintingEdition item)
+        {
+            _context.PrintingEditions.Add(item);
+            _context.SaveChanges();
+        }
+        public void Update(PrintingEdition item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
 
+        public void Delete(PrintingEdition item)
+        {
+            PrintingEdition printingEdition = _context.PrintingEditions.Find(item);
+            if (printingEdition != null)
+            {
+                _context.PrintingEditions.Remove(printingEdition);
+                _context.SaveChanges();
+            }
+        }
+
+        public PrintingEdition Get(PrintingEdition item)
+        {
+            return _context.PrintingEditions.Find(item);
+        }
+
+        public IEnumerable<PrintingEdition> GetAll()
+        {
+            return _context.PrintingEditions;
+        }
+
+
+
+        //TO DO FilTER!!!!!!!!!!!!!!!!!!!!!!!!
+        public IEnumerable<PrintingEdition> FilterForPrintingEdition(string filterCategoty, double filterPrice, string filterName)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<PrintingEdition> SortByPrice(double price)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

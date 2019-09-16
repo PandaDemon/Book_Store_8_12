@@ -27,17 +27,17 @@ namespace Store.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public void CreatePrintingEdition(PrintingEditionModel model, AuthorModel authorView)
-        {
-            var printingEdition = _mapper.Map<PrintingEdition>(model);
-            var author = _mapper.Map<Author>(authorView);
-            _printingEdition.Create(printingEdition, author);
-        }
+        //public void CreatePrintingEdition(PrintingEditionModel model, AuthorModel authorView)
+        //{
+        //    var printingEdition = _mapper.Map<PrintingEdition>(model);
+        //    var author = _mapper.Map<Author>(authorView);
+        //    _printingEdition.Create(printingEdition, author);
+        //}
 
-        public void DeletePrintingEdition(int id)
-        {
-            _printingEdition.DeleteAsync(id);
-        }
+        //public void DeletePrintingEdition(int id)
+        //{
+        //    _printingEdition.DeleteAsync(id);
+        //}
 
         public IEnumerable<AuthorsInPrintingEditionsModel> FilterByAuthor(string filter)
         {
@@ -49,25 +49,25 @@ namespace Store.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public PrintingEditionModel GetPrintingEditionById(int id)
-        {
-            PrintingEdition printingEdition = _printingEdition.Get(id);
-            var printingEditionModel = _mapper.Map<PrintingEditionModel>(printingEdition);
-            return printingEditionModel;
-        }
+        //public PrintingEditionModel GetPrintingEditionById(int id)
+        //{
+        //    PrintingEdition printingEdition = _printingEdition.Get(id);
+        //    var printingEditionModel = _mapper.Map<PrintingEditionModel>(printingEdition);
+        //    return printingEditionModel;
+        //}
 
-        public IEnumerable<AuthorModel> GetPritningEditionAuthors(int id)
-        {
-            PrintingEdition printingEdition = _printingEdition.Get(id);
-            var authors = _authorInPrintingEdition.FindByPrintingEdition(printingEdition.Name);
-            var model = new List<AuthorModel>();
-            foreach (var au in authors)
-            {
-                Author author = _author.Get(au.AuthorId);
-                model.Add(_mapper.Map<AuthorModel>(author));
-            };
-            return model;
-        }
+        //public IEnumerable<AuthorModel> GetPritningEditionAuthors(int id)
+        //{
+        //    PrintingEdition printingEdition = _printingEdition.Get(id);
+        //    var authors = _authorInPrintingEdition.FindByPrintingEdition(printingEdition.Name);
+        //    var model = new List<AuthorModel>();
+        //    foreach (var au in authors)
+        //    {
+        //        Author author = _author.Get(au.AuthorId);
+        //        model.Add(_mapper.Map<AuthorModel>(author));
+        //    };
+        //    return model;
+        //}
 
         public void UpdateInformationAboutPrintinEdition(PrintingEditionModel model)
         {

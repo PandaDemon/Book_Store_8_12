@@ -9,14 +9,14 @@ namespace Store.BusinessLogic.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrder _order;
+        //private readonly IOrder _order;
         private readonly IMapper _mapper;
 
-        public OrderService(IOrder order, IMapper mapper)
-        {
-            _order = order;
-            _mapper = mapper;
-        }
+        //public OrderService(IOrder order, IMapper mapper)
+        //{
+        //    _order = order;
+        //    _mapper = mapper;
+        //}
         public void Create(PrintingOrderModel model)
         {
             throw new NotImplementedException();

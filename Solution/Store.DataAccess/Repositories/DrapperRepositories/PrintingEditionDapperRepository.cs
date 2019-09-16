@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class PrintingEditionDapperRepository : IPrintingEditionRepository
+    public class PrintingEditionDapperRepository /*: IPrintingEditionRepository*/
     {
         private readonly DataBaseContext _context;
 
@@ -17,25 +17,25 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             this._context = context;
         }
 
-        public void Create(PrintingEdition item, Author author)
-        {
-            item.Currency = _context.Currencies.Find(item.CurrencyId);
-            _context.PrintingEditions.Add(item);
-            _context.SaveChanges();
-            var printE = _context.PrintingEditions.FirstOrDefault(x => x.Name == item.Name);
-            var authorN = _context.Authors.FirstOrDefault(x => x.FirstName == author.FirstName && x.LastName == author.LastName);
+        //public void Create(PrintingEdition item, Author author)
+        //{
+        //    item.Currency = _context.Currencies.Find(item.CurrencyId);
+        //    _context.PrintingEditions.Add(item);
+        //    _context.SaveChanges();
+        //    var printE = _context.PrintingEditions.FirstOrDefault(x => x.Name == item.Name);
+        //    var authorN = _context.Authors.FirstOrDefault(x => x.FirstName == author.FirstName && x.LastName == author.LastName);
 
 
-            AuthorInPrintingEditions authorInPrintingEditions = new AuthorInPrintingEditions
-            {
-                AuthorId = authorN.Id,
-                PrintingEdidtionId = printE.Id,
-                Author = authorN,
-                PrintingEdition = printE
-            };
-            _context.AuthorInPrintingEditions.Add(authorInPrintingEditions);
-            _context.SaveChanges();
-        }
+        //    AuthorInPrintingEditions authorInPrintingEditions = new AuthorInPrintingEditions
+        //    {
+        //        AuthorId = authorN.Id,
+        //        PrintingEdidtionId = printE.Id,
+        //        Author = authorN,
+        //        PrintingEdition = printE
+        //    };
+        //    _context.AuthorInPrintingEditions.Add(authorInPrintingEditions);
+        //    _context.SaveChanges();
+        //}
 
         public async Task DeleteAsync(int id)
         {
@@ -79,9 +79,9 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             return _context.PrintingEditions.Where(x => x.CategoryId == sortCategory);
         }
 
-        public PrintingEdition Get(int id)
+        public PrintingEdition Get(PrintingEdition item)
         {
-            return _context.PrintingEditions.Find(id);
+            return _context.PrintingEditions.Find(item);
         }
 
         public IEnumerable<PrintingEdition> GetAll()
@@ -103,6 +103,21 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
                 _context.PrintingEditions.Update(upPrintingEdition);
             }
+        }
+
+        public PrintingEdition FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(PrintingEdition item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(PrintingEdition item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

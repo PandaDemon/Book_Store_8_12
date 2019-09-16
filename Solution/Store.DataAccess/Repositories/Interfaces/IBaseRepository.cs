@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.Interfaces
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
-        void Create();
-        void Update();
-        void Delete();
+        IEnumerable<TEntity> GetAll();
+        TEntity Get(TEntity item);
+        void Create(TEntity item);
+        void Update(TEntity item);
+        void Delete(TEntity item);
     }
 }

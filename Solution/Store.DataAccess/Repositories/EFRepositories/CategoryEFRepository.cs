@@ -3,61 +3,47 @@ using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class EFCategoryRepository 
+    public class CategoryEFRepository : ICategoryRepository
     {
-        //private readonly DataBaseContext _context;
-        //public EFCategoryRepository(DataBaseContext context)
-        //{
-        //    this._context = context;
-        //}
+        private readonly DataBaseContext _context;
+        public CategoryEFRepository(DataBaseContext context)
+        {
+            _context = context;
+        }
 
-        //public IEnumerable<Category> GetAllCategory(bool includePrintingEdition = false)
-        //{
-        //    //if (includePrintingEdition)
-        //    //{
-        //    //    return _context.Set<Category>().Include(x => x.PrintingEdition).AsNoTracking().ToList();
-        //    //}
+        public void Create(Category item)
+        {
+            _context.Categories.Add(item);
+            _context.SaveChanges();
+        }
 
-        //    //else
-        //    //{
-        //    //    return _context.Category.ToList();
-        //    //}
-        //}
+        public void Update(Category item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
 
-        //public Category GetCategoryById(int categoryId, bool includePrintingEdition = false)
-        //{
-        //    //if (includePrintingEdition)
-        //    //{
-        //    //    return _context.Set<Category>().Include(x => x.PrintingEdition).AsNoTracking().FirstOrDefault(x => x.Id == categoryId);
-        //    //}
-        //    //else
-        //    //{
-        //    //    return _context.Category.FirstOrDefault(x => x.Id == categoryId);
-        //    //}
+        public void Delete(Category item)
+        {
+            Category category = _context.Categories.Find(item);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+            }
+        }
 
-        //}
+        public Category Get(Category item)
+        {
+            return _context.Categories.Find(item);
+        }
 
-        //public void SaveCategory(Category category)
-        //{
-        //    if (category.Id == 0)
-        //    {
-        //        _context.Category.Add(category);
-        //    }
-        //    else
-        //    {
-        //        _context.Entry(category).State = EntityState.Modified;
-        //        _context.SaveChanges();
-        //    }
-        //}
-
-        //public void DeleteCategory(Category category)
-        //{
-        //    _context.Category.Remove(category);
-        //    _context.SaveChanges();
-        //}
+        public IEnumerable<Category> GetAll()
+        {
+            return _context.Categories;
+        }
     }
 }

@@ -5,22 +5,19 @@ namespace Store.DataAccess.Repositories.Interfaces
 {
     public interface IAuthorInPrintingEditionRepository
     {
-        IEnumerable<AuthorInPrintingEditions> GetAll();
-        AuthorInPrintingEditions Get(int id);
-        IEnumerable<AuthorInPrintingEditions> FindByAuthor(string authorName);
+        //IEnumerable<AuthorInPrintingEditions> FindByAuthor(string authorName);
 
-        IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(string name);
-        IEnumerable<Author> FindByPrintingEditionID(int id);
+        //IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(string name);
+        //IEnumerable<Author> FindByPrintingEditionID(int id);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByAuthor(string sortOrder);
+        //IEnumerable<AuthorInPrintingEditions> FilterByAuthor(string sortOrder);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionPrice(string filterType);
+        //IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionPrice(string filterType);
 
-        IEnumerable<AuthorInPrintingEditions> SortByPrintingEditionName(string sortOrder);
+        //IEnumerable<AuthorInPrintingEditions> SortByPrintingEditionName(string sortOrder);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionName(string sortOrder);
+        //IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionName(string sortOrder);
 
-        IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionCategory(int categoryId);
 
     }
 }
