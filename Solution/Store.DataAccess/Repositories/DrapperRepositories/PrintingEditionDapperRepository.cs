@@ -29,8 +29,8 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "INSERT INTO PrintingEditions (Description, Status, Type, NameEdition, Image, Price, CurrencyId) VALUES" +
-                    "(@Description, @Status, @Type, @NameEdition, @Image, @Price, @CurrencyId)";
+                string sQuery = "INSERT INTO PrintingEditions (Description, Status, Type, NameEdition, AvatarUrl, Price, CurrencyId) VALUES" +
+                    "(@Description, @Status, @Type, @NameEdition, @AvatarUrl, @Price, @CurrencyId)";
                 conn.Open();
                 conn.Execute(sQuery, item);
             }
