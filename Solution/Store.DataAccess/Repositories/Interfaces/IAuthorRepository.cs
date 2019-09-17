@@ -5,8 +5,6 @@ namespace Store.DataAccess.Repositories.Interfaces
 {
     public interface IAuthorRepository : IBaseRepository<Author>
     {        
-        //IEnumerable<Author> FilterAuthors(string filter);
-        //IEnumerable<Author> SortByFirstName(string sortOrder);
-        //IEnumerable<Author> SortByLastName(string sortOrder);
+        IEnumerable<Author> FilterByName(string firstName, string lastName);
     }
 }

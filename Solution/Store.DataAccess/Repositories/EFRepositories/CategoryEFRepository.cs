@@ -3,6 +3,7 @@ using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
@@ -44,6 +45,11 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public IEnumerable<Category> GetAll()
         {
             return _context.Categories;
+        }
+
+        public IEnumerable<Category> FilterByName(string name)
+        {
+            return _context.Categories.Where(x => x.Name.Contains(name));
         }
     }
 }

@@ -3,6 +3,7 @@ using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
@@ -45,6 +46,11 @@ namespace Store.DataAccess.Repositories.EFRepositories
         public IEnumerable<Author> GetAll()
         {
             return _context.Authors;
+        }
+
+        public IEnumerable<Author> FilterByName(string firstName, string lastName)
+        {
+            return _context.Authors.Where(x => (x.FirstName.Contains(firstName) && x.LastName.Contains(lastName)) || x.FirstName.Contains(firstName) || x.LastName.Contains(lastName));
         }
     }
 }

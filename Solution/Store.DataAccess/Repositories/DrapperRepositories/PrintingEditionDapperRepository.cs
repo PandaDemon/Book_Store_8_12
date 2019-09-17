@@ -1,123 +1,116 @@
-﻿using Store.DataAccess.Entities;
-using Store.DataAccess.Initialization;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
+using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class PrintingEditionDapperRepository /*: IPrintingEditionRepository*/
+    public class PrintingEditionDapperRepository : IPrintingEditionRepository
     {
-        private readonly DataBaseContext _context;
+        private readonly IConfiguration _config;
 
-        public PrintingEditionDapperRepository(DataBaseContext context)
+        public PrintingEditionDapperRepository(IConfiguration config)
         {
-            this._context = context;
+            _config = config;
         }
 
-        //public void Create(PrintingEdition item, Author author)
-        //{
-        //    item.Currency = _context.Currencies.Find(item.CurrencyId);
-        //    _context.PrintingEditions.Add(item);
-        //    _context.SaveChanges();
-        //    var printE = _context.PrintingEditions.FirstOrDefault(x => x.Name == item.Name);
-        //    var authorN = _context.Authors.FirstOrDefault(x => x.FirstName == author.FirstName && x.LastName == author.LastName);
-
-
-        //    AuthorInPrintingEditions authorInPrintingEditions = new AuthorInPrintingEditions
-        //    {
-        //        AuthorId = authorN.Id,
-        //        PrintingEdidtionId = printE.Id,
-        //        Author = authorN,
-        //        PrintingEdition = printE
-        //    };
-        //    _context.AuthorInPrintingEditions.Add(authorInPrintingEditions);
-        //    _context.SaveChanges();
-        //}
-
-        public async Task DeleteAsync(int id)
+        public IDbConnection Connection
         {
-            var printingEdition = await _context.PrintingEditions.FindAsync(id);
-            if (printingEdition != null)
+            get
             {
-                _context.PrintingEditions.Remove(printingEdition);
-                _context.SaveChanges();
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-
-        public IEnumerable<PrintingEdition> FilterTitle(string filter)
+        public void Create(PrintingEdition item)
         {
-            return _context.PrintingEditions.Where(x => x.Name.Contains(filter));
-        }
-
-        public IEnumerable<PrintingEdition> FilterByAuthor(string authorName)
-        {
-
-            var result = _context.AuthorInPrintingEditions.Where(x => x.Author.LastName == authorName).Select(c => c.PrintingEdition);
-
-            return result;
-        }
-
-        public IEnumerable<PrintingEdition> FilterByPrice(string sortOrder)
-        {
-            switch (sortOrder)
+            using (IDbConnection conn = Connection)
             {
-                case "low":
-                    return _context.PrintingEditions.OrderByDescending(x => x.Price);
-
-                case "high":
-                    return _context.PrintingEditions.OrderBy(x => x.Price);
-
+                string sQuery = "INSERT INTO PrintingEditions (Description, Status, Type, NameEdition, Image, Price, CurrencyId) VALUES" +
+                    "(@Description, @Status, @Type, @NameEdition, @Image, @Price, @CurrencyId)";
+                conn.Open();
+                conn.Execute(sQuery, item);
             }
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<PrintingEdition> FilterByCategory(int sortCategory)
-        {
-            return _context.PrintingEditions.Where(x => x.CategoryId == sortCategory);
-        }
-
-        public PrintingEdition Get(PrintingEdition item)
-        {
-            return _context.PrintingEditions.Find(item);
-        }
-
-        public IEnumerable<PrintingEdition> GetAll()
-        {
-            return _context.PrintingEditions;
         }
 
         public void Update(PrintingEdition item)
         {
-            var upPrintingEdition = _context.PrintingEditions.Find(item.Id);
-            if (upPrintingEdition != null)
+            using (IDbConnection conn = Connection)
             {
-                upPrintingEdition.AvatarUrl = item.AvatarUrl;
-                upPrintingEdition.Name = item.Name;
-                upPrintingEdition.Price = item.Price;
-                upPrintingEdition.Category = item.Category;
-                upPrintingEdition.Desc = item.Desc;
-                upPrintingEdition.Currency = item.Currency;
-
-                _context.PrintingEditions.Update(upPrintingEdition);
+                string sQuery = "UPDATE PrintingEditions SET Description = @Description, Status = @Status, Type = @Type, " +
+                     "NameEdition = @NameEdition, Image = @Image, Price = @Price, CurrencyId = @CurrencyId, " +
+                     "WHERE ID = @Id";
+                conn.Open();
+                conn.Execute(sQuery, item);
             }
-        }
-
-        public PrintingEdition FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Create(PrintingEdition item)
-        {
-            throw new NotImplementedException();
         }
 
         public void Delete(PrintingEdition item)
         {
-            throw new NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "DELETE FROM PrintingEditions WHERE ID = @id";
+                conn.Open();
+                conn.Execute(sQuery, item);
+            }
+        }
+
+
+        // todo
+        public IEnumerable<PrintingEdition> FilterForPrintingEdition(int categotyId, double filterPrice, string filterName)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "";
+                conn.Open();
+                return conn.Query<PrintingEdition>(sQuery);
+            }
+        }
+        //ToDO!!!!
+
+
+        public PrintingEdition Get(PrintingEdition item)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT * FROM PrintingEditions WHERE ID = @id";
+                conn.Open();
+                return conn.Query<PrintingEdition>(sQuery, item).FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<PrintingEdition> GetAll()
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT * FROM PrintingEditions";
+                conn.Open();
+                return conn.Query<PrintingEdition>(sQuery);
+            }
+        }
+
+        public IEnumerable<PrintingEdition> SortByPrice(string sortValue)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                
+                if (sortValue == "high")
+                {
+                    string sQuery = "SELECT * FROM PrintingEditions ORDER BY Sales ASC";
+                    conn.Open();
+                    return conn.Query<PrintingEdition>(sQuery);
+                }
+                else
+                {
+                    string sQuery = "SELECT * FROM PrintingEditions ORDER BY Sales DESC";
+                    conn.Open();
+                    return conn.Query<PrintingEdition>(sQuery);
+                }
+                
+            }
         }
     }
 }

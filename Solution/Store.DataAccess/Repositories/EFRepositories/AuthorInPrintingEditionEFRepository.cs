@@ -1,16 +1,28 @@
 ﻿using Store.DataAccess.Entities;
+using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
     public class AuthorInPrintingEditionEFRepository : IAuthorInPrintingEditionRepository
     {
-        //public IEnumerable<AuthorInPrintingEditions> FilterByPrintingEditionPrice(string filterType)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private readonly DataBaseContext _context;
+
+        public AuthorInPrintingEditionEFRepository(DataBaseContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
+        {
+            return _context.AuthorInPrintingEditions.Where(x => x.AuthorId == authorId);
+        }
+
+        public IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(int printingEditionId)
+        {
+            return _context.AuthorInPrintingEditions.Where(y => y.PrintingEdidtionId == printingEditionId);
+        }
     }
 }

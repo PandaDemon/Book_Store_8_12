@@ -18,7 +18,7 @@ namespace Store.BusinessLogic.Common
         {
             services.AddTransient<DataBaseInitialization>();
             services.AddTransient<IAuthorRepository, AuthorDapperRepository>();
-            services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
+            //services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionDapperRepository>();
 
             services.AddTransient<IAuthorService, AuthorService>();

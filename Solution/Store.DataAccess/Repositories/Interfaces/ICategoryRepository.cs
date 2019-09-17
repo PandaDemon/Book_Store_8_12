@@ -5,5 +5,6 @@ namespace Store.DataAccess.Repositories.Interfaces
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
+        IEnumerable<Category> FilterByName(string name);
     }
 }

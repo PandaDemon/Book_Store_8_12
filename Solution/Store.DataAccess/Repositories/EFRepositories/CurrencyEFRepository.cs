@@ -4,7 +4,6 @@ using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
@@ -38,22 +37,14 @@ namespace Store.DataAccess.Repositories.EFRepositories
                 _context.SaveChanges();
             }
         }
-
-        public IEnumerable<Currency> Find(Func<Currency, bool> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public Currency Get(Currency item)
         {
-            throw new NotImplementedException();
+            return _context.Currencies.Find(item);
         }
 
         public IEnumerable<Currency> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Currencies;
         }
-
-        
     }
 }

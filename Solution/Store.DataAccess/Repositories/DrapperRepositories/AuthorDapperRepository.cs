@@ -1,74 +1,92 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Store.DataAccess.Entities;
-using Store.DataAccess.Initialization;
-using Store.DataAccess.Repositories.EFRepositories;
 using Store.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
     public class AuthorDapperRepository : IAuthorRepository
     {
-        private readonly DataBaseContext _context;
-        readonly DbSet<AuthorDapperRepository> _dbSet;
 
-        public AuthorDapperRepository(DataBaseContext context)
+        private readonly IConfiguration _config;
+
+        public AuthorDapperRepository(IConfiguration config)
         {
-            _context = context;
+            _config = config;
+        }
+
+        public IDbConnection Connection
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
         }
 
         public void Create(Author item)
         {
-            _context.Authors.Add(item);
-            _context.SaveChanges();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "INSERT INTO Authors (FirstName, LastName) VALUES(@FirstName, @LastName)";
+                conn.Open();
+                conn.Execute(sQuery, new { ID = item });
+            }
         }
 
         public void Update(Author item)
         {
-            _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "UPDATE Authors SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id";
+                conn.Open();
+                conn.Execute(sQuery, new { ID = item });
+            }
         }
 
         public void Delete(Author item)
         {
-            throw new NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "DELETE FROM Authors WHERE Id = @id";
+                conn.Open();
+                conn.Execute(sQuery, new { ID = item });
+            }
         }
 
-        public IEnumerable<Author> FilterAuthors(string filter)
+        public  Author Get(Author item)
         {
-            throw new NotImplementedException();
-        }
-
-        public Author FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Author> Get( )
-        {
-            throw new NotImplementedException();
-        }
-
-        public Author Get(Author item)
-        {
-            throw new NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT * FROM Authors WHERE ID = @ID";
+                conn.Open();
+                return conn.Query<Author>(sQuery, new { ID = item }).FirstOrDefault();
+            }
         }
 
         public IEnumerable<Author> GetAll()
         {
-            throw new NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT * FROM Authors";
+                conn.Open();
+                return conn.Query<Author>(sQuery);
+            }
         }
 
-        //public IEnumerable<Author> SortByFirstName(string sortOrder)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public IEnumerable<Author> SortByLastName(string sortOrder)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IEnumerable<Author> FilterByName(string firstName, string lastName)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "SELECT * FROM Authors WHERE (FirstName LIKE '%' + @FIRSTNAME + '%') OR (LASTNAME LIKE '%' + @lastName + '%')";
+                conn.Open();
+                return conn.Query<Author>(sQuery, new { FIRSTNAME = firstName, LASTNAME = lastName });
+            }
+        }
     }
 }

@@ -6,6 +6,5 @@ namespace Store.DataAccess.Repositories.Interfaces
 {
     public interface ICurrencyRepository : IBaseRepository<Currency>
     {
-        IEnumerable<Currency> Find(Func<Currency, Boolean> predicate);
     }
 }

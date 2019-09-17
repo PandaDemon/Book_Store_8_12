@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
@@ -46,17 +47,22 @@ namespace Store.DataAccess.Repositories.EFRepositories
             return _context.PrintingEditions;
         }
 
-
-
-        //TO DO FilTER!!!!!!!!!!!!!!!!!!!!!!!!
-        public IEnumerable<PrintingEdition> FilterForPrintingEdition(string filterCategoty, double filterPrice, string filterName)
+        public IEnumerable<PrintingEdition> FilterForPrintingEdition(int categotyId, double filterPrice, string filterName)
         {
-            throw new System.NotImplementedException();
+            return _context.PrintingEditions.Where(x => x.CategoryId == categotyId && x.Price == filterPrice && x.Name.Contains(filterName));
         }
 
-        public IEnumerable<PrintingEdition> SortByPrice(double price)
+        public IEnumerable<PrintingEdition> SortByPrice(string sortValue)
         {
-            throw new System.NotImplementedException();
+            if (sortValue == "high")
+            {
+                return _context.PrintingEditions.OrderBy(x => x.Price);
+            }
+            else
+            {
+                return _context.PrintingEditions.OrderByDescending(x => x.Price);
+            }
+
         }
     }
 }
