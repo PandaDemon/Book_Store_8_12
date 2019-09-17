@@ -41,7 +41,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "UPDATE PrintingEditions SET Description = @Description, Status = @Status, Type = @Type, " +
-                     "NameEdition = @NameEdition, Image = @Image, Price = @Price, CurrencyId = @CurrencyId, " +
+                     "NameEdition = @NameEdition, AvatarUrl = @AvatarUrl, Price = @Price, CurrencyId = @CurrencyId, " +
                      "WHERE ID = @Id";
                 conn.Open();
                 conn.Execute(sQuery, item);
