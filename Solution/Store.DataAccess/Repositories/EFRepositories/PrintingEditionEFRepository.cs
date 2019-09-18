@@ -27,9 +27,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(PrintingEdition item)
+        public void Delete(int id)
         {
-            PrintingEdition printingEdition = _context.PrintingEditions.Find(item);
+            PrintingEdition printingEdition = _context.PrintingEditions.Find(id);
             if (printingEdition != null)
             {
                 _context.PrintingEditions.Remove(printingEdition);
@@ -37,9 +37,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             }
         }
 
-        public PrintingEdition Get(PrintingEdition item)
+        public PrintingEdition Get(int id)
         {
-            return _context.PrintingEditions.Find(item);
+            return _context.PrintingEditions.Find(id);
         }
 
         public IEnumerable<PrintingEdition> GetAll()

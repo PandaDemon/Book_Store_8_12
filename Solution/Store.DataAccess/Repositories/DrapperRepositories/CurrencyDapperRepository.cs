@@ -18,19 +18,15 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             _config = config;
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+
+
         public void Create(Currency item)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "INSERT INTO Currencies (CurrencyName) VALUES(@CurrencyName)";
-                conn.Open();
+
                 conn.Execute(sQuery, item);
             }
         }
@@ -40,28 +36,28 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "UPDATE Currencies SET CurrencyName = @CurrencyName WHERE ID = @Id";
-                conn.Open();
+
                 conn.Execute(sQuery, item);
             }
         }
 
-        public void Delete(Currency item)
+        public void Delete(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "DELETE FROM Currencies WHERE ID = @id";
-                conn.Open();
-                conn.Execute(sQuery, item);
+
+                conn.Execute(sQuery, new { id });
             }
         }
 
-        public Currency Get(Currency item)
+        public Currency Get(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Currencies WHERE ID = @ID";
-                conn.Open();
-                return conn.Query<Currency>(sQuery, item).FirstOrDefault();
+
+                return conn.Query<Currency>(sQuery, new { id }).FirstOrDefault();
             }
         }
 
@@ -70,7 +66,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Currencies";
-                conn.Open();
+
                 return conn.Query<Currency>(sQuery);
             }
         }

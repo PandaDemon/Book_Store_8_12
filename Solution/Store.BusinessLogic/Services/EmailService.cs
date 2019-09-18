@@ -16,8 +16,8 @@ namespace Store.BusinessLogic.Services
                 {
                     From = from,
                     To = "support@emailarchitect.net",
-                    Subject = "test email from gmail account",
-                    TextBody = "this is a test email sent from c# project with gmail."
+                    Subject = "Subject text",
+                    TextBody = "Some test text."
                 };
 
                 SmtpServer oServer = new SmtpServer("smtp.gmail.com")

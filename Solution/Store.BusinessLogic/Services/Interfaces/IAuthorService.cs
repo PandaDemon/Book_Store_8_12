@@ -6,13 +6,12 @@ namespace Store.BusinessLogic.Services.Interfaces
 {
     public interface IAuthorService
     {
-        AuthorModel GetAuthorById(int id);
-        void DeleteAuthor(int id);
-        void CreateAuthor(AuthorModel model);
-        void UpdateInformationAboutAuthor(AuthorModel model);
+        void Create(AuthorModel model);
+        void Update(AuthorModel model);
+        void Delete(int id);
+        AuthorModel Get(int id);
+        IEnumerable<AuthorModel> GetAll();
         IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id);
-        IEnumerable<AuthorModel> SortByFirstName(string order);
-        IEnumerable<AuthorModel> SortByLastName(string order);
-        IEnumerable<AuthorModel> FilterAuthor(string filter);
+        IEnumerable<AuthorModel> FilterByName(string filter);
     }
 }

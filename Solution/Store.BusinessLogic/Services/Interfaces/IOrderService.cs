@@ -5,11 +5,12 @@ namespace Store.BusinessLogic.Services.Interfaces
 {
     public interface IOrderService
     {
-        PrintingOrderModel GetById(int id);
         void Delete(int id);
         void Create(PrintingOrderModel model);
-        void UpdateInformationOrder(PrintingOrderModel model);
+        void Update(PrintingOrderModel model);
+        PrintingOrderModel Get(int id);
+        IEnumerable<PrintingOrderModel> GetAll();
         IEnumerable<PrintingOrderModel> GetUser(int id);
-        IEnumerable<PrintingOrderModel> GetAll(string order);
+        IEnumerable<PrintingOrderModel> GetPrintingEdition(int id);
     }
 }

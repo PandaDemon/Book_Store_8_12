@@ -41,6 +41,7 @@ namespace Store.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.InjectDataBase(Configuration);
@@ -92,6 +93,8 @@ namespace Store.Presentation
                         
                     };
                 });
+
+            services.AddTransient<DataBaseInitialization>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

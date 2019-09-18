@@ -27,9 +27,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(Category item)
+        public void Delete(int id)
         {
-            Category category = _context.Categories.Find(item);
+            Category category = _context.Categories.Find(id);
             if (category != null)
             {
                 _context.Categories.Remove(category);
@@ -37,9 +37,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             }
         }
 
-        public Category Get(Category item)
+        public Category Get(int id)
         {
-            return _context.Categories.Find(item);
+            return _context.Categories.Find(id);
         }
 
         public IEnumerable<Category> GetAll()

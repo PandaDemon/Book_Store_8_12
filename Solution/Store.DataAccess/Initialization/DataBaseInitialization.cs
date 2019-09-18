@@ -9,22 +9,13 @@ namespace Store.DataAccess.Initialization
     {
         public void Initialize(DataBaseContext context)
         {
-            if (context.Users.Any())
+            context.Database.EnsureCreated();
+
+
+            if (context.Authors.Any())
             {
                 return;
             }
-
-            context.Database.EnsureCreated();
-
-            var users = new User
-            {
-                UserName = "Michael",
-                Email = "mpanukov@gmail.com",
-                FirstName = "Michael",
-                LastName = "Panukov"
-            };
-            context.Users.AddRange(users);
-            context.SaveChanges();
 
             var authors = new Author[]
             {
@@ -58,12 +49,12 @@ namespace Store.DataAccess.Initialization
 
             var printingeditions = new PrintingEdition[]
             {
-                    new PrintingEdition {Name = "Клык", Desc= "interesting book", Price = 20.3,  Quantity = 3, CategoryId = categoty.First().Id, AvatarUrl = "http://testlib.meta.ua/image/266/265964/dbdfd22a03.jpg", CurrencyId = currency.First().Id },
-                    new PrintingEdition {Name = "Клык", Desc= "interesting book", Price = 20.3,  Quantity = 3, CategoryId = categoty.First().Id, AvatarUrl = "http://testlib.meta.ua/image/266/265964/dbdfd22a03.jpg", CurrencyId = currency.First().Id },
-                    new PrintingEdition {Name = "Death on the Nile",  Desc = "interesting book",  Quantity = 3, Price = 25.5, CategoryId = categoty.First().Id, AvatarUrl = "https://upload.wikimedia.org/wikipedia/en/9/96/Death_on_the_Nile_First_Edition_Cover_1937.jpg", CurrencyId = currency.ElementAt(1).Id },
-                    new PrintingEdition {Name = "The Hound of the Baskervilles", Desc = "interesting book",  Quantity = 3, Price = 2290.3, CategoryId = categoty.First().Id, AvatarUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3b/Cover_%28Hound_of_Baskervilles%2C_1902%29.jpg",CurrencyId = currency.ElementAt(1).Id },
-                    new PrintingEdition {Name = "The Times", Desc = "newspaper", Price = 2.30,  Quantity = 3, CategoryId = categoty.Last().Id, AvatarUrl = "https://www.historic-newspapers.co.uk/images/newspapers/lrg-newspaper.jpg",CurrencyId = currency.ElementAt(1).Id },
-                    new PrintingEdition {Name = "Food & Wine", Desc = "interesting magazine",  Quantity = 3, Price = 5.0, CategoryId = categoty.ElementAt(2).Id, AvatarUrl = "https://images-na.ssl-images-amazon.com/images/I/61OkFg4sOGL._SY445_.jpg", CurrencyId = currency.ElementAt(2).Id}
+                    new PrintingEdition {Name = "Клык", Desc= "interesting book", Price = 20.3,  Quantity = 3, CategoryId = categoty.First().Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png", CurrencyId = currency.First().Id },
+                    new PrintingEdition {Name = "Клык", Desc= "interesting book", Price = 20.3,  Quantity = 3, CategoryId = categoty.First().Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png", CurrencyId = currency.First().Id },
+                    new PrintingEdition {Name = "Death on the Nile",  Desc = "interesting book",  Quantity = 3, Price = 25.5, CategoryId = categoty.First().Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png", CurrencyId = currency.ElementAt(1).Id },
+                    new PrintingEdition {Name = "The Hound of the Baskervilles", Desc = "interesting book",  Quantity = 3, Price = 2290.3, CategoryId = categoty.First().Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png",CurrencyId = currency.ElementAt(1).Id },
+                    new PrintingEdition {Name = "The Times", Desc = "newspaper", Price = 2.30,  Quantity = 3, CategoryId = categoty.Last().Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png",CurrencyId = currency.ElementAt(1).Id },
+                    new PrintingEdition {Name = "Food & Wine", Desc = "interesting magazine",  Quantity = 3, Price = 5.0, CategoryId = categoty.ElementAt(2).Id, AvatarUrl = "https://www.w3schools.com/howto/img_avatar.png", CurrencyId = currency.ElementAt(2).Id}
             };
             context.PrintingEditions.AddRange(printingeditions);
             context.SaveChanges();
@@ -98,7 +89,7 @@ namespace Store.DataAccess.Initialization
 
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User { Email = adminEmail, UserName = adminEmail, FirstName = "Michael", LastName = "Panukov", PasswordHash = password, AvatarUrl = "url" };
+                User admin = new User { Email = adminEmail, UserName = "Panda", FirstName = "Michael", LastName = "Panukov", PasswordHash = password, AvatarUrl = "url" };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
             }
         }

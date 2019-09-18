@@ -21,21 +21,16 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             _config = config;
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+
 
         public void Create(Author item)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "INSERT INTO Authors (FirstName, LastName) VALUES(@FirstName, @LastName)";
-                conn.Open();
-                conn.Execute(sQuery, new { ID = item });
+
+                conn.Execute(sQuery, item );
             }
         }
 
@@ -44,28 +39,28 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "UPDATE Authors SET FirstName = @FirstName, LastName = @LastName WHERE Id = @Id";
-                conn.Open();
-                conn.Execute(sQuery, new { ID = item });
+
+                conn.Execute(sQuery, item );
             }
         }
 
-        public void Delete(Author item)
+        public void Delete(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "DELETE FROM Authors WHERE Id = @id";
-                conn.Open();
-                conn.Execute(sQuery, new { ID = item });
+                string sQuery = "DELETE FROM Authors WHERE ID = @Id";
+
+                conn.Execute(sQuery, new { id });
             }
         }
 
-        public  Author Get(Author item)
+        public  Author Get(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "SELECT * FROM Authors WHERE ID = @ID";
-                conn.Open();
-                return conn.Query<Author>(sQuery, new { ID = item }).FirstOrDefault();
+                string sQuery = "SELECT * FROM Authors WHERE ID = @Id";
+
+                return conn.Query<Author>(sQuery, new { id } ).FirstOrDefault();
             }
         }
 
@@ -74,7 +69,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Authors";
-                conn.Open();
+
                 return conn.Query<Author>(sQuery);
             }
         }
@@ -84,8 +79,8 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Authors WHERE (FirstName LIKE '%' + @FIRSTNAME + '%') OR (LASTNAME LIKE '%' + @lastName + '%')";
-                conn.Open();
-                return conn.Query<Author>(sQuery, new { FIRSTNAME = firstName, LASTNAME = lastName });
+
+                return conn.Query<Author>(sQuery, new { firstName, lastName });
             }
         }
     }

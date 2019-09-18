@@ -38,7 +38,7 @@ namespace Store.BusinessLogic.Services
             var userFromBase = new UserModel
             {
                 Id = user.Id,
-                Image = user.AvatarUrl,
+                AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName
@@ -52,7 +52,7 @@ namespace Store.BusinessLogic.Services
             return await userManager.CreateAsync(user);
         }
 
-        public async Task Edit(UserEditModel editUserModel)
+        public async Task Update(UserEditModel editUserModel)
         {
             var user = new User
             {
@@ -108,7 +108,7 @@ namespace Store.BusinessLogic.Services
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    Image = user.AvatarUrl
+                    AvatarUrl = user.AvatarUrl
                 });
             }
             return userModels;

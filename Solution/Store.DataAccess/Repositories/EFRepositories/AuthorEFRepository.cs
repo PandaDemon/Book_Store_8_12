@@ -28,9 +28,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(Author item)
+        public void Delete(int id)
         {
-            Author author = _context.Authors.Find(item);
+            Author author = _context.Authors.Find(id);
             if (author != null)
             {
                 _context.Authors.Remove(author);
@@ -38,19 +38,19 @@ namespace Store.DataAccess.Repositories.EFRepositories
             }
         }
 
-        public Author Get(Author item)
+        public Author Get(int id)
         {
-            return _context.Authors.Find(item);
+            return _context.Authors.Find(id);
         }
 
         public IEnumerable<Author> GetAll()
         {
-            return _context.Authors;
+            return _context.Authors.AsEnumerable();
         }
 
         public IEnumerable<Author> FilterByName(string firstName, string lastName)
         {
-            return _context.Authors.Where(x => (x.FirstName.Contains(firstName) && x.LastName.Contains(lastName)) || x.FirstName.Contains(firstName) || x.LastName.Contains(lastName));
+            return _context.Authors.Where(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName));
         }
     }
 }

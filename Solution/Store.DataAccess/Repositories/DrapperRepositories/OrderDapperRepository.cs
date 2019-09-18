@@ -18,22 +18,14 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             _config = config;
         }
-
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
 
         public void Create(Order item)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "INSERT INTO Orders (DatePurchase, Description, Quantity, UserId) " +
-                    "VALUES(@DatePurchase, @Description, @Quantity, @UserId)";
-                conn.Open();
+                string sQuery = @"INSERT INTO Orders (DatePurchase, Description, Quantity, UserId) VALUES(@DatePurchase, @Description, @Quantity, @UserId)";
+
                 conn.Execute(sQuery, item);
             }
         }
@@ -42,35 +34,30 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "UPDATE Orders SET DatePurchase = @DatePurchase, " +
-                    "Description = @Description, Quantity = @Quantity, UserId = @UserId WHERE Id = @Id";
-                conn.Open();
+                string sQuery = @"UPDATE Orders SET DatePurchase = @DatePurchase, 
+                    Description = @Description, Quantity = @Quantity, UserId = @UserId WHERE Id = @Id";
+
                 conn.Execute(sQuery, item);
             }
         }
 
-        public void Delete(Order item)
+        public void Delete(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "DELETE FROM Currencies WHERE ID = @id";
-                conn.Open();
-                conn.Execute(sQuery, item);
+
+                conn.Execute(sQuery, new { id });
             }
         }
 
-        public IEnumerable<Order> FindByUser(Func<Order, bool> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Order Get(Order item)
+        public Order Get(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Orders WHERE ID = @id";
-                conn.Open();
-                return conn.Query<Order>(sQuery, item).FirstOrDefault();
+
+                return conn.Query<Order>(sQuery, new { id }).FirstOrDefault();
             }
         }
 
@@ -79,7 +66,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Orders";
-                conn.Open();
+
                 return conn.Query<Order>(sQuery);
             }
         }

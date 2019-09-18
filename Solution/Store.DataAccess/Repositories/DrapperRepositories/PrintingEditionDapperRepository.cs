@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,19 +19,14 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             _config = config;
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+
         public void Create(PrintingEdition item)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "INSERT INTO PrintingEditions (Description, Status, Type, NameEdition, AvatarUrl, Price, CurrencyId) VALUES" +
-                    "(@Description, @Status, @Type, @NameEdition, @AvatarUrl, @Price, @CurrencyId)";
+                string sQuery = @"INSERT INTO PrintingEditions (Description, Status, Type, NameEdition, AvatarUrl, Price, CurrencyId) VALUES
+                    (@Description, @Status, @Type, @NameEdition, @AvatarUrl, @Price, @CurrencyId)";
                 conn.Open();
                 conn.Execute(sQuery, item);
             }
@@ -40,45 +36,43 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "UPDATE PrintingEditions SET Description = @Description, Status = @Status, Type = @Type, " +
-                     "NameEdition = @NameEdition, AvatarUrl = @AvatarUrl, Price = @Price, CurrencyId = @CurrencyId, " +
-                     "WHERE ID = @Id";
-                conn.Open();
+                string sQuery = @"UPDATE PrintingEditions SET Description = @Description, Status = @Status, Type = @Type,
+                     NameEdition = @NameEdition, AvatarUrl = @AvatarUrl, Price = @Price, CurrencyId = @CurrencyId,
+                     WHERE ID = @Id";
+
                 conn.Execute(sQuery, item);
             }
         }
 
-        public void Delete(PrintingEdition item)
+        public void Delete(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "DELETE FROM PrintingEditions WHERE ID = @id";
-                conn.Open();
-                conn.Execute(sQuery, item);
+
+                conn.Execute(sQuery, id);
             }
         }
 
 
-        // todo
         public IEnumerable<PrintingEdition> FilterForPrintingEdition(int categotyId, double filterPrice, string filterName)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "";
-                conn.Open();
-                return conn.Query<PrintingEdition>(sQuery);
+                string sQuery = "SELECT * FROM PrintingEditions WHERE CATEGORYID = @CategotyId and BETWEEN @min AND @max and FilterName = @Name";
+
+                return conn.Query<PrintingEdition>(sQuery, new { CategotyId = categotyId, min = 1, max = 2, Name = string.Empty});
             }
         }
-        //ToDO!!!!
 
 
-        public PrintingEdition Get(PrintingEdition item)
+        public PrintingEdition Get(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM PrintingEditions WHERE ID = @id";
-                conn.Open();
-                return conn.Query<PrintingEdition>(sQuery, item).FirstOrDefault();
+
+                return conn.Query<PrintingEdition>(sQuery, new { id }).FirstOrDefault();
             }
         }
 
@@ -87,29 +81,29 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM PrintingEditions";
-                conn.Open();
+
                 return conn.Query<PrintingEdition>(sQuery);
             }
         }
 
-        public IEnumerable<PrintingEdition> SortByPrice(string sortValue)
+        public IEnumerable<PrintingEdition> SortByPrice(Enum sortValue)
         {
             using (IDbConnection conn = Connection)
             {
+                string value;
                 
-                if (sortValue == "high")
+                if (sortValue.Equals(0))
                 {
-                    string sQuery = "SELECT * FROM PrintingEditions ORDER BY Sales ASC";
-                    conn.Open();
-                    return conn.Query<PrintingEdition>(sQuery);
+                    value = "ASC";
                 }
                 else
                 {
-                    string sQuery = "SELECT * FROM PrintingEditions ORDER BY Sales DESC";
-                    conn.Open();
-                    return conn.Query<PrintingEdition>(sQuery);
+                    value = "DESC";
                 }
-                
+
+                string sQuery = $"SELECT * FROM PrintingEditions ORDER BY Sales {value}";
+
+                return conn.Query<PrintingEdition>(sQuery);
             }
         }
     }

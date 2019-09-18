@@ -29,9 +29,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(Payment item)
+        public void Delete(int id)
         {
-            Payment payment = _context.Payments.Find(item);
+            Payment payment = _context.Payments.Find(id);
             if (payment != null)
             {
                 _context.Payments.Remove(payment);
@@ -44,9 +44,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             return _context.Payments.Include(order => order.OrderId).Where(predicate).ToList();
         }
 
-        public Payment Get(Payment item)
+        public Payment Get(int id)
         {
-            return _context.Payments.Find(item);
+            return _context.Payments.Find(id);
         }
 
         public IEnumerable<Payment> GetAll()

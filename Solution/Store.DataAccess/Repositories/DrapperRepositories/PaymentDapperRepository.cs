@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
+using Store.DataAccess.Entities;
+using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using Dapper;
-using Microsoft.Extensions.Configuration;
-using Store.DataAccess.Entities;
-using Store.DataAccess.Repositories.Interfaces;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
@@ -19,22 +18,16 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             _config = config;
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+
 
         public void Create(Payment item)
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "INSERT INTO Payments (PaymentNumber, IsPayed, OrderId) " +
-                    "VALUES(@PaymentNumber, @IsPayed, @OrderId)";
-                conn.Open();
-                conn.Execute(sQuery, item );
+                string sQuery = "INSERT INTO Payments (PaymentNumber, IsPayed, OrderId) VALUES(@PaymentNumber, @IsPayed, @OrderId)";
+
+                conn.Execute(sQuery, item);
             }
         }
 
@@ -42,35 +35,29 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             using (IDbConnection conn = Connection)
             {
-                string sQuery = "UPDATE Payments SET PaymentNumber = @PaymentNumber, " +
-                    "IsPayed = @IsPayed, OrderId = @OrderId WHERE ID = @Id";
-                conn.Open();
-                conn.Execute(sQuery, item );
-            }
-        }
+                string sQuery = "UPDATE Payments SET PaymentNumber = @PaymentNumber, IsPayed = @IsPayed, OrderId = @OrderId WHERE ID = @Id";
 
-        public void Delete(Payment item)
-        {
-            using (IDbConnection conn = Connection)
-            {
-                string sQuery = "DELETE FROM Currencies WHERE ID = @id";
-                conn.Open();
                 conn.Execute(sQuery, item);
             }
         }
 
-        public IEnumerable<Payment> FindByOrder(Func<Payment, bool> predicate)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection conn = Connection)
+            {
+                string sQuery = "DELETE FROM Currencies WHERE ID = @id";
+
+                conn.Execute(sQuery, new { id });
+            }
         }
 
-        public Payment Get(Payment item)
+        public Payment Get(int id)
         {
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Payments WHERE ID = @id";
-                conn.Open();
-                return conn.Query<Payment>(sQuery, item).FirstOrDefault();
+
+                return conn.Query<Payment>(sQuery, new { id }).FirstOrDefault();
             }
         }
 
@@ -79,7 +66,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             using (IDbConnection conn = Connection)
             {
                 string sQuery = "SELECT * FROM Payments";
-                conn.Open();
+
                 return conn.Query<Payment>(sQuery);
             }
         }

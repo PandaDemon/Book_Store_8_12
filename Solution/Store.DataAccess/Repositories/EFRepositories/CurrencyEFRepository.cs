@@ -28,18 +28,18 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(Currency item)
+        public void Delete(int id)
         {
-            Currency currencies = _context.Currencies.Find(item);
+            Currency currencies = _context.Currencies.Find(id);
             if (currencies != null)
             {
                 _context.Currencies.Remove(currencies);
                 _context.SaveChanges();
             }
         }
-        public Currency Get(Currency item)
+        public Currency Get(int id)
         {
-            return _context.Currencies.Find(item);
+            return _context.Currencies.Find(id);
         }
 
         public IEnumerable<Currency> GetAll()

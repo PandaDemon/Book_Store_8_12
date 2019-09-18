@@ -20,110 +20,64 @@ namespace Store.BusinessLogic.Services
             _authorInPrintingEdition = authorInPrintingEditionRepository;
             _mapper = mapper;
         }
-        public void CreateAuthor(AuthorModel model)
+        public void Create(AuthorModel model)
         {
             var author = _mapper.Map<Author>(model);
             _author.Create(author);
         }
 
-        public void Delete(Author item)
+        public void Update(AuthorModel model)
         {
-            _author.Delete(item);
+            var author = _mapper.Map<Author>(model);
+            if (_author.Get(author.Id) != null)
+            {
+                _author.Update(author);
+            }
         }
 
-        public void DeleteAuthor(int id)
+        public void Delete(int id)
+        {
+            _author.Delete(id);
+        }
+
+        public IEnumerable<AuthorModel> FilterByName(string filter)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<AuthorModel> FilterAuthor(string filter)
+        public AuthorModel Get(int id)
         {
-            throw new System.NotImplementedException();
-        }
-
-        //public IEnumerable<AuthorModel> FilterAuthor(string filter)
-        //{
-        //    var authors = _author.FilterAuthors(filter);
-        //    var model = new List<AuthorModel>();
-        //    foreach (var a in authors)
-        //    {
-        //        model.Add(_mapper.Map<AuthorModel>(a));
-        //    }
-        //    return model;
-        //}
-
-        public AuthorModel GetAuthorById(Author item)
-        {
-            Author author = _author.Get(item);
+            Author author = _author.Get(id);
             var model = _mapper.Map<AuthorModel>(author);
             return model;
         }
 
-        public AuthorModel GetAuthorById(int id)
+        public IEnumerable<AuthorModel> GetAll()
         {
-            throw new System.NotImplementedException();
+            var authors = _author.GetAll();
+            var model = new List<AuthorModel>();
+
+            foreach (var p in authors)
+            {
+                model.Add(_mapper.Map<AuthorModel>(p));
+            }
+            return model;
         }
 
         public IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEdition.FindByAuthor(id);
+            var model = new List<PrintingEditionModel>();
+
+            ////List <PrintingEdition> printings = 
+
+            //foreach (var printEdition in printingEditions)
+            //{
+            //    //model.Add(_mapper.Map<PrintingEditionViewModel>(printEdition.PrintingEdition));
+
+            //}
+
+            return model;
         }
-
-        public IEnumerable<AuthorModel> SortByFirstName(string order)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<AuthorModel> SortByLastName(string order)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UpdateInformationAboutAuthor(AuthorModel model)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        //public IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id)
-        //{
-        //    IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEdition.FindByAuthor(_author.Get(id).LastName);
-        //    var model = new List<PrintingEditionModel>();
-        //    foreach (var printEdition in printingEditions)
-        //    {
-        //        model.Add(_mapper.Map<PrintingEditionModel>(printEdition.PrintingEdition));
-        //    }
-        //    return model;
-        //}
-
-        //public IEnumerable<AuthorModel> SortByFirstName(string order)
-        //{
-        //    var authors = _author.SortByFirstName(order);
-        //    var model = new List<AuthorModel>();
-        //    foreach (var a in authors)
-        //    {
-        //        model.Add(_mapper.Map<AuthorModel>(a));
-        //    }
-        //    return model;
-        //}
-
-        //public IEnumerable<AuthorModel> SortByLastName(string order)
-        //{
-        //    var authors = _author.SortByLastName(order);
-        //    var model = new List<AuthorModel>();
-        //    foreach (var a in authors)
-        //    {
-        //        model.Add(_mapper.Map<AuthorModel>(a));
-        //    }
-        //    return model;
-        //}
-
-        //public void UpdateInformationAboutAuthor(AuthorModel model)
-        //{
-        //    var author = _mapper.Map<Author>(model);
-        //    if (_author.Get(author.Id) != null)
-        //    {
-        //        _author.Update(author);
-        //    }
-        //}
     }
 }

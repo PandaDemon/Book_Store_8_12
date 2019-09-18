@@ -29,9 +29,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(Order item)
+        public void Delete(int id)
         {
-            Order order = _context.Orders.Find(item);
+            Order order = _context.Orders.Find(id);
             if (order != null)
             {
                 _context.Orders.Remove(order);
@@ -39,14 +39,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             }
         }
 
-        public IEnumerable<Order> FindByUser(Func<Order, bool> predicate)
+        public Order Get(int id)
         {
-            return _context.Orders.Include(o => o.UserId).Where(predicate).ToList();
-        }
-
-        public Order Get(Order item)
-        {
-            return _context.Orders.Find(item);
+            return _context.Orders.Find(id);
         }
 
         public IEnumerable<Order> GetAll()

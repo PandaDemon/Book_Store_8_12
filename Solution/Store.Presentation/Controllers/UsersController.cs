@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -72,7 +70,7 @@ namespace Store.Presentation.Controllers
             {
                 try
                 {
-                    _userService.Edit(model);
+                    _userService.Update(model);
                     return HttpStatusCode.OK;
                 }
                 catch (Exception ex)
@@ -134,8 +132,8 @@ namespace Store.Presentation.Controllers
         [HttpGet("GetUser")]
         public async Task<UserModel> GetUserProfileAsync(string id)
         {
-            UserModel editUserViewModel = await _userService.FindByIdAsync(id);
-            return editUserViewModel;
+            UserModel editUserModel = await _userService.FindByIdAsync(id);
+            return editUserModel;
         }
     }
 }

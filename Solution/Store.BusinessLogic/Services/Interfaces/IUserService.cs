@@ -12,7 +12,7 @@ namespace Store.BusinessLogic.Services.Interfaces
         Task<UserModel> FindByEmailAsync(string email);
         Task<UserModel> FindByIdAsync(string id);
         Task<IdentityResult> CreateAsync(UserCreateModel сreateUserModel);
-        Task Edit(UserEditModel editUserModel);
+        Task Update(UserEditModel editUserModel);
         Task DeleteAsync(string email);
         Task ChangePassword(UserChangePasswordModel changePasswordModel);
         IEnumerable<UserModel> GetAll();
