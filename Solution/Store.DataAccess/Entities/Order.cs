@@ -1,17 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public int Id { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime OrderDate { get; set; }
-
         public bool IsClose { get; set; }
 
         public int Quantity { get; set; }

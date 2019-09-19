@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
-    public class PrintingEdition
+    public class PrintingEdition : BaseEntity
     {
-        public int Id { get; set; }
-
         [StringLength(50)]
         public string Name { get; set; }
 

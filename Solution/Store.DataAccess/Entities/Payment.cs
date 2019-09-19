@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
-        public int Id { get; set; }
         public int PaymentNumber { get; set; }
         public bool IsPaid { get; set; }
 

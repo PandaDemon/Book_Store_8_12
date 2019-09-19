@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Store.DataAccess.Entities
 {
-    public class Author
+    public class Author : BaseEntity
     {
-        public int Id { get; set; }
-
         [StringLength(50)]
         public string FirstName { get; set; }
 

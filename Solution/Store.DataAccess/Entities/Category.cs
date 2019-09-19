@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Store.DataAccess.Entities
 {
-    public class Category
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
-
         [Display(Name = "Category")]
         public string Name { get; set; }
     }

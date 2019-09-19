@@ -2,7 +2,7 @@
 
 namespace Store.DataAccess.Entities
 {
-    public class AuthorInPrintingEditions
+    public class AuthorInPrintingEditions : BaseEntity
     {
         [ForeignKey("Author")]
         public int AuthorId { get; set; }

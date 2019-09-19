@@ -6,23 +6,20 @@ using System.Linq;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
-    public class AuthorInPrintingEditionEFRepository : IAuthorInPrintingEditionRepository
+    public class AuthorInPrintingEditionEFRepository : BaseEFRepository<AuthorInPrintingEditions>, IAuthorInPrintingEditionRepository
     {
-        private readonly DataBaseContext _context;
-
-        public AuthorInPrintingEditionEFRepository(DataBaseContext context)
+        public AuthorInPrintingEditionEFRepository(DataBaseContext context) : base(context)
         {
-            _context = context;
         }
 
         public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
         {
-            return _context.AuthorInPrintingEditions.Where(x => x.AuthorId == authorId);
+            return _context.AuthorInPrintingEditions.Where(x => x.AuthorId == authorId).AsEnumerable();
         }
 
         public IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(int printingEditionId)
         {
-            return _context.AuthorInPrintingEditions.Where(y => y.PrintingEdidtionId == printingEditionId);
+            return _context.AuthorInPrintingEditions.Where(y => y.PrintingEdidtionId == printingEditionId).AsEnumerable();
         }
     }
 }

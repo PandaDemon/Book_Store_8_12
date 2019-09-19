@@ -1,53 +1,38 @@
-﻿using Dapper;
+﻿using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
+using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
-    public class BaseDapperRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseDapperRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly IConfiguration _config;
-        private readonly string _tableName;
+        protected readonly IConfiguration _config;
 
-        public BaseDapperRepository(IConfiguration config, string tableName)
+        public BaseDapperRepository(IConfiguration config)
         {
             _config = config;
-            _tableName = tableName;
         }
 
-        private IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-
-        internal virtual dynamic Mapping(TEntity item)
-        {
-            return item;
-        }
-
-        public virtual TEntity FindByID(Guid id)
-        {
-            TEntity item = default(TEntity);
-
-            using (IDbConnection cn = Connection)
-            {
-                cn.Open();
-                item = cn.Query<TEntity>("SELECT * FROM " + _tableName + " WHERE ID=@ID", new { ID = id }).SingleOrDefault();
-            }
-
-            return item;
-        }
+        protected IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
 
         public virtual void Create(TEntity item)
         {
             using (IDbConnection conn = Connection)
             {
-                var parameters = (object)Mapping(item);
+                conn.Insert(item);
+            }
+        }
 
-                item = conn.Insert<Guid>(_tableName, parameters);
+        public virtual void Update(TEntity item)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                conn.Update(item);
             }
         }
 
@@ -55,28 +40,32 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
             using (IDbConnection conn = Connection)
             {
-                conn.Execute("DELETE FROM " + _tableName + " WHERE ID=@ID", new { ID = id });
+                conn.Delete(new { id });
             }
         }
 
         public TEntity Get(int id)
         {
-            throw new NotImplementedException();
+            TEntity item = default;
+
+            using (IDbConnection conn = Connection)
+            {
+                item = conn.Get<TEntity>(new { id });
+            }
+
+            return item;
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            throw new NotImplementedException();
-        }
+            IEnumerable<TEntity> items = null;
 
-        public virtual void Update(TEntity item)
-        {
             using (IDbConnection conn = Connection)
             {
-                var parameters = (object)Mapping(item);
-
-                conn.Update(_tableName, parameters);
+                items = conn.GetAll<TEntity>().AsEnumerable();
             }
+
+            return items;
         }
     }
 }

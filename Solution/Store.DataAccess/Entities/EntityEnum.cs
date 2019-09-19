@@ -1,11 +1,8 @@
 ﻿namespace Store.DataAccess.Entities
 {
-    public class EntityEnum
+    public enum EntityEnum
     {
-        public enum EntityOrdering
-        {
-            Asc = 0,
-            Desc = 1
-        }
+        Asc = 0,
+        Desc = 1
     }
 }
