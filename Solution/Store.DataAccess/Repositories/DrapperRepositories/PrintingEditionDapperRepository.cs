@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using static Store.DataAccess.Entities.EntityEnum;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
@@ -86,16 +87,17 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             }
         }
 
-        public IEnumerable<PrintingEdition> SortByPrice(Enum sortValue)
+        public IEnumerable<PrintingEdition> SortByPrice(EntityOrdering sortValue)
         {
             using (IDbConnection conn = Connection)
             {
                 string value;
-                
-                if (sortValue.Equals(0))
+
+                if (sortValue == EntityOrdering.Asc)
                 {
                     value = "ASC";
                 }
+
                 else
                 {
                     value = "DESC";
