@@ -12,6 +12,6 @@ namespace Store.BusinessLogic.Services.Interfaces
         AuthorModel Get(int id);
         IEnumerable<AuthorModel> GetAll();
         IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id);
-        IEnumerable<AuthorModel> FilterByName(string filter);
+        IEnumerable<AuthorModel> FilterByName(string firstName, string lastName);
     }
 }

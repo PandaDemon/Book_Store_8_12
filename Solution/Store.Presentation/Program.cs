@@ -7,7 +7,7 @@ namespace Store.Presentation
     public class Program
     {
         public static void Main(string[] args)
-        {
+     {
             AppContext.SetSwitch("System.Net.Http.UseSocketsHttpHandler", false);
             CreateWebHostBuilder(args).Build().Run();
         }

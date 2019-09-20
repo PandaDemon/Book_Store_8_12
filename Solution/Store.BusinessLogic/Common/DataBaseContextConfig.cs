@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Store.BusinessLogic.Mapper;
 using Store.BusinessLogic.Services;
 using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
@@ -26,6 +28,13 @@ namespace Store.BusinessLogic.Common
             services.AddTransient<IPrintStoreService, PrintStoreService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPrintStoreService, PrintStoreService>();
+
+            IMapper mapper = new MapperConfiguration(config =>
+            {
+                config.AddProfile(new MappingProfile());
+            }).CreateMapper();
+
+            services.AddSingleton(mapper);
         }
         public static async void UseDataBase(this IApplicationBuilder app, IServiceProvider serviceProvider)
         {

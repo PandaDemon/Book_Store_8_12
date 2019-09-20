@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-    
-    public class AccountController : Controller
+    public class AccountController : BaseApiController
     {
         private readonly IUserService _userService;
 

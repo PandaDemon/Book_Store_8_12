@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseApiController
     {
         private readonly IUserService _userService;
+
 
         public UsersController(IUserService userService)
         {

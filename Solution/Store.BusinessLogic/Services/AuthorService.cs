@@ -10,51 +10,60 @@ namespace Store.BusinessLogic.Services
 {
     class AuthorService : IAuthorService
     {
-        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEdition;
-        private readonly IAuthorRepository _author;
+        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
+        private readonly IAuthorRepository _authorRepository;
         private readonly IMapper _mapper;
 
         public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, IMapper mapper)
         {
-            _author = authorRepository;
-            _authorInPrintingEdition = authorInPrintingEditionRepository;
+            _authorRepository = authorRepository;
+            _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _mapper = mapper;
         }
         public void Create(AuthorModel model)
         {
             var author = _mapper.Map<Author>(model);
-            _author.Create(author);
+            _authorRepository.Create(author);
         }
 
         public void Update(AuthorModel model)
         {
             var author = _mapper.Map<Author>(model);
-            if (_author.Get(author.Id) != null)
+            if (_authorRepository.Get(author.Id) != null)
             {
-                _author.Update(author);
+                _authorRepository.Update(author);
             }
         }
 
         public void Delete(int id)
         {
-            _author.Delete(id);
+            _authorRepository.Delete(id);
         }
 
-        public IEnumerable<AuthorModel> FilterByName(string filter)
+        public IEnumerable<AuthorModel> FilterByName(string firstName, string lastName)
         {
-            throw new System.NotImplementedException();
+            var listAuthors = _authorRepository.FilterByName(firstName, lastName);
+
+            var model = new List<AuthorModel>();
+
+            foreach (var author in listAuthors)
+            {
+                model.Add(_mapper.Map<AuthorModel>(author));
+            }
+
+            return model;
         }
 
         public AuthorModel Get(int id)
         {
-            Author author = _author.Get(id);
+            Author author = _authorRepository.Get(id);
             var model = _mapper.Map<AuthorModel>(author);
             return model;
         }
 
         public IEnumerable<AuthorModel> GetAll()
         {
-            var authors = _author.GetAll();
+            var authors = _authorRepository.GetAll();
             var model = new List<AuthorModel>();
 
             foreach (var p in authors)
@@ -66,16 +75,15 @@ namespace Store.BusinessLogic.Services
 
         public IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id)
         {
-            IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEdition.FindByAuthor(id);
+            IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEditionRepository.FindByAuthor(id);
             var model = new List<PrintingEditionModel>();
 
             ////List <PrintingEdition> printings = 
 
-            //foreach (var printEdition in printingEditions)
-            //{
-            //    //model.Add(_mapper.Map<PrintingEditionViewModel>(printEdition.PrintingEdition));
-
-            //}
+            foreach (var printEdition in printingEditions)
+            {
+                model.Add(_mapper.Map<PrintingEditionModel>(printEdition.PrintingEdition));
+            }
 
             return model;
         }

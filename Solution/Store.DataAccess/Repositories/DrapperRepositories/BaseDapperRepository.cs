@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -53,7 +54,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
                 item = conn.Get<TEntity>(new { id });
             }
 
-            return item;
+            return (item);
         }
 
         public IEnumerable<TEntity> GetAll()

@@ -19,9 +19,12 @@ namespace Store.BusinessLogic.Mapper
             CreateMap<PrintingEdition, PrintingEditionModel>();
             CreateMap<PrintingEditionModel, PrintingEdition>();
 
-            CreateMap<AuthorModel, Author>().ForMember(dest => dest.FirstName, opt => opt.MapFrom(c => c.FirstName))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(c => c.LastName))
-                .ForSourceMember(x => x.FirstName, opt => opt.DoNotValidate());
+            CreateMap<AuthorModel, Author>();
+            CreateMap<Author, AuthorModel>();
+
+            //CreateMap<AuthorModel, Author>().ForMember(dest => dest.FirstName, opt => opt.MapFrom(c => c.FirstName))
+            //    .ForMember(dest => dest.LastName, opt => opt.MapFrom(c => c.LastName))
+            //    .ForSourceMember(x => x.FirstName, opt => opt.DoNotValidate());
 
         }
     }
