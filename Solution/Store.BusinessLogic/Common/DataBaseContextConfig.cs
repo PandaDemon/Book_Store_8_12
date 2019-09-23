@@ -31,7 +31,7 @@ namespace Store.BusinessLogic.Common
 
             IMapper mapper = new MapperConfiguration(config =>
             {
-                config.AddProfile(new MappingProfile());
+                config.AddProfile(new AuthorMapperProfile());
             }).CreateMapper();
 
             services.AddSingleton(mapper);

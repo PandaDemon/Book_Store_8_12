@@ -32,9 +32,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(TEntity item)
         {
-            TEntity tEntiry = _dbSet.Find(id);
+            TEntity tEntiry = _dbSet.Find(item);
             if (tEntiry != null)
             {
                 _context.Remove(tEntiry);

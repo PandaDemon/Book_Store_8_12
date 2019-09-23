@@ -4,9 +4,9 @@ using Store.DataAccess.Entities;
 
 namespace Store.BusinessLogic.Mapper
 {
-    class AuthorMapper : Profile
+    class AuthorMapperProfile : Profile
     {
-        public AuthorMapper()
+        public AuthorMapperProfile()
         {
             CreateMap<Author, AuthorModel>();
             CreateMap<AuthorModel, Author>();

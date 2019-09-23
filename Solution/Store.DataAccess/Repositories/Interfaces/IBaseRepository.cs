@@ -9,6 +9,6 @@ namespace Store.DataAccess.Repositories.Interfaces
         TEntity Get(int id);
         void Create(TEntity item);
         void Update(TEntity item);
-        void Delete(int id);
+        void Delete(TEntity item);
     }
 }

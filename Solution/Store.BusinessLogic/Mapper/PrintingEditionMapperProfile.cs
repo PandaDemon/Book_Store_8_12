@@ -4,9 +4,9 @@ using Store.DataAccess.Entities;
 
 namespace Store.BusinessLogic.Mapper
 {
-    class PrintingEditionMapper : Profile 
+    class PrintingEditionMapperProfile : Profile 
     {
-        public PrintingEditionMapper()
+        public PrintingEditionMapperProfile()
         {
             CreateMap<PrintingEdition, PrintingEditionModel>();
             CreateMap<PrintingEditionModel, PrintingEdition>();
