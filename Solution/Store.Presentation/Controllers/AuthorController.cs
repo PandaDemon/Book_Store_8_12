@@ -46,22 +46,19 @@ namespace Store.Presentation.Controllers
         //    return model;
         //}
 
-        [HttpDelete("Delete")]
-        public HttpStatusCode Delete(AuthorModel model)
+        [HttpPost("Delete")]
+        public HttpStatusCode Delete(int id)
         {
-            _authorService.Delete(model);
+            try
+            {
+                _authorService.Delete(id);
+            }
+            catch (Exception excception)
+            {
+                var ex = excception;
+            }
 
-            return HttpStatusCode.BadRequest;
-            //try
-            //{
-            //    _authorService.Delete(id);
-            //}
-            //catch (Exception excception)
-            //{
-            //    var ex = excception;
-            //}
-
-            //return HttpStatusCode.Created;
+            return HttpStatusCode.OK;
         }
 
         [HttpGet("GetAuthor/{id}")]

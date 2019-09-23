@@ -37,11 +37,14 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             }
         }
 
-        public virtual void Delete(TEntity item)
+        public virtual void Delete(int id)
         {
             using (IDbConnection conn = Connection)
             {
-                conn.Delete(new { item });
+                TEntity item = Activator.CreateInstance<TEntity>();
+                item.Id = id;
+
+                conn.Delete(item);
             }
         }
 

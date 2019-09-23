@@ -41,10 +41,9 @@ namespace Store.BusinessLogic.Services
             _printingEditionRepository.Update(printingEdition);
         }
 
-        public void Delete(PrintingEditionModel model)
+        public void Delete(int id)
         {
-            var printingEdition = _mapper.Map<PrintingEdition>(model);
-            _printingEditionRepository.Delete(printingEdition);
+            _printingEditionRepository.Delete(id);
         }
 
         public PrintingEditionModel Get(int id)

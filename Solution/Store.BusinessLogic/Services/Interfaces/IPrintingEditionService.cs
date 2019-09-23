@@ -8,7 +8,7 @@ namespace Store.BusinessLogic.Services.Interfaces
     {
         void Create(PrintingEditionModel model, AuthorModel authorView);
         void Update(PrintingEditionModel model);
-        void Delete(PrintingEditionModel model);
+        void Delete(int id);
         PrintingEditionModel Get(int id);
         IEnumerable<PrintingEditionModel> GetAll();
         IEnumerable<AuthorModel> GetPritningEditionAuthors(int id);

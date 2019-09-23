@@ -35,10 +35,9 @@ namespace Store.BusinessLogic.Services
             }
         }
 
-        public void Delete(AuthorModel model)
+        public void Delete(int id)
         {
-            var author = _mapper.Map<Author>(model);
-            _authorRepository.Delete(author);
+            _authorRepository.Delete(id);
         }
 
         public IEnumerable<AuthorModel> FilterByName(string firstName, string lastName)
