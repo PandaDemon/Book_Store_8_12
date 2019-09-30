@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { SampleDataService } from './services/SampleData.services';
-import { TestData } from './models/TestData';
+//import { SampleDataService } from './services/SampleData.services';
+//import { TestData } from './models/TestData';
 
 @Component
     ({
@@ -8,28 +8,28 @@ import { TestData } from './models/TestData';
         templateUrl: '/partial/aboutComponent'
     })
 
-export class AboutComponent implements OnInit {
-    testData: TestData = null;
-    errorMessage: string;
+export class AboutComponent {
+    //testData: TestData = null;
+    //errorMessage: string;
 
-    constructor(private sampleDataService: SampleDataService) { }
+    //constructor(private sampleDataService: SampleDataService) { }
 
-    ngOnInit() {
-        this.getTestData();
-    }
+    //ngOnInit() {
+    //    this.getTestData();
+    //}
 
-    getTestData() {
-        this.sampleDataService.getSampleData()
-            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
-    }
+    //getTestData() {
+    //    this.sampleDataService.getSampleData()
+    //        .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
+    //}
 
-    addTestData(event: Event): void {
-        event.preventDefault();
+    //addTestData(event: Event): void {
+    //    event.preventDefault();
 
-        if (!this.testData)
-            return;
+    //    if (!this.testData)
+    //        return;
 
-        this.sampleDataService.addSampleData(this.testData)
-            .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
-    }
+    //    this.sampleDataService.addSampleData(this.testData)
+    //        .subscribe((data: TestData) => this.testData = data, error => this.errorMessage = <any>error);
+    //}
 }

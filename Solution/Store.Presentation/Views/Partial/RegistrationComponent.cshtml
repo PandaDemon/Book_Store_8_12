@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Registrarion";
+}
+
+<div class="registration-holder">
+    <div class="title-holder">
+        <div class="img-holder">
+            <img src="~/images/defolt-user.png" alt="Defolt user" />
+        </div>
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <div class="icon-holder">
+                <i class="fas fa-kay">F</i>
+            </div>
+            <label>Your First name</label>
+            <input type="text" formControlName="firstName" class="form-control" placeholder="First name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="icon-holder">
+                <i class="fas fa-kay">L</i>
+            </div>
+            <label>Your Last name</label>
+            <input type="text" formControlName="lastName" class="form-control" placeholder="Last name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="icon-holder">
+                <i class="fas fa-kay">E</i>
+            </div>
+            <label>E-mail</label>
+            <input type="email" formControlName="email" class="form-control" placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="icon-holder">
+                <i class="fas fa-kay">P</i>
+            </div>
+            <label>Password</label>
+            <input type="password" formControlName="password" class="form-control" placeholder="At least 6 characters" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="icon-holder">
+                <i class="fas fa-kay">C</i>
+            </div>
+            <label>Confirm password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control" placeholder="Password should be the same" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"/>
+            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+            </div>
+        </div>
+
+        <div class="button-holder">
+            <button class="sing-up-btn">Sign Up your account</button>
+        </div>
+    </form>
+
+    <div class="">
+        <p>Already have an account? <a class="sing-in-link" (click)="setTitle('SignIn - AngularSpa')" routerLink="/signin">Sign In</a></p>
+    </div>
+</div>
+
+
+
+
+
+<div *ngIf="errorMessage != null" class="bg-danger error-holder">
+    <h3>Error: </h3>
+    <pre>{{ errorMessage  }}</pre>
+</div>

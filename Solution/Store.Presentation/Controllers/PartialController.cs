@@ -14,5 +14,7 @@ namespace Store.Presentation.Controllers
         public IActionResult IndexComponent() => PartialView();
 
         public IActionResult RegistrationComponent() => PartialView();
+
+        public IActionResult SignInComponent() => PartialView();
     }
 }

@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\app\_helpers\must-match.validator.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.1" />
@@ -39,10 +43,6 @@
     <Content Update="Views\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\app\services\" />
   </ItemGroup>
 
   <ItemGroup>

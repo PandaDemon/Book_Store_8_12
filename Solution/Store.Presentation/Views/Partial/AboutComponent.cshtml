@@ -55,7 +55,7 @@
     </div>
 </form>
 
-<div *ngIf="errorMessage != null">
-    <p>Error:</p>
+<div *ngIf="errorMessage != null" class="bg-danger error-holder">
+    <h3>Error:</h3>
     <pre>{{ errorMessage  }}</pre>
 </div>
