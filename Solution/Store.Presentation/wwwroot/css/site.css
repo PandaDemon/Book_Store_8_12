@@ -3,6 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #DBDBDB;
 }
 
 /* Wrapping element */
@@ -35,6 +36,7 @@ body {
         display: none;
     }
 }
+
 /* validation */
 .ng-valid[required], .ng-valid.required {
     border-left: 5px solid #42A948; /* green */
@@ -44,6 +46,9 @@ body {
     border-left: 5px solid #a94442; /* red */
 }
 
+form {
+    margin-bottom: 30px;
+}
 
 img{
     width: 100%;
@@ -123,8 +128,8 @@ label{
     padding-top: 20px;
 }
 
-.button-holder button {
-    margin: 0 auto;
+.button-holder{
+    text-align: center;
 }
 
 .invalid-feedback {

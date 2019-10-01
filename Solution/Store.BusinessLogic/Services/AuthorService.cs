@@ -78,8 +78,6 @@ namespace Store.BusinessLogic.Services
             IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEditionRepository.FindByAuthor(id);
             var model = new List<PrintingEditionModel>();
 
-            ////List <PrintingEdition> printings = 
-
             foreach (var printEdition in printingEditions)
             {
                 model.Add(_mapper.Map<PrintingEditionModel>(printEdition.PrintingEdition));

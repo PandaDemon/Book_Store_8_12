@@ -1,7 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Store.BusinessLogic.Models.User;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -20,21 +21,40 @@ namespace Store.BusinessLogic.JwtProvider
             return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
         }
 
-        public static string GenerateToken(IEnumerable<Claim> claims)
+        public static SecurityTokenDescriptor GenerateSecurityTokenDescriptor(UserModel user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the server key used to sign the JWT token is here, use more than 16 chars"));
+            IdentityOptions options = new IdentityOptions();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
 
-            var jwt = new JwtSecurityToken(
-                issuer: JwtProvider.ISSUER,
-                audience: JwtProvider.AUDIENCE,
-                claims: claims, 
-                notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(5),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-            );
-            return new JwtSecurityTokenHandler().WriteToken(jwt); 
+                Subject = new ClaimsIdentity(new Claim[]
+                       {
+                            new Claim("UserID", user.Id),
+                            new Claim(options.ClaimsIdentity.RoleClaimType, user.Role.FirstOrDefault())
+                       }),
+                Expires = DateTime.Now.AddMinutes(1),
+                SigningCredentials = new SigningCredentials(JwtProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+
+            };
+            return tokenDescriptor;
         }
+        public static SecurityTokenDescriptor GenerateSecurityDescriptorForRefreshToken(UserModel user)
+        {
+            IdentityOptions options = new IdentityOptions();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
 
+                Subject = new ClaimsIdentity(new Claim[]
+                       {
+                            new Claim("UserID", user.Id),
+                            new Claim(options.ClaimsIdentity.RoleClaimType, user.Role.FirstOrDefault())
+                       }),
+                Expires = DateTime.Now.AddDays(30),
+                SigningCredentials = new SigningCredentials(JwtProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
+
+            };
+            return tokenDescriptor;
+        }
         public static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];

@@ -79,11 +79,11 @@ namespace Store.Presentation
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(cfg =>
+                .AddJwtBearer(config =>
                 {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = false;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    config.RequireHttpsMetadata = false;
+                    config.SaveToken = false;
+                    config.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),

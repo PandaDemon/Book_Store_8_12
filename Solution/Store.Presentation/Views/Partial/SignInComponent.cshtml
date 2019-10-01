@@ -9,13 +9,13 @@
         </div>
         <h2>@ViewData["Title"]</h2>
     </div>
-    <form>
+    <form #form="ngForm" autocomplete="off">
         <div class="form-group">
             <div class="icon-holder">
                 <i class="fas fa-kay">E</i>
             </div>
             <label>E-mail</label>
-            <input type="email" name="email" value="" class="form-control" ngModel email="true"/>
+            <input name="email" class="form-control" #UserName = "ngModel" [(ngModel)] = "formModel.UserName" />
         </div>
 
         <div class="form-group">
@@ -23,17 +23,17 @@
                 <i class="fas fa-kay">P</i>
             </div>
             <label>Password</label>
-            <input type="email" name="email" value="" class="form-control" />
+            <input name="password" class="form-control" #Password = "ngModel" [(ngModel)] = "formModel.Password"/>
             <a href="#">Fogort your password?</a>
         </div>
 
-        <div class="row">
+        <div class="form-row">
             <div class="col-md-6">
                 <input type="checkbox" name="name" />
                 <label>Remember me</label>
             </div>
             <div class="col-md-6">
-                <button>Sign In</button>
+                <button type="submit" class="btn btn-lg btn-block">Sign In</button>
             </div>
         </div>
     </form>

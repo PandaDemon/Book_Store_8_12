@@ -1,9 +1,6 @@
-﻿using AutoMapper;
-using Store.BusinessLogic.Models.Author;
+﻿using Store.BusinessLogic.Models.Author;
 using Store.BusinessLogic.Models.PrintingEditions;
 using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
-using Store.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
@@ -19,122 +18,90 @@ namespace Store.Presentation.Controllers
             _userService = userService;
         }
 
-        public IEnumerable<UserModel> Index() => _userService.GetAll();
-
+        [HttpGet("GetUser")]
+        public async Task<object> GetAllUsers()
+        {
+            var users = await _userService.GetAll();
+            return users;
+        }
 
         [HttpPost("Create")]
         //[Authorize(Roles = "admin")]
-        public async Task<HttpStatusCode> Create(UserCreateModel model)
+        public async Task<IActionResult> Create(UserCreateModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var result = await _userService.CreateAsync(model);
-
-                    if (result.Succeeded)
-                    {
-                        return HttpStatusCode.Created;
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.ToString());
-                }
+                return BadRequest("Invalid request");
             }
-            return HttpStatusCode.NoContent;
+            var result = await _userService.Create(model);
+            if (result.Succeeded)
+            {
+                return Ok("Created");
+            }
+            else
+            {
+                return BadRequest("Failed");
+            }
         }
 
-        public async Task<HttpStatusCode> EditAsync(string id)
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update(UserEditModel model)
         {
-            var userEditModel = await _userService.FindByIdAsync(id);
-
-            if (_userService.FindByIdAsync(id) == null)
+            if (!ModelState.IsValid)
             {
-                return HttpStatusCode.NotFound;
+                return BadRequest("Invalid request");
             }
-
-            return HttpStatusCode.OK;
+            IdentityResult res = await _userService.Update(model);
+            if (res.Succeeded)
+            {
+                return Ok("Saved");
+            }
+            return BadRequest("Failed");
         }
 
-        [HttpPost("Edit")]
-        public HttpStatusCode Edit(UserEditModel model)
-        {
-            if (ModelState.IsValid && _userService.IsUserExist(model))
-            {
-                try
-                {
-                    _userService.Update(model);
-                    return HttpStatusCode.OK;
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.ToString());
-                }
-            }
-            return HttpStatusCode.NotFound;
-        }
-
+        
         [HttpPost("Delete")]
-        [Authorize(Roles = "admin")]
-        public async Task<HttpStatusCode> Delete(string email)
+        //[Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(UserModel id)
         {
-            await _userService.DeleteAsync(email);
-            return HttpStatusCode.OK;
-        }
-
-        [HttpGet("ChangePassword")]
-        public async Task<HttpStatusCode> ChangePasswordAsync(string id)
-        {
-            var userEditModel = await _userService.FindByIdAsync(id);
-
-            if (userEditModel != null)
+            var buffer = new byte[0];
+            var test = Request.Body.Read(buffer, 0, (int)Request.Body.Length);
+            IdentityResult result = await _userService.Delete(id.Id);
+            if (result.Succeeded)
             {
-                return HttpStatusCode.NotFound;
+                return Ok(200);
             }
-            var model = new UserChangePasswordModel { Id = userEditModel.Id, Email = userEditModel.Email };
-            return HttpStatusCode.OK;
+            return BadRequest("User not found");
         }
 
         [HttpPost("ChangePassword")]
-        public async Task<HttpStatusCode> ChangePasswordAsync(UserChangePasswordModel model)
+        public async Task<IActionResult> ChangePasswordAsync(UserChangePasswordModel model)
         {
+            IdentityResult res = await _userService.ChangePassword(model);
 
-            if (ModelState.IsValid)
+            if (res.Succeeded)
             {
-                UserModel editUserViewModel = await _userService.FindByEmailAsync(model.Email);
-                if (editUserViewModel != null)
-                {
-                    try
-                    {
-                        await _userService.ChangePassword(model);
-                        return HttpStatusCode.OK;
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError(string.Empty, ex.ToString());
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "There is no such user");
-                }
+                return Ok("Password was changed");
             }
-            return HttpStatusCode.NotFound;
+            else
+            {
+                return BadRequest(res.Errors);
+            }
         }
 
+        
         [HttpGet("GetUser")]
-        public async Task<UserModel> GetUserProfileAsync(string id)
+        public async Task<Object> GetUserProfileAsync()
         {
-            UserModel editUserModel = await _userService.FindByIdAsync(id);
-            return editUserModel;
+            string userId = User.Claims.First(c => c.Type == "UserId").Value;
+            var user = await _userService.FindByIdAsync(userId);
+            //UserModel editUserModel = await _userService.FindByIdAsync(id);
+            //return editUserModel;
+            return new
+            {
+                user.FirstName,
+                user.Email
+            };
         }
     }
 }

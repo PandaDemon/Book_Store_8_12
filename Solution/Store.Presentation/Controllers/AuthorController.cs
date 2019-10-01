@@ -23,29 +23,6 @@ namespace Store.Presentation.Controllers
             return HttpStatusCode.OK;
         }
 
-        //[HttpPost]
-        //public HttpStatusCode AddAuthor(AuthorViewModel model)
-        //{
-        //    _authorService.CreateAuthor(model);
-        //    return HttpStatusCode.Created;
-
-        //}
-
-
-        //[HttpGet("Update/{id}")]
-        //public AuthorModel Update(int id, string firstName, string lastName)
-        //{
-        //    var model = _authorService.Get(id);
-        //    return model;
-        //}
-
-        //[HttpGet("Delete/{id}")]
-        //public AuthorModel Delete(int id)
-        //{
-        //    var model = _authorService.Get(id);
-        //    return model;
-        //}
-
         [HttpPost("Delete")]
         public HttpStatusCode Delete(int id)
         {

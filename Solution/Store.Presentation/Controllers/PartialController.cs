@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-//Этот новый контроллер будет использоваться для доставки HTML-шаблонов и представлений на клиентскую сторону с Angular компонентами.
 namespace Store.Presentation.Controllers
 {
     public class PartialController : Controller

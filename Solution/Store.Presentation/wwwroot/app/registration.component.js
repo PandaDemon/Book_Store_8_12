@@ -11,12 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var platform_browser_1 = require("@angular/platform-browser");
 var must_match_validator_1 = require("./_helpers/must-match.validator");
 var RegistrationComponent = (function () {
-    function RegistrationComponent(formBuilder) {
+    function RegistrationComponent(formBuilder, titleService) {
         this.formBuilder = formBuilder;
+        this.titleService = titleService;
+        this.formModel = {
+            UserName: '',
+            Password: ''
+        };
         this.submitted = false;
+        this.angularClientSideData = 'Angular';
     }
+    RegistrationComponent.prototype.setTitle = function (newTitle) {
+        this.titleService.setTitle(newTitle);
+    };
     RegistrationComponent.prototype.ngOnInit = function () {
         this.registerForm = this.formBuilder.group({
             firstName: ['', forms_1.Validators.required],
@@ -29,14 +39,12 @@ var RegistrationComponent = (function () {
         });
     };
     Object.defineProperty(RegistrationComponent.prototype, "f", {
-        // convenience getter for easy access to form fields
         get: function () { return this.registerForm.controls; },
         enumerable: true,
         configurable: true
     });
     RegistrationComponent.prototype.onSubmit = function () {
         this.submitted = true;
-        // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
         }
@@ -47,7 +55,7 @@ var RegistrationComponent = (function () {
             selector: 'my-registration',
             templateUrl: '/partial/registrationComponent'
         }),
-        __metadata("design:paramtypes", [forms_1.FormBuilder])
+        __metadata("design:paramtypes", [forms_1.FormBuilder, platform_browser_1.Title])
     ], RegistrationComponent);
     return RegistrationComponent;
 }());

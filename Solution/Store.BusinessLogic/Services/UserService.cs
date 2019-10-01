@@ -1,182 +1,159 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Store.BusinessLogic.Models;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Store.BusinessLogic.Services
 {
     class UserService : IUserService
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IMapper _mapper;
 
-        public UserService(SignInManager<User> signInManager, UserManager<User> userManager)
+        public UserService(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public async Task<UserModel> FindByEmailAsync(string email)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
+            var role = await _userManager.GetRolesAsync(user);
             var userFromBase = new UserModel
             {
                 Id = user.Id,
-                Email = user.Email
+                Email = user.Email,
+                Role = role
             };
             return userFromBase;
         }
 
         public async Task<UserModel> FindByIdAsync(string id)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
+            var role = await _userManager.GetRolesAsync(user);
             var userFromBase = new UserModel
             {
                 Id = user.Id,
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Role = role
             };
             return userFromBase;
         }
 
-        public async Task<IdentityResult> CreateAsync(UserCreateModel сreateUserModel)
+        public async Task<IdentityResult> Create(UserCreateModel сreateUserModel)
         {
             var user = new User { Email = сreateUserModel.Email, PasswordHash = сreateUserModel.PasswordHash, UserName = сreateUserModel.Email, FirstName = сreateUserModel.FirstName, LastName = сreateUserModel.LastName };
-            return await userManager.CreateAsync(user);
+            return await _userManager.CreateAsync(user);
         }
 
-        public async Task Update(UserEditModel editUserModel)
+        public async Task<IdentityResult> Update(UserEditModel userEditModel)
         {
-            var user = new User
-            {
-                Id = editUserModel.Id,
-                AvatarUrl = editUserModel.AvatarUrl,
-                Email = editUserModel.Email,
-                FirstName = editUserModel.FirstName,
-                LastName = editUserModel.LastName
-            };
-            await userManager.UpdateAsync(user);
+            User user = await _userManager.FindByIdAsync(userEditModel.Id);
+
+            user.Email = (userEditModel.Email == null) ? user.Email : userEditModel.Email;
+            user.FirstName = (userEditModel.FirstName == null) ? user.FirstName : userEditModel.FirstName;
+            user.LastName = (userEditModel.LastName == null) ? user.LastName : userEditModel.LastName;
+            user.UserName = (userEditModel.Email == null) ? user.Email : userEditModel.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result;
         }
 
-        public async Task DeleteAsync(string email)
+        public async Task<IdentityResult> Delete(string id)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            IdentityResult result = new IdentityResult();
+
+            var user = await _userManager.FindByEmailAsync(id);
 
             if (user != null)
             {
-                await userManager.DeleteAsync(user);
+                result = await _userManager.DeleteAsync(user);
             }
-
+            return result;
         }
 
-        public async Task ChangePassword(UserChangePasswordModel changePasswordViewModel)
+        public async Task<IdentityResult> ChangePassword(UserChangePasswordModel changePasswordModel)
         {
-            var user = new User
-            {
-                Email = changePasswordViewModel.Email,
-                PasswordHash = changePasswordViewModel.NewPassword
-            };
-            await userManager.UpdateAsync(user);
+            User user = await _userManager.FindByIdAsync(changePasswordModel.Id);
+            return await _userManager.ChangePasswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
         }
 
-        public bool IsUserExist(UserEditModel editUserModel)
+        public async Task<IEnumerable<UserModel>> GetAll()
         {
-            if (userManager.FindByEmailAsync(editUserModel.Email) != null)
-            {
-                return true;
-            }
-            return false;
-        }
+            //var authors = _userManager.Users();
+            //var model = new List<UserModel>();
 
-        public IEnumerable<UserModel> GetAll()
-        {
+            //foreach (var p in authors)
+            //{
+            //    model.Add(_mapper.Map<UserModel>(p));
+            //}
+            //return model;
+
             var userModels = new List<UserModel>();
-            var list = userManager.Users;
-
+            var list = _userManager.Users;
             foreach (var user in list)
             {
+                var role = await _userManager.GetRolesAsync(user);
                 userModels.Add(new UserModel
                 {
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    AvatarUrl = user.AvatarUrl
+                    Role = role
                 });
             }
             return userModels;
         }
 
-        public async Task<string> GenerateEmailConfirmationTokenAsync(UserSignUpModel сreateUserViewModel)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(UserSignUpModel сreateUserModel)
         {
-            var user = await userManager.FindByEmailAsync(сreateUserViewModel.Email);
-            return await userManager.GenerateEmailConfirmationTokenAsync(user);
+            var user = await _userManager.FindByEmailAsync(сreateUserModel.Email);
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
         public async Task<IdentityResult> SignUp(UserSignUpModel model)
         {
-            var user = new User { Email = model.Email, UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, PasswordHash = model.Password };
-            return await userManager.CreateAsync(user, model.Password);
+            var result = new IdentityResult();
+            var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.Email };
+            try
+            {
+                result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "user");
+
+            }
+            catch (Exception ex)
+            {
+                var s = ex;
+            }
+            return result;
         }
 
         public async Task<IdentityResult> ConfirmEmail(UserModel model, string code)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
-            return await userManager.ConfirmEmailAsync(user, code);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            return await _userManager.ConfirmEmailAsync(user, code);
         }
 
         public async Task<bool> IsEmailConfirmedAsync(UserModel model)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
-            return await userManager.IsEmailConfirmedAsync(user);
-        }
-
-        public async Task<ClaimsIdentity> GetIdentityAsync(string username, string password)
-        {
-            var person = await userManager.FindByEmailAsync(username);
-            if (person != null)
-            {
-                List<Claim> claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.UserName)
-                };
-
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
-            }
-            return null;
-        }
-
-        public Task<bool> FindTokenByUserName(UserModel model, string refreshToken)
-        {
-            return null;
-        }
-
-        public void DeleteToken(string refreshToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<string> GeneratePasswordResetTokenAsync(UserModel model)
-        {
-            var user = await userManager.FindByEmailAsync(model.Email);
-            return await userManager.GeneratePasswordResetTokenAsync(user);
-        }
-
-        public async Task<IdentityResult> ResetPasswordAsync(UserModel model, string code, string password)
-        {
-            var user = await userManager.FindByEmailAsync(model.Email);
-            return await userManager.ResetPasswordAsync(user, code, password);
+            return await _userManager.IsEmailConfirmedAsync(user);
         }
 
         public Task<bool> ConfirmTokens(UserModel user, string refreshToken)
@@ -184,26 +161,53 @@ namespace Store.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public async Task<SignInResult> SignInAsync(UserSignInModel model)
+        public async Task<string> GeneratePasswordResetTokenAsync(UserModel model)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
 
-            if (result.Succeeded && await userManager.IsEmailConfirmedAsync(user))
+        public async Task<IdentityResult> ResetPasswordAsync(UserModel model, string code, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            return await _userManager.ResetPasswordAsync(user, code, password);
+        }
+
+        public async Task<Object> SignInAsync(UserSignInModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+
+
+
+            if (await _userManager.IsEmailConfirmedAsync(user) && result.Succeeded)
             {
-                await signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, isPersistent: true);
+                var userModel = _mapper.Map<UserModel>(user);
+                userModel.Role = await _userManager.GetRolesAsync(user);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(JwtProvider.JwtProvider.GenerateSecurityDescriptorForRefreshToken(userModel));
+                var accessToken = tokenHandler.WriteToken(securityToken);
+
+                var securityTokenRefresh = tokenHandler.CreateToken(JwtProvider.JwtProvider.GenerateSecurityDescriptorForRefreshToken(userModel));
+                var refreshToken = tokenHandler.WriteToken(securityTokenRefresh);
+                await _userManager.SetAuthenticationTokenAsync(user, "http://localhost:44350", "refreshToken", refreshToken);
+
+                return new TokenModel { AccessToken = accessToken, RefreshToken = refreshToken };
             }
-            return result;
+
+            return null;
         }
 
-        public async Task SignOutAsync()
+        public async Task LogOutAsync()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
         }
 
-        public Task CreateToken(JwtSecurityToken refreshToken)
+        public async Task RefreshToken(string refreshToken, UserModel model)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            await _userManager.SetAuthenticationTokenAsync(user, "http://localhost:56189", "refreshToken", refreshToken);
         }
     }
 }

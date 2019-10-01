@@ -14,10 +14,16 @@ var platform_browser_1 = require("@angular/platform-browser");
 var SignInComponent = (function () {
     function SignInComponent(titleService) {
         this.titleService = titleService;
+        this.formModel = {
+            UserName: '',
+            Password: ''
+        };
         this.angularClientSideData = 'Angular';
     }
     SignInComponent.prototype.setTitle = function (newTitle) {
         this.titleService.setTitle(newTitle);
+    };
+    SignInComponent.prototype.ngOnInit = function () {
     };
     SignInComponent = __decorate([
         core_1.Component({

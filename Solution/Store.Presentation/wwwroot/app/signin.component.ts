@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component
@@ -7,12 +7,21 @@ import { Title } from '@angular/platform-browser';
         templateUrl: '/partial/signinComponent'
     })
 
-export class SignInComponent {
+export class SignInComponent implements OnInit {
+
+    formModel = {
+        UserName: '',
+        Password: ''
+    }
+
     public constructor(private titleService: Title) { }
 
     angularClientSideData = 'Angular';
 
     public setTitle(newTitle: string) {
         this.titleService.setTitle(newTitle);
+    }
+
+    ngOnInit() {
     }
 }
