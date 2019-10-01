@@ -123,4 +123,14 @@ label{
     padding-top: 20px;
 }
 
+.button-holder button {
+    margin: 0 auto;
+}
+
+.invalid-feedback {
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+    color: red;
+}
 
