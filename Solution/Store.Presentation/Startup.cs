@@ -95,6 +95,7 @@ namespace Store.Presentation
                 });
 
             services.AddTransient<DataBaseInitialization>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +115,7 @@ namespace Store.Presentation
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+           
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "node_modules")),
@@ -121,7 +123,7 @@ namespace Store.Presentation
             });
             app.UseCookiePolicy();
 
-            app.UseMvc(routes => 
+            app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
@@ -129,6 +131,8 @@ namespace Store.Presentation
 
                 routes.MapSpaFallbackRoute("spa-fallback", new { controller = "home", action = "index" });
             });
+
+            //app.UseCors(builder => builder.WithOrigins("http://localhost:44350"));
 
 
             using (var scope = app.ApplicationServices.CreateScope())

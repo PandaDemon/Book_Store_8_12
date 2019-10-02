@@ -2,11 +2,11 @@
 import { AboutComponent } from './about.component';
 import { IndexComponent } from './index.component';
 import { SignInComponent } from './signin.component';
-import { RegistrationComponent } from './registration.component';
+import { RegistrationComponent } from './account.module/components/registration/registration.component';
 import { ContactComponent } from './contact.component';
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '', redirectTo: 'app.component.html', pathMatch: 'full' },
     { path: 'home', component: IndexComponent, data: { title: 'Home' } },
     { path: 'about', component: AboutComponent, data: { title: 'About' } },
     { path: 'signin', component: SignInComponent, data: { title: 'SignIn' } },

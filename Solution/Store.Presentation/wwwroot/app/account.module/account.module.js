@@ -7,12 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var platform_browser_1 = require("@angular/platform-browser");
-var app_routing_1 = require("./app.routing");
-var app_component_1 = require("./app.component");
-//import { FormsModule } from '@angular/forms';
-//import { HttpModule } from '@angular/http';
-//import { ReactiveFormsModule } from '@angular/forms';
 //import { SampleDataService } from './services/SampleData.services';
 require("./rxjs-operators");
 // enableProdMode();
@@ -20,14 +14,9 @@ var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, /*ReactiveFormsModule, FormsModule, HttpModule,*/ app_routing_1.routing],
-            declarations: [app_component_1.AppComponent, app_routing_1.routedComponents],
-            providers: [],
-            bootstrap: [app_component_1.AppComponent]
-        })
+        core_1.NgModule({})
     ], AppModule);
     return AppModule;
 }());
 exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map
+//# sourceMappingURL=account.module.js.map

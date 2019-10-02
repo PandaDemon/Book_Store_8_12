@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var platform_browser_1 = require("@angular/platform-browser");
 //import { UserService } from './services/user.service';
-//import { MustMatch } from './_helpers/must-match.validator';
+var must_match_validator_1 = require("./must-match.validator");
 var RegistrationComponent = (function () {
     function RegistrationComponent(/*public service: UserService,*/ formBuilder, titleService) {
         this.formBuilder = formBuilder;
@@ -35,7 +35,9 @@ var RegistrationComponent = (function () {
             email: ['', [forms_1.Validators.required, forms_1.Validators.email]],
             password: ['', [forms_1.Validators.required, forms_1.Validators.minLength(6)]],
             confirmPassword: ['', forms_1.Validators.required]
-        }, {});
+        }, {
+            validator: must_match_validator_1.MustMatch('password', 'confirmPassword')
+        });
     };
     Object.defineProperty(RegistrationComponent.prototype, "f", {
         get: function () { return this.registerForm.controls; },

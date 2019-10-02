@@ -7,18 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = "Angular";
+var IndexComponent = (function () {
+    function IndexComponent() {
     }
-    AppComponent = __decorate([
+    IndexComponent = __decorate([
         core_1.Component({
-            selector: "app-root",
-            templateUrl: "./app.component.html",
-            styleUrls: ["./app.component.css"]
+            selector: 'my-login',
+            templateUrl: '/partial/loginComponent'
         })
-    ], AppComponent);
-    return AppComponent;
+    ], IndexComponent);
+    return IndexComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.IndexComponent = IndexComponent;
+//# sourceMappingURL=login.component.js.map
