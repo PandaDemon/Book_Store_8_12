@@ -1,0 +1,46 @@
+<div class="sign-in-holder">
+  <div class="title-holder">
+    <div class="img-holder">
+      <img src="/assets/images/defolt-user.png" alt="Defolt user" />
+    </div>
+    <h2 [innerText]="title"></h2>
+  </div>
+  <form #form="ngForm" autocomplete="off">
+    <div class="form-group">
+      <div class="icon-holder">
+        <i class="fas fa-kay">E</i>
+      </div>
+      <label>E-mail</label>
+      <input name="email" class="form-control" #UserName="ngModel" [(ngModel)]="formModel.UserName" />
+    </div>
+
+    <div class="form-group">
+      <div class="icon-holder">
+        <i class="fas fa-kay">P</i>
+      </div>
+      <label>Password</label>
+      <input name="password" class="form-control" #Password="ngModel" [(ngModel)]="formModel.Password" />
+      <a href="#">Fogort your password?</a>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-6">
+        <input type="checkbox" name="name" />
+        <label>Remember me</label>
+      </div>
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block">Sign In</button>
+      </div>
+    </div>
+  </form>
+  <div class="link-holder">
+    <p>New to Book Publishing Company?</p>
+    <a class="sing-up-btn" (click)="setTitle('Registration - AngularSpa')" routerLink="/registration">Sing Up</a>
+  </div>
+</div>
+
+
+<div *ngIf="errorMessage != null" class="bg-danger error-holder">
+  <h3>Error:</h3>
+  <pre>{{ errorMessage  }}</pre>
+</div>

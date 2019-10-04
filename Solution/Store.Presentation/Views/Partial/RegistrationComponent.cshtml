@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Registrarion";
-}
-
-<div class="registration-holder">
+﻿<div class="registration-holder">
     <div class="title-holder">
         <div class="img-holder">
             <img src="~/images/defolt-user.png" alt="Defolt user" />
@@ -39,7 +35,7 @@
             <label>E-mail</label>
             <input type="text" formControlName="email" class="form-control" placeholder="E-mail" [ngClass]="{ 'ng-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                @*<div *ngIf="f.email.errors.required">Email is required</div>*@
+                <div *ngIf="f.email.errors.required">Email is required</div>
                 <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
             </div>
         </div>

@@ -5,16 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\**" />
     <Compile Remove="Views\Account\**" />
+    <Content Remove="Pages\**" />
     <Content Remove="Views\Account\**" />
+    <EmbeddedResource Remove="Pages\**" />
     <EmbeddedResource Remove="Views\Account\**" />
+    <None Remove="Pages\**" />
     <None Remove="Views\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\shared\must-match.validator.ts" />
+    <None Remove="ClientApp\src\routing.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Remove="wwwroot\app\app.component.ts" />
     <TypeScriptCompile Remove="wwwroot\app\app.module.ts" />
     <TypeScriptCompile Remove="wwwroot\app\main.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ClientApp\src\app\app.routing.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +64,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Store.BusinessLogic\Store.BusinessLogic.csproj" />
     <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\account.module\services\" />
+    <Folder Include="ClientApp\src\app\home.module\services\" />
+    <Folder Include="ClientApp\src\app\shared\" />
+    <Folder Include="ClientApp\src\app\store.module\services\" />
   </ItemGroup>
 
 </Project>
