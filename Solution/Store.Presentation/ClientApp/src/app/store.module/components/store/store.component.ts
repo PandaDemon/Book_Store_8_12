@@ -1,8 +1,24 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
+
+import { Product } from '../../entity/product.entity';
+import { ProductService } from '../../services/product.service';
 
 @Component({
-  selector: 'app-store',
-  templateUrl: './store.component.html',
+  templateUrl: './store.component.html'
 })
-export class StoreComponent {
+
+export class StoreComponent implements OnInit {
+
+  private products: Product[];
+
+  constructor(
+    private productService: ProductService
+  ) { }
+
+  ngOnInit() {
+    this.products = this.productService.findAll();
+  }
 }
+
+

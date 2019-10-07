@@ -15,6 +15,8 @@ import { StoreComponent } from './store.module/components/store/store.component'
 import { LoginComponent } from './account.module/components/login/login.component';
 import { RegistrationComponent } from './account.module/components/registration/registration.component';
 
+import { ProductService } from './store.module/services/product.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,7 @@ import { RegistrationComponent } from './account.module/components/registration/
       { path: 'store', component: StoreComponent },
     ])
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -70,7 +70,6 @@
     <Folder Include="ClientApp\src\app\account.module\services\" />
     <Folder Include="ClientApp\src\app\home.module\services\" />
     <Folder Include="ClientApp\src\app\shared\" />
-    <Folder Include="ClientApp\src\app\store.module\services\" />
   </ItemGroup>
 
 </Project>
