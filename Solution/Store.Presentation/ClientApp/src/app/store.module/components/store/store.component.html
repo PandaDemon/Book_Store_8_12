@@ -1,23 +1,43 @@
-<h3>Product List</h3>
-<table border="1">
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Buy</th>
-  </tr>
-  <tr *ngFor="let product of products">
-    <td>{{product.id}}</td>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>
-    <td>
-      <img src="assets/http://learningprogramming.net/wp-content/uploads/mean_stack/angular/{{product.photo}}" width="50">
-    </td>
-    <td>
-      <a [routerLink]="['/cart', { id:product.id }]">Buy Now</a>
-    </td>
-  </tr>
-</table>
 
-<a [routerLink]="['/products']">Products</a> |
-<a [routerLink]="['/cart']">Cart</a>
+<div class="store-holder">
+  <div class="store-sidebar">
+    <h3>Cotalog</h3>
+    <div>
+      <p>Categories</p>
+      <div class="filter d-flex flex-column">
+        <label><input type="checkbox" value="" />Books</label>
+        <label><input type="checkbox" value="" />Magazines</label>
+        <label><input type="checkbox" value="" />Newspapers</label>
+      </div>
+    </div>
+    <div>
+      <p>Price</p>
+      <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
+    </div>
+  </div>
+  <div class="store-main">
+    <div class="store-container">
+      <ul class="row list-product">
+        <li *ngFor="let printingEdition of printingEditions" class="col-3">
+          <div class="img-holder">
+            <img src="{{printingEdition.Name}}" alt="Alternate Text" />
+          </div>
+          <div class="text-holder w-100">
+            <p class="description">{{product.description}}</p>
+            <p>Author: {{product.author}}</p>
+            <span class="price">Price: {{product.price}}</span>
+          </div>
+          <div class="link-holder w-100">
+            <a [routerLink]="['/more-info', { id:product.id }]">More info</a>
+            <a [routerLink]="['/cart', { id:product.id }]">Buy Now</a>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+
+    <a [routerLink]="['/products']">Products</a> |
+    <a [routerLink]="['/cart']">Cart</a>
+  </div>
+  
+</div>

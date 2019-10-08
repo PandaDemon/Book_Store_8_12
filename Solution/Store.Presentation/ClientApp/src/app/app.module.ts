@@ -17,6 +17,8 @@ import { RegistrationComponent } from './account.module/components/registration/
 
 import { ProductService } from './store.module/services/product.service';
 
+import { Ng5SliderModule } from 'ng5-slider';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +34,7 @@ import { ProductService } from './store.module/services/product.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    Ng5SliderModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'about-us', component: AboutUsComponent },

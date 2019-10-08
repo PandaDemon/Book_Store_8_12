@@ -1,8 +1,6 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
 body {
-  padding-top: 50px;
-  padding-bottom: 20px;
   background-color: #DBDBDB;
 }
 
@@ -100,12 +98,12 @@ label {
   max-width: 30px;
 }
 
-  .icon-holder i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-  }
+.icon-holder i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 
 .sing-up-btn {
   background-color: #7CF1AE;
@@ -116,9 +114,9 @@ label {
   transition: 0.3s;
 }
 
-  .sing-up-btn:hover {
-    opacity: 0.9;
-  }
+.sing-up-btn:hover {
+  opacity: 0.9;
+}
 
 .link-holder {
   text-align: center;

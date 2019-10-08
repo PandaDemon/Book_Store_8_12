@@ -1,35 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Product } from '../entity/product.entity';
 
 @Injectable()
 export class ProductService {
 
-  private products: Product[];
+  readonly BaseURi = "http://localhost:44350";
+  constructor(private http: HttpClient) {}
 
-  constructor() {
-    this.products = [
-      { id: 'p01', name: 'name 1', price: 100 },
-      { id: 'p02', name: 'name 2', price: 200 },
-      { id: 'p03', name: 'name 3', price: 300 }
-    ];
-  }
+  //private products: Product[];
 
-  findAll(): Product[] {
-    return this.products;
-  }
+  //constructor() {
+  //  this.products = [
+  //    { id: '01', img: '../../assets/images/book.png', author: 'name 1', description:'asdasd', price: 100 },
+  //    { id: '02', img: '../../assets/images/book.png', author: 'name 2', description: 'asdasd', price: 200 },
+  //    { id: '03', img: '../../assets/images/book.png', author: 'name 3', description: 'asdasd', price: 300 },
+  //    { id: '03', img: '../../assets/images/book.png', author: 'name 3', description: 'asdasd', price: 500 },
+  //    { id: '03', img: '../../assets/images/book.png', author: 'name 3', description: 'asdasd', price: 900 }
+  //  ];
+  //}
 
-  find(id: string): Product {
-    return this.products[this.getSelectedIndex(id)];
-  }
+  //findAll(): Product[] {
+  //  return this.products;
+  //}
 
-  private getSelectedIndex(id: string) {
-    for (var i = 0; i < this.products.length; i++) {
-      if (this.products[i].id == id) {
-        return i;
-      }
-    }
-    return -1;
+  //find(id: string): Product {
+  //  return this.products[this.getSelectedIndex(id)];
+  //}
+
+  //private getSelectedIndex(id: string) {
+  //  for (var i = 0; i < this.products.length; i++) {
+  //    if (this.products[i].id == id) {
+  //      return i;
+  //    }
+  //  }
+  //  return -1;
+  //}
+
+  getAllPrintingEditions() {
+    return this.http.get(this.BaseURi + '/printStore/GetAllAuthorsInPrintingEditions');
   }
 
 }
