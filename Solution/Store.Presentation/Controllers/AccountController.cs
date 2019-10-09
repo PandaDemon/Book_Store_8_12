@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Store.BusinessLogic.Models.PrintingEditions;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
@@ -11,10 +13,10 @@ namespace Store.Presentation.Controllers
 
         public AccountController(IUserService userService)
         {
-            _userService = userService;
+			_userService = userService;
         }
 
-        [HttpPost("SignUp")]
+		[HttpPost("SignUp")]
         public async Task<IActionResult> SignUp(UserSignUpModel model)
         {
             if (ModelState.IsValid)

@@ -22,17 +22,19 @@ namespace Store.BusinessLogic.Common
             services.AddTransient<IAuthorRepository, AuthorDapperRepository>();
             //services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionDapperRepository>();
+			services.AddTransient<IBaseRepository<PrintingEdition>, PrintingEditionDapperRepository>();
 
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IPrintingEditionService, PrintingEditionService>();
             services.AddTransient<IPrintStoreService, PrintStoreService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IPrintStoreService, PrintStoreService>();
 
             IMapper mapper = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AuthorMapperProfile());
-            }).CreateMapper();
+				config.AddProfile(new PrintingEditionMapperProfile());
+				config.AddProfile(new UserMapperProfile());
+			}).CreateMapper();
 
             services.AddSingleton(mapper);
         }

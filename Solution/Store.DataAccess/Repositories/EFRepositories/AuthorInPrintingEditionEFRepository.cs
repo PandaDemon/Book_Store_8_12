@@ -21,5 +21,10 @@ namespace Store.DataAccess.Repositories.EFRepositories
         {
             return _context.AuthorInPrintingEditions.Where(y => y.PrintingEdidtionId == printingEditionId).AsEnumerable();
         }
-    }
+
+		public IEnumerable<AuthorInPrintingEditions> GetInclude()
+		{
+			throw new System.NotImplementedException();
+		}
+	}
 }

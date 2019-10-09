@@ -4,10 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../entity/product.entity';
 
 @Injectable()
+
 export class ProductService {
 
-  readonly BaseURi = "http://localhost:44350";
-  constructor(private http: HttpClient) {}
+  readonly BaseURi = "http://localhost:44350/api";
+
+  constructor(private http: HttpClient) { }
+
+  getAllPrintingEditions() {
+    var s = this.BaseURi + '/PrintingStore/GetPrintingEdition';
+    return this.http.get(s);
+  }
 
   //private products: Product[];
 
@@ -37,10 +44,6 @@ export class ProductService {
   //  }
   //  return -1;
   //}
-
-  getAllPrintingEditions() {
-    return this.http.get(this.BaseURi + '/printStore/GetAllAuthorsInPrintingEditions');
-  }
 
 }
 

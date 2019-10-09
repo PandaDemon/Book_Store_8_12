@@ -7,5 +7,7 @@ namespace Store.DataAccess.Repositories.Interfaces
     {
         IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId);
         IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(int printingEditionId);
-    }
+		IEnumerable<AuthorInPrintingEditions> GetInclude();
+
+	}
 }

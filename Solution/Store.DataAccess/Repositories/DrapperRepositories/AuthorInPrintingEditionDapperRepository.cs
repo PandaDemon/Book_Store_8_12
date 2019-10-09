@@ -34,5 +34,14 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
                 return conn.Query<AuthorInPrintingEditions>(sQuery, new { printingEditionId }).AsEnumerable();
             }
         }
+
+		public IEnumerable<AuthorInPrintingEditions> GetInclude()
+		{
+			using(IDbConnection conn = Connection)
+			{
+				string sQuery = "SELECT* FROM AuthorInPrintingEditions JOIN PrintingEditions ON PrintingEditions.Id = AuthorInPrintingEditions.PrintingEdidtionId JOIN Authors ON Authors.Id = AuthorInPrintingEditions.AuthorId";
+				return conn.Query<AuthorInPrintingEditions>(sQuery).AsEnumerable();
+			}
+		}
     }
 }
