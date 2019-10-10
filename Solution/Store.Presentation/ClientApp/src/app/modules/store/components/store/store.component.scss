@@ -41,15 +41,6 @@
   }
 }
 
-.ng5-slider {
-  width: 100%;
-}
-
-.ng5-slider .ng5-slider-bar {
-  background: #fff;
-}
-
-
 .store-sidebar {
   background-color: #e3e3e3;
   height: 100vh;
@@ -61,4 +52,34 @@
   margin-left: 260px;
   padding: 50px 15px 15px;
 }
+
+::ng-deep {
+  .custom-slider .ng5-slider {
+    width: 100%;
+
+    .ng5-slider-bar {
+      background: #3a3a3a;
+    }
+
+    .ng5-slider-pointer {
+      background-color: #52ad3a !important;
+      width: 16px;
+      height: 16px;
+      top: -7px;
+
+      &:after {
+        top: 4px;
+        left: 4px;
+      }
+    }
+
+    .ng5-slider-selection {
+      background: #52ad3a;
+    }
+
+    .ng5-slider-bar {
+      height: 3px;
+    }
+  }
+}  
 

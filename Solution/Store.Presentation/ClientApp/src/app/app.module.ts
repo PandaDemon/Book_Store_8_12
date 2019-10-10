@@ -6,16 +6,13 @@ import { RouterModule } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './home.module/components/nav-menu/nav-menu.component';
-import { HomeComponent } from './home.module/components/home/home.component';
-import { AboutUsComponent } from './home.module/components/about-us/about-us.component';
-
-import { StoreComponent } from './store.module/components/store/store.component';
-
-import { LoginComponent } from './account.module/components/login/login.component';
-import { RegistrationComponent } from './account.module/components/registration/registration.component';
-
-import { ProductService } from './store.module/services/product.service';
+import { NavMenuComponent } from './modules/nav-menu/nav-menu.component';
+import { HomeComponent } from './modules/home/components/home/home.component';
+import { AboutUsComponent } from './modules/home/components/about-us/about-us.component';
+import { StoreComponent } from './modules/store/components/store/store.component';
+import { LoginComponent } from './modules/account/components/login/login.component';
+import { RegistrationComponent } from './modules/account/components/registration/registration.component';
+import { ProductService } from './modules/store/services/product.service';
 
 import { Ng5SliderModule } from 'ng5-slider';
 

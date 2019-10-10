@@ -9,11 +9,17 @@ namespace Store.Presentation.Controllers
 	{
 		private readonly IPrintStoreService _printingStoreService;
 
-
-		public PrintingStoreController(IPrintStoreService printrService)
+		public PrintingStoreController(IPrintStoreService printStoreService)
 		{
-			_printingStoreService = printrService;
+			_printingStoreService = printStoreService;
 		}
+
+		//[HttpGet("GetAutorsInPrintingEdition")]
+		//public IEnumerable<AutorsInPrintingEditionModel> GetAllAutorsInPrintingEditions()
+		//{
+		//	var model = _printingStoreService.GetAllAutorsInPrintingEditions();
+		//	return model;
+		//}
 
 		[HttpGet("GetPrintingEdition")]
 		public IEnumerable<PrintingEditionModel> GetAllPrintingEditions()

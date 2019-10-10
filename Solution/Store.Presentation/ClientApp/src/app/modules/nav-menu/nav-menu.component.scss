@@ -1,0 +1,56 @@
+  li .glyphicon {
+      margin-right: 10px;
+  }
+
+  .navbar-inverse .navbar-nav > li.link-active > a,
+  li.link-active a:hover,
+  li.link-active a:focus {
+    background-color: #52ad3a;
+    color: white;
+  }
+
+  .navbar {
+    border-radius: 0;
+  }
+
+  .navbar-nav{
+    flex-direction: row;
+  }
+
+  .navbar-inverse {
+    background-color: #3a3a3a;
+  }
+
+  .navbar-inverse .navbar-nav > li > a {
+    color: #52ad3a;
+  }
+
+  .navbar-inverse .navbar-brand {
+    color: #52ad3a;
+  }
+
+  @media (min-width: 768px) {
+    /* On small screens, convert the nav menu to a vertical sidebar */
+    .navbar-header {
+    }
+    .navbar-collapse {
+        padding: 0px;
+    }
+    .navbar ul {
+        float: none;
+    }
+    .navbar li {
+        font-size: 15px;
+        margin: 6px;
+    }
+    .navbar li a {
+        padding: 10px 16px;
+    }
+    .navbar a {
+        /* If a menu item's text is too long, truncate it */
+        width: 100%;
+        white-space: nowrap;
+        /*overflow: hidden;
+        text-overflow: ellipsis;*/
+    }
+}

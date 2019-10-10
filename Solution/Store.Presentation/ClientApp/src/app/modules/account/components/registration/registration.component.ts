@@ -11,15 +11,10 @@ import { MustMatch } from './must-match.validator';
 })
 export class RegistrationComponent implements OnInit{
 
-  formModel = {
-    UserName: '',
-    Password: ''
-  }
-
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(/*public service: UserService,*/ private formBuilder: FormBuilder, private titleService: Title) { }
+  constructor(private formBuilder: FormBuilder, private titleService: Title) { }
 
   angularClientSideData = 'Angular';
 

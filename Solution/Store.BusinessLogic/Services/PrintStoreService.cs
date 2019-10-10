@@ -61,6 +61,10 @@ namespace Store.BusinessLogic.Services
 		public IEnumerable<AuthorsInPrintingEditionsModel> GetAllAuthorsInPrintingEditions()
 		{
 			throw new NotImplementedException();
+			//var authorsInPrintingEditions = _authorsInPrintingEditionRepository.GetInclude();
+
+			//IEnumerable<AuthorsInPrintingEditionsModel> model = AuthorsInPrintingEdition(authorsInPrintingEditions);
+			//return model;
 		}
 	}
 }

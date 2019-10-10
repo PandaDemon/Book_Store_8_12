@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '../../entity/product.entity';
 import { ProductService } from '../../services/product.service';
 
 import { Options, LabelType } from 'ng5-slider';

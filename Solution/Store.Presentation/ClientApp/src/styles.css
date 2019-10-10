@@ -35,7 +35,6 @@ body {
   }
 }
 
-/* validation */
 .ng-valid[required], .ng-valid.required {
   border-left: 5px solid #42A948; /* green */
 }
@@ -46,6 +45,7 @@ body {
 
 form {
   margin-bottom: 30px;
+  padding-top: 30px;
 }
 
 img {
@@ -57,11 +57,11 @@ img {
   padding-top: 30px;
 }
 
-  .title-holder .img-holder {
-    width: 100%;
-    max-width: 80px;
-    margin: 0 auto;
-  }
+.title-holder .img-holder {
+  width: 100%;
+  max-width: 80px;
+  margin: 0 auto;
+}
 
 label {
   margin: 0;
@@ -71,7 +71,7 @@ label {
   padding: 10px;
 }
 
-.form-group {
+form .form-group {
   margin-bottom: 30px;
   display: flex;
   justify-content: center;
@@ -80,17 +80,17 @@ label {
   position: relative;
 }
 
-  .form-group label {
-    position: absolute;
-    top: -20px;
-    left: 0;
-  }
+.form-group label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+}
 
-  .form-group a {
-    position: absolute;
-    top: -20px;
-    right: 0;
-  }
+.form-group a {
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
 
 .icon-holder {
   position: relative;
@@ -132,9 +132,17 @@ label {
   text-align: center;
 }
 
-.invalid-feedback {
+form .invalid-feedback {
   position: absolute;
   right: 0;
+  width: auto;
   bottom: -20px;
   color: red;
 }
+.ng-invalid:not(form) {
+  border: none;
+}
+
+  .ng-invalid:not(form).is-invalid {
+    border: 1px solid #dc3545;
+  }
