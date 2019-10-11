@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Store.BusinessLogic.Common;
@@ -17,12 +16,11 @@ using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace Store.Presentation
 {
-    public class Startup
+	public class Startup
     {
         public IConfiguration Configuration { get; }
 
@@ -130,18 +128,18 @@ namespace Store.Presentation
             //});
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller}/{action=Index}/{id?}");
 
-                //routes.MapSpaFallbackRoute(
-                //    name: "spa-fallback", 
-                //    defaults: new { controller = "home", action = "index" });
-            });
+				//routes.MapSpaFallbackRoute(
+				//	name: "spa-fallback",
+				//	defaults: new { controller = "home", action = "index" });
+			});
 
-            app.UseSpa(spa =>
+			app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501

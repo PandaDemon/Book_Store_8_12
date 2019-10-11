@@ -5,14 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\src\app\modules\account\services\**" />
     <Compile Remove="Pages\**" />
     <Compile Remove="Views\Account\**" />
+    <Compile Remove="wwwroot\app\account.module\**" />
+    <Content Remove="ClientApp\src\app\modules\account\services\**" />
     <Content Remove="Pages\**" />
     <Content Remove="Views\Account\**" />
+    <Content Remove="wwwroot\app\account.module\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\modules\account\services\**" />
     <EmbeddedResource Remove="Pages\**" />
     <EmbeddedResource Remove="Views\Account\**" />
+    <EmbeddedResource Remove="wwwroot\app\account.module\**" />
+    <None Remove="ClientApp\src\app\modules\account\services\**" />
     <None Remove="Pages\**" />
     <None Remove="Views\Account\**" />
+    <None Remove="wwwroot\app\account.module\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,14 +31,6 @@
     <TypeScriptCompile Remove="wwwroot\app\app.component.ts" />
     <TypeScriptCompile Remove="wwwroot\app\app.module.ts" />
     <TypeScriptCompile Remove="wwwroot\app\main.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="ClientApp\src\app\app.routing.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\app\account.module\components\registration\must-match.validator.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,20 +55,16 @@
     <Content Update="Views\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="wwwroot\app\account.module\components\index.component.html">
-      <SubType>Code</SubType>
-    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\shared\" />
+    <Folder Include="wwwroot\app\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Store.BusinessLogic\Store.BusinessLogic.csproj" />
     <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\modules\account\services\" />
-    <Folder Include="ClientApp\src\app\modules\home\services\" />
-    <Folder Include="ClientApp\src\app\shared\" />
   </ItemGroup>
 
 </Project>

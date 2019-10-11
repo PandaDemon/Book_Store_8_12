@@ -9,7 +9,7 @@ import { MustMatch } from './must-match.validator';
   selector: 'app-registration',
   templateUrl: './registration.component.html',
 })
-export class RegistrationComponent implements OnInit{
+export class RegistrationComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
@@ -23,13 +23,13 @@ export class RegistrationComponent implements OnInit{
   }
 
   ngOnInit() {
-      this.registerForm = this.formBuilder.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]],
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          confirmPassword: ['', Validators.required]
-      },
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    },
       {
         validator: MustMatch('password', 'confirmPassword')
       });

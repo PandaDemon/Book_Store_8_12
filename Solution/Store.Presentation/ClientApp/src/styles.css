@@ -57,11 +57,11 @@ img {
   padding-top: 30px;
 }
 
-.title-holder .img-holder {
-  width: 100%;
-  max-width: 80px;
-  margin: 0 auto;
-}
+  .title-holder .img-holder {
+    width: 100%;
+    max-width: 80px;
+    margin: 0 auto;
+  }
 
 label {
   margin: 0;
@@ -98,12 +98,12 @@ form .form-group {
   max-width: 30px;
 }
 
-.icon-holder i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
+  .icon-holder i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 
 .sing-up-btn {
   background-color: #7CF1AE;
@@ -114,9 +114,9 @@ form .form-group {
   transition: 0.3s;
 }
 
-.sing-up-btn:hover {
-  opacity: 0.9;
-}
+  .sing-up-btn:hover {
+    opacity: 0.9;
+  }
 
 .link-holder {
   text-align: center;
@@ -139,10 +139,11 @@ form .invalid-feedback {
   bottom: -20px;
   color: red;
 }
+
 .ng-invalid:not(form) {
   border: none;
 }
 
-  .ng-invalid:not(form).is-invalid {
-    border: 1px solid #dc3545;
-  }
+.ng-invalid:not(form).is-invalid {
+  border: 1px solid #dc3545;
+}

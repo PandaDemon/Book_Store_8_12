@@ -1,43 +1,38 @@
 
-<div class="store-holder">
-  <div class="store-sidebar">
-    <h3>Cotalog</h3>
-    <div>
-      <p>Categories</p>
-      <div class="filter d-flex flex-column">
-        <label><input type="checkbox" value="" />Books</label>
-        <label><input type="checkbox" value="" />Magazines</label>
-        <label><input type="checkbox" value="" />Newspapers</label>
+  <div class="store-holder">
+    <div class="store-sidebar">
+      <h3>Cotalog</h3>
+      <div>
+        <p>Categories</p>
+        <div class="filter d-flex flex-column">
+          <label><input type="checkbox" value="" />Books</label>
+          <label><input type="checkbox" value="" />Magazines</label>
+          <label><input type="checkbox" value="" />Newspapers</label>
+        </div>
+      </div>
+      <div class="custom-slider">
+        <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
       </div>
     </div>
-    <div class="custom-slider">
-      <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
-    </div>
-  </div>
-  <div class="store-main">
-    <div class="store-container">
-      <ul class="row list-product">
-        <li *ngFor="let printingEdition of printingEditions" class="col-3">
-          <div class="img-holder">
-            <img src="{{printingEdition.avatarUrl}}" alt="Alternate Text" />
-          </div>
-          <div class="text-holder w-100">
-            <p>{{printingEdition.name}}</p>
-            <p class="description">{{printingEdition.desc}}</p>
-            <p>Author: </p>
-            <span class="price">Price: {{printingEdition.price}}</span>
-          </div>
-          <!--<div class="link-holder w-100">
-            <a [routerLink]="['/more-info', { id:product.id }]">More info</a>
-            <a [routerLink]="['/cart', { id:product.id }]">Buy Now</a>
-          </div>-->
+    <div class="store-main">
+      <div class="store-container">
+        <ul class="row list-product">
+          <li *ngFor="let printingEdition of printingEditions" class="col-3">
+            <div class="img-holder">
+              <img src="{{printingEdition.avatarUrl}}" alt="Alternate Text" />
+            </div>
+            <div class="text-holder w-100">
+              <p>{{printingEdition.name}}</p>
+              <p class="description">{{printingEdition.desc}}</p>
+              <p>Author: </p>
+              <span class="price">Price: {{printingEdition.price}}</span>
+            </div>
 
-        </li>
-      </ul>
+
+          </li>
+        </ul>
+      </div>
+
     </div>
 
-    <a [routerLink]="['/products']">Products</a> |
-    <a [routerLink]="['/cart']">Cart</a>
   </div>
-  
-</div>
