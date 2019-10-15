@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Store.BusinessLogic.Common.Interfaces;
 using Store.BusinessLogic.Mapper;
 using Store.BusinessLogic.Services;
 using Store.BusinessLogic.Services.Interfaces;
@@ -29,7 +30,9 @@ namespace Store.BusinessLogic.Common
             services.AddTransient<IPrintStoreService, PrintStoreService>();
             services.AddTransient<IUserService, UserService>();
 
-            IMapper mapper = new MapperConfiguration(config =>
+			services.AddTransient<IEmailSender, EmailSender>();
+
+			IMapper mapper = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AuthorMapperProfile());
 				config.AddProfile(new PrintingEditionMapperProfile());

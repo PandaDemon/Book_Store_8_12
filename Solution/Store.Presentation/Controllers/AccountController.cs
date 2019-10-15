@@ -1,40 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.BusinessLogic.Models.PrintingEditions;
+using Store.BusinessLogic.Common.Interfaces;
+using Store.BusinessLogic.JwtProvider;
+using Store.BusinessLogic.JwtProvider.Interfaces;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-    public class AccountController : BaseApiController
+	public class AccountController : BaseApiController
     {
-        private readonly IUserService _userService;
+		public static string Succsessful = "Succsessful";
+		public static string LogOutMessage = "You are logged out";
+		public static string ForgotPasswordEmailSubject = "Get a new password";
+	
+		private readonly IAccountService _accountService;
+		private readonly IJwtTokenValidator _jwtProvider;
+		private readonly IEmailSender _emailSender;
+		private readonly IUserService _userService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IAccountService accountService, IEmailSender emailSender, IJwtTokenValidator jwtProvider)
         {
 			_userService = userService;
-        }
+			_accountService = accountService;
+			_jwtProvider = jwtProvider;
+			_emailSender = emailSender;
+		}
+
 
 		[HttpPost("SignUp")]
-        public async Task<IActionResult> SignUp(UserSignUpModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _userService.SignUp(model);
-                if (result.Succeeded)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return BadRequest(result.Errors);
-                }
-            }
-            return BadRequest("Model is not valid");
-        }
+		public async Task<IActionResult> RegisterAsync(UserModel model)
+		{
+			var confirmationToken = await _accountService.RegisterAsync(model);
+			if (!string.IsNullOrWhiteSpace(confirmationToken))
+			{
+				var callbackUrl = Url.Action("confirmRegistration", "Account",
+					new { userEmail = model.Email, confirmToken = confirmationToken },
+					protocol: HttpContext.Request.Scheme);
+				await _emailSender.SendEmailAsync(model.Email, "Confirm Email",
+					$"Confirm your account : {callbackUrl}");
+				return Ok("We have sent an email with a confirmation link to your email address. In order to complete the sign-up process, please click click the confirmation link.");
+			}
+			return BadRequest("Failed");
+		}
 
-        [HttpPost("SignIn")]
+		[HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(UserSignInModel model)
         {
             var tokenResponseModel = await _userService.SignInAsync(model);

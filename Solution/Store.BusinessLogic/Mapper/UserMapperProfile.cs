@@ -15,5 +15,30 @@ namespace Store.BusinessLogic.Mapper
             CreateMap<UserChangePasswordModel, User>();
             CreateMap<UserSignUpModel, User>();
         }
-    }
+
+		public static User MapModelToEntity(UserModel model)
+		{
+			var entity = new User();
+			if (!string.IsNullOrWhiteSpace(model.Id))
+			{
+				entity.Id = model.Id;
+			}
+			entity.FirstName = model.FirstName;
+			entity.LastName = model.LastName;
+			entity.Email = model.Email;
+			entity.UserName = model.UserName;
+			return entity;
+		}
+
+		public static UserModel MapEntityToModel(User entity)
+		{
+			var model = new UserModel();
+			model.Id = entity.Id;
+			model.FirstName = entity.FirstName;
+			model.LastName = entity.LastName;
+			model.Email = entity.Email;
+			model.UserName = entity.UserName;
+			return model;
+		}
+	}
 }
