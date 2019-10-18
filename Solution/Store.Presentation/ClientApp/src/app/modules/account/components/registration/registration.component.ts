@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { AccountService } from '../../services/account.service';
 //import { UserService } from './services/user.service';
 
-import { MustMatch } from './must-match.validator';
+//import { MustMatch } from './must-match.validator';
 
 @Component({
   selector: 'app-registration',
@@ -11,10 +12,10 @@ import { MustMatch } from './must-match.validator';
 })
 export class RegistrationComponent implements OnInit {
 
-  registerForm: FormGroup;
-  submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private titleService: Title) { }
+  submitted = false
+
+  constructor( private titleService: Title, private accountService: AccountService) { }
 
   angularClientSideData = 'Angular';
 
@@ -23,49 +24,33 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    },
-      {
-        validator: MustMatch('password', 'confirmPassword')
-      });
+    
+    //  this.formBuilder.group({
+    //  firstName: ['', Validators.required],
+    //  lastName: ['', Validators.required],
+    //  userName: ['', Validators.required],
+    //  email: ['', [Validators.required, Validators.email]],
+    //  password: ['', [Validators.required, Validators.minLength(6)]],
+    //  confirmPassword: ['', Validators.required]
+    //},
+    //  {
+    //    validator: MustMatch('password', 'confirmPassword')
+    //  });
   }
 
-  get f() { return this.registerForm.controls; }
+  get f() { return this.accountService.registerForm.controls; }
 
   onSubmit() {
+    console.log('ssssssssssssss')
+    this.accountService.singUp();
     this.submitted = true;
 
-    if (this.registerForm.invalid) {
-      return;
-    }
-
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
-
-    //this.service.register().subscribe(
-    //    (res: any) => {
-    //        console.log(res.succeeded);
-    //        if (res.succeeded) {
-    //            console.log(res.succeeded);
-    //            this.toastr.success('New user created', 'Registration successful');
-    //            this.router.navigateByUrl('/user/confirm');
-
-    //        } else {
-    //            res.errors.forEach(element => {
-    //                console.log(element);
-    //                this.toastr.error(element.code, 'registration failed')
-
-
-    //            });
-    //        }
-    //    },
-    //    err => {
-    //        console.log(err);
-    //    }
-    //);
+    
+    
+    //if (this.accountService.registerForm.invalid) {
+    //  return;
+    //}
+    ////this.accountService.singUp();
+    //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.accountService.registerForm.value))
   }
 }

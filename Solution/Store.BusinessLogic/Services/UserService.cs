@@ -94,15 +94,6 @@ namespace Store.BusinessLogic.Services
 
         public async Task<IEnumerable<UserModel>> GetAll()
         {
-            //var authors = _userManager.Users();
-            //var model = new List<UserModel>();
-
-            //foreach (var p in authors)
-            //{
-            //    model.Add(_mapper.Map<UserModel>(p));
-            //}
-            //return model;
-
             var userModels = new List<UserModel>();
             var list = _userManager.Users;
             foreach (var user in list)
@@ -129,7 +120,7 @@ namespace Store.BusinessLogic.Services
         public async Task<IdentityResult> SignUp(UserSignUpModel model)
         {
             var result = new IdentityResult();
-            var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.Email };
+            var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.UserName, FirstName = model.FirstName, LastName = model.LastName };
             try
             {
                 result = await _userManager.CreateAsync(user, model.Password);

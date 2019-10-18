@@ -18,6 +18,7 @@ import { RegistrationComponent } from './modules/account/components/registration
 import { PrintingEditionComponent } from './modules/admin/components/printingedition/printingedition.component';
 
 import { ProductService } from './modules/store/services/product.service';
+import { AccountService } from './modules/account/services/account.service';
 
 import { Ng5SliderModule } from 'ng5-slider';
 
@@ -46,7 +47,7 @@ import { Ng5SliderModule } from 'ng5-slider';
       { path: 'store', component: StoreComponent },
     ])
   ],
-  providers: [ProductService],
+  providers: [ProductService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

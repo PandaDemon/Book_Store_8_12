@@ -17,8 +17,6 @@ namespace Store.Presentation.Controllers
 
 
 		[HttpGet("GetPrintingEdition")]
-		//a
-		///
 		public IEnumerable<PrintingEditionModel> GetAllPrintingEditions()
 		{
 			var model = _printingStoreService.GetAllPrintingEditions();

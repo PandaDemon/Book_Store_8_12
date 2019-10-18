@@ -31,7 +31,6 @@ namespace Store.BusinessLogic.Common
             services.AddTransient<IUserService, UserService>();
 
 			services.AddTransient<IAccountService, AccountService>();
-
 			services.AddTransient<IEmailSender, EmailSender>();
 
 			IMapper mapper = new MapperConfiguration(config =>

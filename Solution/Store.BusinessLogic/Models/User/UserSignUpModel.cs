@@ -24,11 +24,5 @@ namespace Store.BusinessLogic.Models.User
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [Required]
-        [Compare("Password", ErrorMessage = "Pasword do not match")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        public string PasswordConfirm { get; set; }
     }
 }

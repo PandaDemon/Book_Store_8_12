@@ -5,19 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClientApp\src\app\modules\account\services\**" />
     <Compile Remove="Pages\**" />
     <Compile Remove="Views\Account\**" />
     <Compile Remove="wwwroot\app\account.module\**" />
-    <Content Remove="ClientApp\src\app\modules\account\services\**" />
     <Content Remove="Pages\**" />
     <Content Remove="Views\Account\**" />
     <Content Remove="wwwroot\app\account.module\**" />
-    <EmbeddedResource Remove="ClientApp\src\app\modules\account\services\**" />
     <EmbeddedResource Remove="Pages\**" />
     <EmbeddedResource Remove="Views\Account\**" />
     <EmbeddedResource Remove="wwwroot\app\account.module\**" />
-    <None Remove="ClientApp\src\app\modules\account\services\**" />
     <None Remove="Pages\**" />
     <None Remove="Views\Account\**" />
     <None Remove="wwwroot\app\account.module\**" />

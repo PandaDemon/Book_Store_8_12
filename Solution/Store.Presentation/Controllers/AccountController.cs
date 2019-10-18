@@ -1,47 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Common.Interfaces;
 using Store.BusinessLogic.JwtProvider;
 using Store.BusinessLogic.JwtProvider.Interfaces;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
+using Store.DataAccess.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
 	public class AccountController : BaseApiController
     {
-		public static string Succsessful = "Succsessful";
-		public static string LogOutMessage = "You are logged out";
-		public static string ForgotPasswordEmailSubject = "Get a new password";
-	
-		private readonly IAccountService _accountService;
-		private readonly IJwtTokenValidator _jwtProvider;
-		private readonly IEmailSender _emailSender;
+		
 		private readonly IUserService _userService;
 
-        public AccountController(IUserService userService, IAccountService accountService, IEmailSender emailSender, IJwtTokenValidator jwtProvider)
+
+		public AccountController( IUserService userService)
         {
 			_userService = userService;
-			_accountService = accountService;
-			_jwtProvider = jwtProvider;
-			_emailSender = emailSender;
 		}
 
-
 		[HttpPost("SignUp")]
-		public async Task<IActionResult> RegisterAsync(UserModel model)
+		public async Task<IActionResult> SignUp([FromBody]UserSignUpModel model)
 		{
-			var confirmationToken = await _accountService.RegisterAsync(model);
-			if (!string.IsNullOrWhiteSpace(confirmationToken))
+			if (!ModelState.IsValid)
 			{
-				var callbackUrl = Url.Action("confirmRegistration", "Account",
-					new { userEmail = model.Email, confirmToken = confirmationToken },
-					protocol: HttpContext.Request.Scheme);
-				await _emailSender.SendEmailAsync(model.Email, "Confirm Email",
-					$"Confirm your account : {callbackUrl}");
-				return Ok("We have sent an email with a confirmation link to your email address. In order to complete the sign-up process, please click click the confirmation link.");
+				return BadRequest(ModelState);
 			}
-			return BadRequest("Failed");
+			var result = await _userService.SignUp(model);
+			if (!result.Succeeded)
+			{
+
+				return BadRequest(result.Errors);
+			}
+			return Ok();
 		}
 
 		[HttpPost("SignIn")]

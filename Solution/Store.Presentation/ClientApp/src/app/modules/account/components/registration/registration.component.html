@@ -5,7 +5,7 @@
     </div>
     <h2></h2>
   </div>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="accountService.registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <div class="icon-holder">
         <i class="fas fa-kay">F</i>
@@ -25,6 +25,17 @@
       <input type="text" formControlName="lastName" class="form-control" placeholder="Last name" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
       <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
         <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="icon-holder">
+        <i class="fas fa-kay">L</i>
+      </div>
+      <label>Your Username</label>
+      <input type="text" formControlName="userName" class="form-control" placeholder="User name" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
+      <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+        <div *ngIf="f.userName.errors.required">User Name is required</div>
       </div>
     </div>
 
@@ -65,7 +76,7 @@
     </div>
 
     <div class="button-holder">
-      <button class="sing-up-btn">Sign Up your account</button>
+      <button type="submit" class="sing-up-btn">Sign Up your account</button>
     </div>
   </form>
 
