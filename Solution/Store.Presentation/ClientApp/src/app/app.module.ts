@@ -15,6 +15,8 @@ import { StoreComponent } from './modules/store/components/store/store.component
 import { LoginComponent } from './modules/account/components/login/login.component';
 import { RegistrationComponent } from './modules/account/components/registration/registration.component';
 
+import { PrintingEditionComponent } from './modules/admin/components/printingedition/printingedition.component';
+
 import { ProductService } from './modules/store/services/product.service';
 
 import { Ng5SliderModule } from 'ng5-slider';
@@ -27,7 +29,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     AboutUsComponent,
     LoginComponent,
     RegistrationComponent,
-    StoreComponent
+    StoreComponent,
+    PrintingEditionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,3 +50,4 @@ import { Ng5SliderModule } from 'ng5-slider';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+////

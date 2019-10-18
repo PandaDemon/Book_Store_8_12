@@ -21,7 +21,7 @@ namespace Store.BusinessLogic.Common
         {
             services.AddTransient<DataBaseInitialization>();
             services.AddTransient<IAuthorRepository, AuthorDapperRepository>();
-            //services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
+            services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionDapperRepository>();
 			services.AddTransient<IBaseRepository<PrintingEdition>, PrintingEditionDapperRepository>();
 
@@ -29,6 +29,8 @@ namespace Store.BusinessLogic.Common
             services.AddTransient<IPrintingEditionService, PrintingEditionService>();
             services.AddTransient<IPrintStoreService, PrintStoreService>();
             services.AddTransient<IUserService, UserService>();
+
+			services.AddTransient<IAccountService, AccountService>();
 
 			services.AddTransient<IEmailSender, EmailSender>();
 

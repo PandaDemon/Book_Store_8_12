@@ -1,0 +1,44 @@
+
+  <div>Printing Edition Admin</div>
+  <div class="grid-table">
+    <div class="thead">
+      <div class="tr">
+        <div class="td">Name</div>
+        <div class="td">Price</div>
+        <div class="td">Desc</div>
+        <div class="td">CategoryId</div>
+        <div class="td">AvatarUrl</div>
+        <div class="td">CurrencyId</div>
+        <div class="td">Quantity</div>
+      </div>
+    </div>
+    <div class="tbody">
+      <form class="tr" [formGroup]="fg" *ngFor="let fg of printingEditionForms.controls">
+        <div class="td">
+          <input class="form-control" formControlName="Name" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="Price" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="Desc" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="AvatarUrl" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="Quantity" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="CategoryId" />
+        </div>
+        <div class="td">
+          <input class="form-control" formControlName="CurrencyId" />
+        </div>
+        <div class="td">
+          <button type="submit" class="btn btn-success" [disabled]="fg.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+///

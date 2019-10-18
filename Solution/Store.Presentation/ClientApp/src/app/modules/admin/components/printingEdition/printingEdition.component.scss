@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+.grid-table{
+  display: table;
+}
+
+.thead{
+  display: table-header-group;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tbody{
+  display: table-row-group;
+}
+
+.tr{
+  display: flex;
+  justify-content: space-around;
+}
+
+input.ng-invalid.ng-touched{
+  border-color: #dc3545;
+}
+///
