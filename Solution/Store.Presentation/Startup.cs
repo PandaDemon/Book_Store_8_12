@@ -150,6 +150,8 @@ namespace Store.Presentation
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
+
+
             });
             //app.UseCors(builder => builder.WithOrigins("http://localhost:44350"));
 
