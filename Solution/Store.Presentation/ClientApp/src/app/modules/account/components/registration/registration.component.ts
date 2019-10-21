@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { AccountService } from '../../services/account.service';
-//import { UserService } from './services/user.service';
-
-//import { MustMatch } from './must-match.validator';
 
 @Component({
   selector: 'app-registration',
@@ -14,38 +11,42 @@ export class RegistrationComponent implements OnInit {
 
 
   submitted = false
+    router: any;
+    toastr: any;
 
-  constructor( private titleService: Title, private accountService: AccountService) { }
-
-  angularClientSideData = 'Angular';
-
-  public setTitle(newTitle: string) {
-    this.titleService.setTitle(newTitle);
-  }
+  constructor( private titleService: Title, public accountService: AccountService) { }
 
   ngOnInit() {
-    
-    //  this.formBuilder.group({
-    //  firstName: ['', Validators.required],
-    //  lastName: ['', Validators.required],
-    //  userName: ['', Validators.required],
-    //  email: ['', [Validators.required, Validators.email]],
-    //  password: ['', [Validators.required, Validators.minLength(6)]],
-    //  confirmPassword: ['', Validators.required]
-    //},
-    //  {
-    //    validator: MustMatch('password', 'confirmPassword')
-    //  });
+    this.submitted = true;
+
   }
 
   get f() { return this.accountService.registerForm.controls; }
 
   onSubmit() {
-    console.log('ssssssssssssss')
-    this.accountService.singUp();
-    this.submitted = true;
+    this.accountService.singUp().subscribe(
+      (res: any) => {
+        console.log(res.succeeded);
+        if (res.succeeded) {
+          console.log(res.succeeded);
+          this.toastr.success('New user created', 'Registration successful');
+          this.router.navigateByUrl('/user/confirm');
 
-    
+        }
+        res.errors.forEach(element => {
+          console.log(element);
+          this.toastr.error(element.code, 'registration failed')
+
+
+        });
+
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+       
     
     //if (this.accountService.registerForm.invalid) {
     //  return;

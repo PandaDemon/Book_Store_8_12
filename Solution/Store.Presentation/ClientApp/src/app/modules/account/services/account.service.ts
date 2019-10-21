@@ -6,9 +6,9 @@ import { MustMatch } from './must-match.validator';
 @Injectable()
 export class AccountService {
   formformBuilder: FormBuilder;
-  readonly BaseURi = "http://localhost:44350/";
+  readonly BaseURi = "http://localhost:44350";
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(public formBuilder: FormBuilder, private http: HttpClient) { }
 
   registerForm = this.formBuilder.group({
     firstName: ['', Validators.required],
@@ -23,6 +23,8 @@ export class AccountService {
   });
 
   singUp() {
+    console.log('ssssssssssssss');
+
     var body = {
       firstName: this.registerForm.value.firstName,
       lastName: this.registerForm.value.lastName,
