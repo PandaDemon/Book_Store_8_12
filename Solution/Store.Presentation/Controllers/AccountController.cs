@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Store.BusinessLogic.Common.Interfaces;
-using Store.BusinessLogic.JwtProvider;
-using Store.BusinessLogic.JwtProvider.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
-using System;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
-	public class AccountController : BaseApiController
+    public class AccountController : BaseApiController
     {
 		
 		private readonly IUserService _userService;

@@ -10,48 +10,69 @@ import { AccountService } from '../../services/account.service';
 export class RegistrationComponent implements OnInit {
 
 
-  submitted = false
+    submitted = false
     router: any;
     toastr: any;
 
-  constructor( private titleService: Title, public accountService: AccountService) { }
+    constructor( private titleService: Title, public accountService: AccountService) { }
 
-  ngOnInit() {
-    this.submitted = true;
+    ngOnInit() {
+      this.submitted = true;
 
-  }
+    }
 
-  get f() { return this.accountService.registerForm.controls; }
+    get f() { return this.accountService.registerForm.controls; }
 
-  onSubmit() {
-    this.accountService.singUp().subscribe(
-      (res: any) => {
-        console.log(res.succeeded);
-        if (res.succeeded) {
-          console.log(res.succeeded);
-          this.toastr.success('New user created', 'Registration successful');
-          this.router.navigateByUrl('/user/confirm');
-
+    onSubmit() {
+        if (this.accountService.registerForm.invalid) {
+            return;
         }
-        res.errors.forEach(element => {
-          console.log(element);
-          this.toastr.error(element.code, 'registration failed')
+        else {
+            this.accountService.singUp().subscribe(
+                (res: any) => {
+                    console.log(res.succeeded);
+                    if (res.succeeded) {
+                        console.log(res.succeeded);
+                        this.toastr.success('New user created', 'Registration successful');
+                        this.router.navigateByUrl('/user/confirm');
+
+                    }
+                    res.errors.forEach(element => {
+                        console.log(element);
+                        this.toastr.error(element.code, 'registration failed')
 
 
-        });
+                    });
 
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
-       
-    
-    //if (this.accountService.registerForm.invalid) {
-    //  return;
-    //}
-    ////this.accountService.singUp();
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        }
     //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.accountService.registerForm.value))
-  }
+
+    //this.accountService.singUp().subscribe(
+    //  (res: any) => {
+    //    console.log(res.succeeded);
+    //    if (res.succeeded) {
+    //      console.log(res.succeeded);
+    //      this.toastr.success('New user created', 'Registration successful');
+    //      this.router.navigateByUrl('/user/confirm');
+
+    //    }
+    //    res.errors.forEach(element => {
+    //      console.log(element);
+    //      this.toastr.error(element.code, 'registration failed')
+
+
+    //    });
+
+    //  },
+    //  err => {
+    //    console.log(err);
+    //  }
+    //);
+    
+    }
 }

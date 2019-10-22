@@ -51,4 +51,3 @@ import { Ng5SliderModule } from 'ng5-slider';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-////

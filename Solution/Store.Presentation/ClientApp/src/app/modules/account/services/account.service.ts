@@ -23,7 +23,7 @@ export class AccountService {
   });
 
   singUp() {
-    console.log('ssssssssssssss');
+    console.log('submiting...');
 
     var body = {
       firstName: this.registerForm.value.firstName,
@@ -33,6 +33,6 @@ export class AccountService {
       password: this.registerForm.value.password,
     };
 
-    return this.http.post(this.BaseURi + '/api/Account/SignUp', body);
+    return this.http.post('/api/Account/SignUp', body);
   }
 }
