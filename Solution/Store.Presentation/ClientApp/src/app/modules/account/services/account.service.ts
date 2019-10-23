@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from './must-match.validator';
 
 @Injectable()
 export class AccountService {
-  formformBuilder: FormBuilder;
   readonly BaseURi = "http://localhost:44350";
 
   constructor(public formBuilder: FormBuilder, private http: HttpClient) { }
@@ -15,11 +14,16 @@ export class AccountService {
     lastName: ['', Validators.required],
     userName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{5,}')]],
     confirmPassword: ['', Validators.required]
-    },
-  {
+  },
+    {
     validator: MustMatch('password', 'confirmPassword')
+    });
+
+  signInForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   singUp() {
@@ -34,5 +38,15 @@ export class AccountService {
     };
 
     return this.http.post('/api/Account/SignUp', body);
+  }
+
+  signIn() {
+
+    var body = {
+      email: this.signInForm.value.email,
+      password: this.signInForm.value.password
+    };
+
+    return this.http.post('/api/Account/SignIn', body);
   }
 }

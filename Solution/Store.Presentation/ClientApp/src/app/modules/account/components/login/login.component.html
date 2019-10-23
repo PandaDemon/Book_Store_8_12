@@ -3,15 +3,18 @@
     <div class="img-holder">
       <img src="/assets/images/defolt-user.png" alt="Defolt user" />
     </div>
-    <h2 [innerText]="title"></h2>
   </div>
-  <form #form="ngForm" autocomplete="off">
+  <form [formGroup]="accountService.signInForm" (ngSubmit)="onSubmit()" >
     <div class="form-group">
       <div class="icon-holder">
         <i class="fas fa-kay">E</i>
       </div>
       <label>E-mail</label>
-      <input name="email" class="form-control" #UserName="ngModel" [(ngModel)]="formModel.UserName" />
+      <input type="text" formControlName="email" class="form-control" placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">Email is required</div>
+        <div *ngIf="f.email.errors.email && !f.email.errors.required">Email must be a valid email address</div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -19,8 +22,10 @@
         <i class="fas fa-kay">P</i>
       </div>
       <label>Password</label>
-      <input name="password" class="form-control" #Password="ngModel" [(ngModel)]="formModel.Password" />
-      <a href="#">Fogort your password?</a>
+      <input type="password" formControlName="password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
     </div>
 
     <div class="form-row">
@@ -28,14 +33,17 @@
         <input type="checkbox" name="name" />
         <label>Remember me</label>
       </div>
+
       <div class="col-md-6">
         <button type="submit" class="btn btn-lg btn-block">Sign In</button>
       </div>
     </div>
   </form>
+
+
   <div class="link-holder">
     <p>New to Book Publishing Company?</p>
-    <a class="sing-up-btn" (click)="setTitle('Registration - AngularSpa')" routerLink="/registration">Sing Up</a>
+    <a class="sing-up-btn" (click)='collapse()' [routerLink]='["/registration"]'>Sing Up</a>
   </div>
 </div>
 
