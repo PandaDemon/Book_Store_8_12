@@ -9,17 +9,18 @@ namespace Store.BusinessLogic.Services
 {
 	public class AccountService : IAccountService
 	{
-		private readonly IUserRepository _userRepository;
+		private readonly IUserRepository _userManager;
 
 		public AccountService(IUserRepository userRepository)
 		{
-			_userRepository = userRepository;
+			_userManager = userRepository;
 		}
 
 		public async Task<string> RegisterAsync(UserModel model)
 		{
 			var user = UserMapperProfile.MapModelToEntity(model);
-			var confirmationToken = await _userRepository.RegisterAsync(user, model.Password);
+			var confirmationToken = await _userManager.RegisterAsync(user, model.Password);
+			//await _userRepositor
 			if (string.IsNullOrWhiteSpace(confirmationToken))
 			{
 				return confirmationToken;
@@ -31,7 +32,7 @@ namespace Store.BusinessLogic.Services
 		{
 			if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(confirmationToken))
 			{
-				return await _userRepository.ConfirmEmailAsync(email, confirmationToken);
+				return await _userManager.ConfirmEmailAsync(email, confirmationToken);
 			}
 			return string.Empty;
 		}
@@ -43,7 +44,7 @@ namespace Store.BusinessLogic.Services
 				return "Input is empty";
 			}
 			
-			var userId = await _userRepository.LogInAsync(email, password);
+			var userId = await _userManager.LogInAsync(email, password);
 			if (!string.IsNullOrWhiteSpace(userId))
 			{
 				return userId;
@@ -53,7 +54,7 @@ namespace Store.BusinessLogic.Services
 
 		public async Task LogOutAsync()
 		{
-			await _userRepository.LogOutAsync();
+			await _userManager.LogOutAsync();
 		}
 
 		public async Task<string> ForgotPasswordAsync(string email)
@@ -61,7 +62,7 @@ namespace Store.BusinessLogic.Services
 			if (!string.IsNullOrWhiteSpace(email))
 			{
 				var newPassword = GeneratePassword.PasswordGenerate(GeneratePassword.PasswordLength);
-				await _userRepository.ForgotPasswordAsync(email, newPassword);
+				await _userManager.ForgotPasswordAsync(email, newPassword);
 				return newPassword;
 			}
 			return "Input is empty";
@@ -70,7 +71,7 @@ namespace Store.BusinessLogic.Services
 		public async Task<bool> ChangePasswordAsync(UserModel model)
 		{
 			var user = UserMapperProfile.MapModelToEntity(model);
-			return await _userRepository.ChangePasswordAsync(user, model.Password);
+			return await _userManager.ChangePasswordAsync(user, model.Password);
 		}
 
 		public async Task<bool> EditProfileAsync(UserModel userProfile)
@@ -79,7 +80,7 @@ namespace Store.BusinessLogic.Services
 			{
 				await ChangePasswordAsync(userProfile);
 			}
-			return await _userRepository.EditProfileAsync(UserMapperProfile.MapModelToEntity(userProfile));
+			return await _userManager.EditProfileAsync(UserMapperProfile.MapModelToEntity(userProfile));
 		}
 	}
 }

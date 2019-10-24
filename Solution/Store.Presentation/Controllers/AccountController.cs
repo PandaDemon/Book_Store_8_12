@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Store.BusinessLogic.Models.User;
 using Store.BusinessLogic.Services.Interfaces;
+using Store.DataAccess.Entities;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
@@ -9,11 +14,12 @@ namespace Store.Presentation.Controllers
     {
 		
 		private readonly IUserService _userService;
+		private readonly UserManager<User> _userManager;
 
-
-		public AccountController( IUserService userService)
+		public AccountController( IUserService userService, UserManager<User> userManager)
         {
 			_userService = userService;
+			_userManager = userManager;
 		}
 
 		[HttpPost("SignUp")]
@@ -45,7 +51,23 @@ namespace Store.Presentation.Controllers
             return BadRequest("Login failed");
         }
 
-        [HttpPost("LogOut")]
+		[HttpGet("UserProfile")]
+		//[Authorize(Roles = "user")]
+		public async Task<Object> GetUserProfile()
+		{
+			var testr = User;
+			var token = Response.Headers.Keys;
+			string userId = User.Claims.First(c => c.Type == "UserId").Value;
+			var user = await _userManager.FindByIdAsync(userId);
+			return new
+			{
+				user.UserName,
+				user.Email,
+				user.FirstName
+			};
+		}
+
+		[HttpPost("LogOut")]
         public async Task LogOut()
         {
             await _userService.LogOutAsync();

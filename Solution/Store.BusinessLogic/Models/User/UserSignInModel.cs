@@ -13,7 +13,6 @@ namespace Store.BusinessLogic.Models.User
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Required]
         [Display(Name = "Remember? ")]
         public bool RememberMe { get; set; }
 

@@ -21,6 +21,7 @@ namespace Store.DataAccess.Repositories.Interfaces
 
 		Task<string> LogInAsync(string email, string password);
 		Task<string> RegisterAsync(User user, string password);
+		Task<string> AddToRoleAsync(User user, string password);
 		Task<string> ConfirmEmailAsync(string userId, string confirmationToken);
 		Task LogOutAsync();
 		Task<bool> ForgotPasswordAsync(string userEmail, string newPassword);

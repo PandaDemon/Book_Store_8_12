@@ -24,7 +24,9 @@ namespace Store.BusinessLogic.JwtProvider
         public static SecurityTokenDescriptor GenerateSecurityTokenDescriptor(UserModel user)
         {
             IdentityOptions options = new IdentityOptions();
-            var tokenDescriptor = new SecurityTokenDescriptor
+			var role = user.Role.FirstOrDefault();
+
+			var tokenDescriptor = new SecurityTokenDescriptor
             {
 
                 Subject = new ClaimsIdentity(new Claim[]
@@ -38,10 +40,12 @@ namespace Store.BusinessLogic.JwtProvider
             };
             return tokenDescriptor;
         }
+
         public static SecurityTokenDescriptor GenerateSecurityDescriptorForRefreshToken(UserModel user)
         {
             IdentityOptions options = new IdentityOptions();
-            var tokenDescriptor = new SecurityTokenDescriptor
+			var role = user.Role.FirstOrDefault();
+			var tokenDescriptor = new SecurityTokenDescriptor
             {
 
                 Subject = new ClaimsIdentity(new Claim[]
@@ -55,6 +59,8 @@ namespace Store.BusinessLogic.JwtProvider
             };
             return tokenDescriptor;
         }
+
+
         public static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];

@@ -19,7 +19,10 @@ namespace Store.BusinessLogic.Common
     {
         public static void InjectDataBase(this IServiceCollection services, IConfiguration Сonfiguration)
         {
-            services.AddTransient<DataBaseInitialization>();
+			services.AddScoped<RoleManager<IdentityRole>>();
+			services.AddScoped<UserManager<User>>();
+
+			services.AddTransient<DataBaseInitialization>();
             services.AddTransient<IAuthorRepository, AuthorDapperRepository>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionDapperRepository>();

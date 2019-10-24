@@ -7,6 +7,7 @@ using Store.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Store.BusinessLogic.Services
@@ -14,12 +15,14 @@ namespace Store.BusinessLogic.Services
     class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
+		private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
 
-        public UserService(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper)
+        public UserService(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
-            _userManager = userManager;
+			_roleManager = roleManager;
+			_userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
         }
@@ -119,12 +122,14 @@ namespace Store.BusinessLogic.Services
 
         public async Task<IdentityResult> SignUp(UserSignUpModel model)
         {
-            var result = new IdentityResult();
+			var role = _roleManager.Roles;
+			var result = new IdentityResult();
             var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.UserName, FirstName = model.FirstName, LastName = model.LastName };
             try
             {
+				
                 result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "user");
+                await _userManager.AddToRoleAsync(user, role.FirstOrDefault(x=> x.Name=="user").Name);
 
             }
             catch (Exception ex)
@@ -167,11 +172,11 @@ namespace Store.BusinessLogic.Services
         public async Task<Object> SignInAsync(UserSignInModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+            SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
 
 
-            if (await _userManager.IsEmailConfirmedAsync(user) && result.Succeeded)
+			if (await _userManager.IsEmailConfirmedAsync(user) && result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: true);
                 var userModel = _mapper.Map<UserModel>(user);
