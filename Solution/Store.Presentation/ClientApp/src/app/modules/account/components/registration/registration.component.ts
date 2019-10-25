@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
+import { ToastrService } from 'ngx-toastr'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -8,10 +10,8 @@ import { AccountService } from '../../services/account.service';
 export class RegistrationComponent implements OnInit {
 
     submitted = false
-    router: any;
-    toastr: any;
 
-    public constructor(public accountService: AccountService) { }
+  public constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
     ngOnInit() {
       this.submitted = true;

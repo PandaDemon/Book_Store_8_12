@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Store.BusinessLogic.Models.User;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Store.BusinessLogic.JwtProvider
 {
-    public class JwtProvider
+	public class JwtProvider
     {
         public const string ISSUER = "Book_Store_14_08";
         public const string AUDIENCE = "http://localhost:44350/";
@@ -34,7 +35,7 @@ namespace Store.BusinessLogic.JwtProvider
                             new Claim("UserID", user.Id),
                             new Claim(options.ClaimsIdentity.RoleClaimType, user.Role.FirstOrDefault())
                        }),
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = new SigningCredentials(JwtProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
 
             };
@@ -45,6 +46,16 @@ namespace Store.BusinessLogic.JwtProvider
         {
             IdentityOptions options = new IdentityOptions();
 			var role = user.Role.FirstOrDefault();
+			var tokenDescriptor1 = new SecurityTokenDescriptor();
+			var claim = new List<Claim>();
+
+			claim.Add(new Claim("UserID", user.Id));
+			claim.Add(new Claim(options.ClaimsIdentity.RoleClaimType, user.Role.FirstOrDefault()));
+
+
+			tokenDescriptor1.Subject = new ClaimsIdentity(claim);
+			tokenDescriptor1.Expires = DateTime.UtcNow.AddDays(30);
+			tokenDescriptor1.SigningCredentials = new SigningCredentials(JwtProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature);
 			var tokenDescriptor = new SecurityTokenDescriptor
             {
 
@@ -53,7 +64,7 @@ namespace Store.BusinessLogic.JwtProvider
                             new Claim("UserID", user.Id),
                             new Claim(options.ClaimsIdentity.RoleClaimType, user.Role.FirstOrDefault())
                        }),
-                Expires = DateTime.Now.AddDays(30),
+                Expires = DateTime.UtcNow.AddDays(30),
                 SigningCredentials = new SigningCredentials(JwtProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256Signature)
 
             };

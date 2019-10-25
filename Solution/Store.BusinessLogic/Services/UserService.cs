@@ -127,14 +127,12 @@ namespace Store.BusinessLogic.Services
             var user = new User { Email = model.Email, PasswordHash = model.Password, UserName = model.UserName, FirstName = model.FirstName, LastName = model.LastName };
             try
             {
-				
                 result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, role.FirstOrDefault(x=> x.Name=="user").Name);
-
+                await _userManager.AddToRoleAsync(user, role.FirstOrDefault(roleName => roleName.Name == "user").Name);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                var s = ex;
+                var message = exception;
             }
             return result;
         }
@@ -172,7 +170,8 @@ namespace Store.BusinessLogic.Services
         public async Task<Object> SignInAsync(UserSignInModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+            SignInResult result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, true, false);
+			//await _signInManager.SignInAsync(user, true);
 
 
 
@@ -182,7 +181,7 @@ namespace Store.BusinessLogic.Services
                 var userModel = _mapper.Map<UserModel>(user);
                 userModel.Role = await _userManager.GetRolesAsync(user);
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(JwtProvider.JwtProvider.GenerateSecurityDescriptorForRefreshToken(userModel));
+                var securityToken = tokenHandler.CreateToken(JwtProvider.JwtProvider.GenerateSecurityTokenDescriptor(userModel));
                 var accessToken = tokenHandler.WriteToken(securityToken);
 
                 var securityTokenRefresh = tokenHandler.CreateToken(JwtProvider.JwtProvider.GenerateSecurityDescriptorForRefreshToken(userModel));
@@ -197,7 +196,7 @@ namespace Store.BusinessLogic.Services
 
         public async Task LogOutAsync()
         {
-            await _signInManager.SignOutAsync();
+           // await _signInManager.SignOutAsync();
         }
 
         public async Task RefreshToken(string refreshToken, UserModel model)

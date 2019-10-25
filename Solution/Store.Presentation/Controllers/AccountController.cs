@@ -45,19 +45,19 @@ namespace Store.Presentation.Controllers
 
             if (tokenResponseModel != null)
             {
-                return Ok(tokenResponseModel);
+				return Ok(tokenResponseModel);
             }
 
             return BadRequest("Login failed");
         }
 
 		[HttpGet("UserProfile")]
-		//[Authorize(Roles = "user")]
+		[Authorize]
 		public async Task<Object> GetUserProfile()
 		{
 			var testr = User;
 			var token = Response.Headers.Keys;
-			string userId = User.Claims.First(c => c.Type == "UserId").Value;
+			string userId = User.Claims.First(claim => claim.Type == "UserID").Value;
 			var user = await _userManager.FindByIdAsync(userId);
 			return new
 			{
@@ -70,7 +70,7 @@ namespace Store.Presentation.Controllers
 		[HttpPost("LogOut")]
         public async Task LogOut()
         {
-            await _userService.LogOutAsync();
+            //await _userService.LogOutAsync();
         }
 
         [HttpGet("ResetPassword")]

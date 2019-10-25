@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 
   submitted = false
-  toastr: any;
-  router: any;
 
-  public constructor( public accountService: AccountService ) { }
+  public constructor(private accountService: AccountService, private router:Router, private toastr:ToastrService) { }
 
   ngOnInit() {
     this.submitted = true;
@@ -26,19 +26,15 @@ export class LoginComponent implements OnInit{
     else {
       this.accountService.signIn().subscribe(
         (res: any) => {
-          console.log(res.succeeded);
-          if (res.succeeded) {
-            console.log(res.succeeded);
-            this.toastr.success('New user created', 'Registration successful');
-            this.router.navigateByUrl('/user/confirm');
-          }
-          res.errors.forEach(element => {
-            console.log(element);
-            this.toastr.error(element.code, 'registration failed')
-          });
+          localStorage.setItem('token', res.token);
+          this.router.navigateByUrl('/home');
         },
         err => {
-          console.log(err);
+          if (err.status == 400) {
+            this.toastr.error('Invorrect user name or password.', 'Authentication failed.');
+          } else {
+            console.log(err);
+          }
         }
       );
     }

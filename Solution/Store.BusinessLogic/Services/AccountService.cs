@@ -54,7 +54,7 @@ namespace Store.BusinessLogic.Services
 
 		public async Task LogOutAsync()
 		{
-			await _userManager.LogOutAsync();
+			//await _userManager.LogOutAsync();
 		}
 
 		public async Task<string> ForgotPasswordAsync(string email)

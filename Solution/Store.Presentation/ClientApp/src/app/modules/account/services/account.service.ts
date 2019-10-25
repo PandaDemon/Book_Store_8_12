@@ -18,7 +18,7 @@ export class AccountService {
     confirmPassword: ['', Validators.required]
   },
     {
-    validator: MustMatch('password', 'confirmPassword')
+      validator: MustMatch('password', 'confirmPassword')
     });
 
   signInForm = this.formBuilder.group({
@@ -42,11 +42,11 @@ export class AccountService {
 
   signIn() {
 
-    var body = {
+    var formData = {
       email: this.signInForm.value.email,
       password: this.signInForm.value.password
     };
 
-    return this.http.post('/api/Account/SignIn', body);
+    return this.http.post('/api/Account/SignIn', formData);
   }
 }

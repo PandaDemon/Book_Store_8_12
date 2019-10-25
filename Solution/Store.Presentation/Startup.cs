@@ -116,7 +116,7 @@ namespace Store.Presentation
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
+			app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();

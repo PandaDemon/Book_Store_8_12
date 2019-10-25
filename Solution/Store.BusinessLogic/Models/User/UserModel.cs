@@ -2,6 +2,7 @@
 
 namespace Store.BusinessLogic.Models.User
 {
+	
     public class UserModel
     {
         public string Id { get; set; }
@@ -12,5 +13,10 @@ namespace Store.BusinessLogic.Models.User
         public string AvatarUrl { get; set; }
 		public string Password { get; set; }
         public IEnumerable<string> Role { get; set; }
+
+		public UserModel()
+		{
+			Role = new List<string>();
+		}
     }
 }
