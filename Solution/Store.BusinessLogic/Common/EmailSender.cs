@@ -29,15 +29,8 @@ namespace Store.BusinessLogic.Common
 					message.IsBodyHtml = false;
 					message.Body = messageText;
 					message.To.Add(email);
+					smtpClient.Send(message);
 
-					try
-					{
-						smtpClient.Send(message);
-					}
-					catch (Exception ex)
-					{
-
-					}
 				}
 			}
 		}

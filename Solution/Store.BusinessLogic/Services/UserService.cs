@@ -196,7 +196,7 @@ namespace Store.BusinessLogic.Services
 
         public async Task LogOutAsync()
         {
-           // await _signInManager.SignOutAsync();
+           await _signInManager.SignOutAsync();
         }
 
         public async Task RefreshToken(string refreshToken, UserModel model)

@@ -70,7 +70,7 @@ namespace Store.Presentation.Controllers
 		[HttpPost("LogOut")]
         public async Task LogOut()
         {
-            //await _userService.LogOutAsync();
+            await _userService.LogOutAsync();
         }
 
         [HttpGet("ResetPassword")]

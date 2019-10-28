@@ -1,4 +1,4 @@
-﻿using EASendMail;
+﻿using System.Net.Mail;
 using System;
 
 
@@ -8,35 +8,35 @@ namespace Store.BusinessLogic.Services
     {
         public static void SendMail(string email, string v, string v1)
         {
-            string from = "mpanukov@gmail.com";
-            string pass = "mp512055120";
-            try
-            {
-                SmtpMail oMail = new SmtpMail("TryIt")
-                {
-                    From = from,
-                    To = "support@emailarchitect.net",
-                    Subject = "Subject text",
-                    TextBody = "Some test text."
-                };
+            //string from = "mpanukov@gmail.com";
+            //string pass = "mp512055120";
+            //try
+            //{
+            //    SmtpMail oMail = new SmtpMail("TryIt")
+            //    {
+            //        From = from,
+            //        To = "support@emailarchitect.net",
+            //        Subject = "Subject text",
+            //        TextBody = "Some test text."
+            //    };
 
-                SmtpServer oServer = new SmtpServer("smtp.gmail.com")
-                {
-                    User = from,
-                    Password = pass,
-                    Port = 587,
-                    ConnectType = SmtpConnectType.ConnectSSLAuto
-                };
-                Console.WriteLine("start to send email over SSL ...");
-                SmtpClient oSmtp = new SmtpClient();
-                oSmtp.SendMail(oServer, oMail);
-                Console.WriteLine("email was sent successfully!");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("failed to send email with the following error:");
-                Console.WriteLine(exception.Message);
-            }
+            //    SmtpServer oServer = new SmtpServer("smtp.gmail.com")
+            //    {
+            //        User = from,
+            //        Password = pass,
+            //        Port = 587,
+            //        ConnectType = SmtpConnectType.ConnectSSLAuto
+            //    };
+            //    Console.WriteLine("start to send email over SSL ...");
+            //    SmtpClient oSmtp = new SmtpClient();
+            //    oSmtp.SendMail(oServer, oMail);
+            //    Console.WriteLine("email was sent successfully!");
+            //}
+            //catch (Exception exception)
+            //{
+            //    Console.WriteLine("failed to send email with the following error:");
+            //    Console.WriteLine(exception.Message);
+            //}
         }
     }
 }
