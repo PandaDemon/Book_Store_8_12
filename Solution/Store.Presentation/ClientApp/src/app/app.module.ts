@@ -3,15 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './modules/home/components/nav-menu/nav-menu.component';
 import { HomeComponent } from './modules/home/components/home/home.component';
 import { AboutUsComponent } from './modules/home/components/about-us/about-us.component';
-
 import { StoreComponent } from './modules/store/components/store/store.component';
-
 import { LoginComponent } from './modules/account/components/login/login.component';
 import { RegistrationComponent } from './modules/account/components/registration/registration.component';
 
@@ -21,6 +20,7 @@ import { ProductService } from './modules/store/services/product.service';
 import { AccountService } from './modules/account/services/account.service';
 
 import { Ng5SliderModule } from 'ng5-slider';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     AboutUsComponent,
     LoginComponent,
     RegistrationComponent,
-    StoreComponent,
+		StoreComponent,
     PrintingEditionComponent
   ],
   imports: [
@@ -38,7 +38,9 @@ import { Ng5SliderModule } from 'ng5-slider';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng5SliderModule,
+	  Ng5SliderModule,
+	  BrowserAnimationsModule,
+	  ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'about-us', component: AboutUsComponent },

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../services/account.service';
-import { ToastrService } from 'ngx-toastr'
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html',
+	templateUrl: './registration.component.html',
+	styleUrls: ['./registration.css']
 })
 export class RegistrationComponent implements OnInit {
 
