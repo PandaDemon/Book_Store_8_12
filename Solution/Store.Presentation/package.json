@@ -4,6 +4,7 @@
 		"@angular/compiler": "~7.1.0",
 		"@angular/core": "~7.1.0",
 		"@angular/forms": "~7.1.0",
+		"@angular/http": "~7.1.0",
 		"@angular/platform-browser": "~7.1.0",
 		"@angular/platform-browser-dynamic": "~7.1.0",
 		"@angular/router": "~7.1.0",
@@ -11,13 +12,12 @@
 		"angular-in-memory-web-api": "~0.3.0",
 		"systemjs": "0.19.40",
 		"core-js": "^2.4.1",
-		"ngx-toastr": "11.1.2",
 		"rxjs": "5.4.2",
 		"zone.js": "^0.8.4"
 	},
-  "devDependencies": {
-    "typescript": "~2.4.0",
-    "tslint": "^3.15.1"
-  },
-  "repository": {}
+	"devDependencies": {
+		"typescript": "~2.4.0",
+		"tslint": "^3.15.1"
+	},
+	"repository": {}
 }
