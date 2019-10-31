@@ -64,6 +64,24 @@
     <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ClientApp\src\app\modules\account\account.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\home\home-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\home\home.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\store\store-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\store\store.module.ts">
+      <SubType>Code</SubType>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" clientapp_4tslint_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

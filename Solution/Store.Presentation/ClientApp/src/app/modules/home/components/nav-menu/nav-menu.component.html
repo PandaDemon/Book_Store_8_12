@@ -3,13 +3,13 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="#">WebSiteName</a>
       <ul class="nav navbar-nav">
-        <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/store"]' (click)='collapse()'>Home</a></li>
-        <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/about-us"]' (click)='collapse()'>About-us</a></li>
+        <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/store/store"]' (click)='collapse()'>Home</a></li>
+        <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/home/about-us"]' (click)='collapse()'>About-us</a></li>
       </ul>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/registration"]' (click)='collapse()'><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/login"]' (click)='collapse()'><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/account/registration"]' (click)='collapse()'><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li [routerLinkActive]='["link-active"]'><a [routerLink]='["/account/login"]' (click)='collapse()'><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>
 </nav>
