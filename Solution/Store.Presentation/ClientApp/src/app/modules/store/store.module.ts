@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { StoreComponent } from '../store/components/store/store.component';
 import { ProductService } from '../store/services/product.service';
 import { StoreRoutingModule } from './store-routing.modules';
 
 @NgModule({
+	declarations: [
+		StoreComponent
+	],
 	imports: [
 		StoreRoutingModule,
-		CommonModule
-	],
-	declarations: [
-		FormsModule,
-		ReactiveFormsModule,
-		StoreComponent
+		CommonModule,
+		Ng5SliderModule,
 	],
 	providers: [ProductService]
 })
-export class HomeModule { }
+export class StoreModule { }

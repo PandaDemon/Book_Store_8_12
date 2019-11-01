@@ -1,0 +1,23 @@
+.navbar-inverse .navbar-nav > li.link-active > a,
+li.link-active a:hover,
+li.link-active a:focus {
+  background-color: #52ad3a;
+  color: white;
+}
+
+.sidebar {
+  width: 100%;
+  padding-top: 50px;
+
+  li {
+    padding: 10px;
+    text-align: center;
+  }
+
+  a {
+    color: #52ad3a;
+    width: 100%;
+    text-align: center;
+  }
+}
+

@@ -68,6 +68,12 @@
     <None Update="ClientApp\src\app\modules\account\account.module.ts">
       <SubType>Code</SubType>
     </None>
+    <None Update="ClientApp\src\app\modules\admin\admin-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\admin\admin.module.ts">
+      <SubType>Code</SubType>
+    </None>
     <None Update="ClientApp\src\app\modules\home\home-routing.modules.ts">
       <SubType>Code</SubType>
     </None>

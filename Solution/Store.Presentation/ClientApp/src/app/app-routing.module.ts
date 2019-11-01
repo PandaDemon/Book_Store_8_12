@@ -1,25 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './modules/home/components/home/home.component';
-
-
 
 const appRoutes: Routes = [
 	{
 		path: '',
-		component: HomeComponent
+		redirectTo: '/',
+		pathMatch: 'full'
 	},
 	{
-		path : 'about-us',
-		loadChildren: () => import('./modules/home/components/about-us/about-us.component').then(module => module.AboutUsComponent)
+		path: 'home',
+		loadChildren: () => import('./modules/home/home.module').then(module => module.HomeModule)
 	},
 	{
 		path : 'account',
 		loadChildren : () => import('./modules/account/account.module').then(module => module.AccountModule)
 	},
 	{
-		path : 'store',
-		loadChildren: () => import('./modules/store/components/store/store.component').then(module => module.StoreComponent)
+		path: 'store',
+		loadChildren: () => import('./modules/store/store.module').then(module => module.StoreModule)
+	},
+	{
+		path: 'admin',
+		loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule)
 	},
 	{ path : '**', redirectTo: '/', pathMatch: 'full' }
 ]; 
