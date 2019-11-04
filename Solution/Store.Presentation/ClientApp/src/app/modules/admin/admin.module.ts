@@ -7,8 +7,7 @@ import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.
 import { PrintingEditionComponent } from './components/printingEdition/printingEdition.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [
@@ -21,6 +20,8 @@ import { BrowserModule } from '@angular/platform-browser';
 		AdminRoutingModule,
 		CommonModule,
 		Ng5SliderModule,
+		FormsModule,
+		ReactiveFormsModule
 	]
 })
 export class AdminModule { }

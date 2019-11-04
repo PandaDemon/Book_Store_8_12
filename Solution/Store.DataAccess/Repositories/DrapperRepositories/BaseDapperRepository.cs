@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.DrapperRepositories
 {
@@ -21,11 +22,11 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 
         protected IDbConnection Connection => new SqlConnection(_config.GetConnectionString("DefaultConnection"));
 
-        public virtual void Create(TEntity item)
+        public async Task Create(TEntity item)
         {
             using (IDbConnection conn = Connection)
             {
-                conn.Insert(item);
+                await conn.InsertAsync(item);
             }
         }
 

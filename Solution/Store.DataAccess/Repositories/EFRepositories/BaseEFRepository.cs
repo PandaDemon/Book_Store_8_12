@@ -4,6 +4,7 @@ using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Store.DataAccess.Repositories.EFRepositories
 {
@@ -18,11 +19,10 @@ namespace Store.DataAccess.Repositories.EFRepositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public void Create(TEntity item)
+        public async Task Create(TEntity item)
         {
-            _dbSet.Add(item);
-
-            _context.SaveChanges();
+			await _dbSet.AddAsync(item);
+			await _context.SaveChangesAsync();
         }
 
         public void Update(TEntity item)

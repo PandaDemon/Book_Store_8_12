@@ -5,6 +5,7 @@ using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Store.BusinessLogic.Services
 {
@@ -26,15 +27,49 @@ namespace Store.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public void Create(PrintingEditionModel model, AuthorModel authorView)
+        public async Task Create(AuthorsInPrintingEditionsModel model)
         {
             var printingEdition = _mapper.Map<PrintingEdition>(model);
 
-            var author = _mapper.Map<Author>(authorView);
-            _printingEditionRepository.Create(printingEdition);
-        }
+            var author = new List<Author>();
+			var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
 
-        public void Update(PrintingEditionModel model)
+			await _printingEditionRepository.Create(printingEdition);
+			foreach (AuthorModel authorId in model.AuthorsList)
+			{
+				authors.Add(await _authorRepository.Get(authorId.Id));
+			}
+
+			foreach (Author author in authors)
+			{
+				authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
+			}
+
+			_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
+		}
+
+		//public async Task CreatePrintingEdition(AuthorsInPrintingEditionsViewModel model)
+		//{
+		//	PrintingEdition printingEdition = _mapper.Map<PrintingEdition>(model);
+		//	var authors = new List<Author>();
+		//	var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
+
+		//	await _printEditRepository.Create(printingEdition);
+
+		//	foreach (AuthorViewModel authorId in model.AuthorsList)
+		//	{
+		//		authors.Add(await _authorRepository.Get(authorId.Id));
+		//	}
+
+		//	foreach (Author author in authors)
+		//	{
+		//		authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
+		//	}
+
+		//	_authorInPrintingEditionRepository.AddAuthorInPe(authorsInPrintEdit);
+		//}
+
+		public void Update(PrintingEditionModel model)
         {
             var printingEdition = _mapper.Map<PrintingEdition>(model);
 

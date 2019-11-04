@@ -11,8 +11,8 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getAllPrintingEditions() {
-    var s = 'api/PrintingStore/GetPrintingEdition';
-    return this.http.get(s);
+	  var editions = 'api/PrintingStore/GetPrintingEdition';
+	  return this.http.get(editions);
   }
 }
 

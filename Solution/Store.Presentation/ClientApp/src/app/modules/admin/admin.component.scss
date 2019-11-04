@@ -10,3 +10,48 @@
   background-color: #3a3a3a;
 }
 
+.admin-edition{
+  padding: 0 15px;
+}
+
+table {
+  width: 100%;
+}
+
+.thead {
+  display: table-header-group;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tbody {
+  display: table-row-group;
+}
+
+.tr {
+  display: flex;
+  justify-content: space-around;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.grid-table {
+  display: table;
+
+  input {
+    background: none;
+    border: 1px solid #3a3a3a;
+  }
+
+  .td {
+    background-color: aliceblue;
+    padding-right: 5px;
+
+    &:last-of-type {
+      padding-right: 0;
+    }
+  }
+}
+
