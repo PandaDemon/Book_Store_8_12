@@ -7,12 +7,12 @@ namespace Store.BusinessLogic.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        Task Create(AuthorsInPrintingEditionsModel model/*, AuthorModel authorView*/);
+        Task Create(AuthorsInPrintingEditionsModel model);
         void Update(PrintingEditionModel model);
         void Delete(int id);
-        PrintingEditionModel Get(int id);
+        Task<PrintingEditionModel> Get(int id);
         IEnumerable<PrintingEditionModel> GetAll();
-        IEnumerable<AuthorModel> GetPritningEditionAuthors(int id);
+        Task<IEnumerable<AuthorModel>> GetPritningEditionAuthors(int id);
         
     }
 }

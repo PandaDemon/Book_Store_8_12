@@ -4,6 +4,7 @@ using Store.BusinessLogic.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Store.Presentation.Controllers
 {
@@ -30,18 +31,18 @@ namespace Store.Presentation.Controllers
             {
                 _authorService.Delete(id);
             }
-            catch (Exception excception)
+            catch (Exception excceptionText)
             {
-                var ex = excception;
+                var excception = excceptionText;
             }
 
             return HttpStatusCode.OK;
         }
 
         [HttpGet("GetAuthor/{id}")]
-        public AuthorModel GetAuthor(int id)
+        public async Task<AuthorModel> GetAuthor(int id)
         {
-            var model = _authorService.Get(id);
+            var model = await _authorService.Get(id);
             return model;
         }
 

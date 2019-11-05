@@ -43,9 +43,9 @@ namespace Store.DataAccess.Repositories.EFRepositories
             }
         }
 
-        public TEntity Get(int id)
+        public async Task<TEntity> Get(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public IEnumerable<TEntity> GetAll()

@@ -49,13 +49,13 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
             }
         }
 
-        public TEntity Get(int id)
+        public async Task<TEntity> Get(int id)
         {
             TEntity item = default;
 
             using (IDbConnection conn = Connection)
             {
-                item = conn.Get<TEntity>(id);
+                item = await conn.GetAsync<TEntity>(id);
             }
 
             return (item);

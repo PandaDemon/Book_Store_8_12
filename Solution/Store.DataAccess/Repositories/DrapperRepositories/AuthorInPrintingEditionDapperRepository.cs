@@ -39,7 +39,7 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
 		{
 			using(IDbConnection conn = Connection)
 			{
-				string sQuery = "SELECT* FROM AuthorInPrintingEditions JOIN PrintingEditions ON PrintingEditions.Id = AuthorInPrintingEditions.PrintingEdidtionId JOIN Authors ON Authors.Id = AuthorInPrintingEditions.AuthorId";
+				string sQuery = "SELECT* FROM AuthorInPrintingEditions JOIN PrintingEditions ON PrintingEditions.Id = AuthorInPrintingEditions.PrintingEditionId JOIN Authors ON Authors.Id = AuthorInPrintingEditions.AuthorId";
 				return conn.Query<AuthorInPrintingEditions>(sQuery).AsEnumerable();
 			}
 		}

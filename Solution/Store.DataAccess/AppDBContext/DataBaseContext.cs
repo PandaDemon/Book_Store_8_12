@@ -25,7 +25,7 @@ namespace Store.DataAccess.Initialization
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AuthorInPrintingEditions>().HasKey(sc => new { sc.AuthorId, sc.PrintingEdidtionId });
+            modelBuilder.Entity<AuthorInPrintingEditions>().HasKey(sc => new { sc.AuthorId, sc.PrintingEditionId });
 
             modelBuilder.Entity<AuthorInPrintingEditions>()
                 .HasOne<Author>(sc => sc.Author)
@@ -36,7 +36,7 @@ namespace Store.DataAccess.Initialization
             modelBuilder.Entity<AuthorInPrintingEditions>()
                 .HasOne<PrintingEdition>(sc => sc.PrintingEdition)
                 .WithMany()
-                .HasForeignKey(sc => sc.PrintingEdidtionId);
+                .HasForeignKey(sc => sc.PrintingEditionId);
 
             modelBuilder.Entity<PrintingEdition>()
                 .HasOne<Category>(s => s.Category)
@@ -53,10 +53,11 @@ namespace Store.DataAccess.Initialization
                 .WithOne(ad => ad.Order)
                 .HasForeignKey<Payment>(ad => ad.OrderId);
 
-            modelBuilder.Entity<PrintingEdition>()
-                .HasOne<Currency>(s => s.Currency)
-                .WithMany()
-                .HasForeignKey(s => s.CurrencyId);
+			modelBuilder.Entity<PrintingEdition>()
+				.HasOne<Currency>(s => s.Currency)
+				.WithMany()
+				.HasForeignKey(s => s.CurrencyId)
+				.IsRequired();
         }
     }
 }

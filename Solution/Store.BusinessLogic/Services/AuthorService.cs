@@ -5,6 +5,7 @@ using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Store.BusinessLogic.Services
 {
@@ -54,9 +55,9 @@ namespace Store.BusinessLogic.Services
             return model;
         }
 
-        public AuthorModel Get(int id)
+        public async Task<AuthorModel> Get(int id)
         {
-            Author author = _authorRepository.Get(id);
+            Author author = await _authorRepository.Get(id);
             var model = _mapper.Map<AuthorModel>(author);
             return model;
         }

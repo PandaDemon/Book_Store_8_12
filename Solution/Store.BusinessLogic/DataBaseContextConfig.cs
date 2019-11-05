@@ -10,6 +10,7 @@ using Store.BusinessLogic.Services.Interfaces;
 using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.DrapperRepositories;
+using Store.DataAccess.Repositories.EFRepositories;
 using Store.DataAccess.Repositories.Interfaces;
 using System;
 
@@ -23,12 +24,20 @@ namespace Store.BusinessLogic.Common
 			services.AddScoped<UserManager<User>>();
 
 			services.AddTransient<DataBaseInitialization>();
+
             services.AddTransient<IAuthorRepository, AuthorDapperRepository>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionDapperRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionDapperRepository>();
 			services.AddTransient<IBaseRepository<PrintingEdition>, PrintingEditionDapperRepository>();
+			services.AddTransient<IBaseRepository<Author>, AuthorDapperRepository>();
 
-            services.AddTransient<IAuthorService, AuthorService>();
+			//services.AddTransient<IAuthorRepository, AuthorEFRepository>();
+			//services.AddTransient<IPrintingEditionRepository, PrintingEditionEFRepository>();
+			//services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionEFRepository>();
+			//services.AddTransient<IBaseRepository<PrintingEdition>, PrintingEditionEFRepository>();
+			//services.AddTransient<IBaseRepository<Author>, AuthorEFRepository>();
+
+			services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IPrintingEditionService, PrintingEditionService>();
             services.AddTransient<IPrintStoreService, PrintStoreService>();
             services.AddTransient<IUserService, UserService>();
@@ -39,6 +48,7 @@ namespace Store.BusinessLogic.Common
 			IMapper mapper = new MapperConfiguration(config =>
             {
                 config.AddProfile(new AuthorMapperProfile());
+				config.AddProfile(new AuthorsInPrintingEditionsMapperProfile());
 				config.AddProfile(new PrintingEditionMapperProfile());
 				config.AddProfile(new UserMapperProfile());
 			}).CreateMapper();

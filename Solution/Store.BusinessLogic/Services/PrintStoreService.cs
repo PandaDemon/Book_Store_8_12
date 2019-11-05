@@ -6,6 +6,7 @@ using Store.DataAccess.Entities;
 using Store.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Store.BusinessLogic.Services
 {
@@ -36,13 +37,13 @@ namespace Store.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-		public IEnumerable<PrintingEditionModel> GetAllPrintingEditions()
+		public async Task<IEnumerable<PrintingEditionModel>> GetAllPrintingEditions()
 		{
 			var authorsInPrintingEditions = _authorsInPrintingEditionRepository.GetInclude();
 			var model = new List<PrintingEditionModel>();
 			foreach (var authInPrintingEdition in authorsInPrintingEditions)
 			{
-				PrintingEdition printingEdition = _printingEditionRepository.Get(authInPrintingEdition.Id);
+				PrintingEdition printingEdition = await _printingEditionRepository.Get(authInPrintingEdition.Id);
 				model.Add(_mapper.Map<PrintingEditionModel>(printingEdition));
 			}
 			return model;

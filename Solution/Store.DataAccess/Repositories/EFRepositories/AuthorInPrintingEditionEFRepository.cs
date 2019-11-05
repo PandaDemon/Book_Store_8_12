@@ -1,4 +1,5 @@
-﻿using Store.DataAccess.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Store.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -19,12 +20,16 @@ namespace Store.DataAccess.Repositories.EFRepositories
 
         public IEnumerable<AuthorInPrintingEditions> FindByPrintingEdition(int printingEditionId)
         {
-            return _context.AuthorInPrintingEditions.Where(y => y.PrintingEdidtionId == printingEditionId).AsEnumerable();
+            return _context.AuthorInPrintingEditions.Where(y => y.PrintingEditionId == printingEditionId).AsEnumerable();
         }
 
 		public IEnumerable<AuthorInPrintingEditions> GetInclude()
 		{
-			throw new System.NotImplementedException();
+			IEnumerable<AuthorInPrintingEditions> authorInPrintingEditions = _context.AuthorInPrintingEditions
+				.Include(authorInPrintingEdition => authorInPrintingEdition.Author)
+				.Include(authorInPrintingEdition => authorInPrintingEdition.PrintingEdition)
+				.ThenInclude(authorInPrintingEdition => authorInPrintingEdition.Currency);
+			return authorInPrintingEditions;
 		}
 	}
 }

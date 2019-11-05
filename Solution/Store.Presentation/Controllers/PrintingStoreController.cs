@@ -21,9 +21,9 @@ namespace Store.Presentation.Controllers
 
 
 		[HttpGet("GetPrintingEdition")]
-		public IEnumerable<PrintingEditionModel> GetAllPrintingEditions()
+		public async Task<IEnumerable<PrintingEditionModel>> GetAllPrintingEditions()
 		{
-			var model = _printingStoreService.GetAllPrintingEditions();
+			IEnumerable<PrintingEditionModel> model = await _printingStoreService.GetAllPrintingEditions();
 			return model;
 		}
 
@@ -33,7 +33,5 @@ namespace Store.Presentation.Controllers
 			await _printingEditionsService.Create(model);
 			return Ok(201);
 		}
-
-		
 	}
 }

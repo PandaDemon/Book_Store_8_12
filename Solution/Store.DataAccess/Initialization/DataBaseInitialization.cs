@@ -61,12 +61,12 @@ namespace Store.DataAccess.Initialization
 
             var authorsInPrintingEditions = new AuthorInPrintingEditions[]
             {
-                    new AuthorInPrintingEditions {AuthorId = authors.First().Id, PrintingEdidtionId = printingeditions.First().Id},
-                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(1).Id, PrintingEdidtionId = printingeditions.First().Id},
-                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(3).Id, PrintingEdidtionId = printingeditions.ElementAt(2).Id},
-                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(2).Id, PrintingEdidtionId = printingeditions.ElementAt(3).Id},
-                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(5).Id, PrintingEdidtionId = printingeditions.ElementAt(4).Id},
-                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(4).Id, PrintingEdidtionId = printingeditions.ElementAt(5).Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.First().Id, PrintingEditionId = printingeditions.First().Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(1).Id, PrintingEditionId = printingeditions.First().Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(3).Id, PrintingEditionId = printingeditions.ElementAt(2).Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(2).Id, PrintingEditionId = printingeditions.ElementAt(3).Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(5).Id, PrintingEditionId = printingeditions.ElementAt(4).Id},
+                    new AuthorInPrintingEditions {AuthorId = authors.ElementAt(4).Id, PrintingEditionId = printingeditions.ElementAt(5).Id},
             };
             context.AuthorInPrintingEditions.AddRange(authorsInPrintingEditions);
             context.SaveChanges();

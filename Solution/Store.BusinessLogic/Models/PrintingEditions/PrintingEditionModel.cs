@@ -2,7 +2,8 @@
 {
     public class PrintingEditionModel
     {
-        public string Name { get; set; }
+		public int Id { get; set; }
+		public string Name { get; set; }
 		public double Price { get; set; }
 		public double PriceMin { get; set; }
 		public double PriceMax { get; set; }

@@ -6,16 +6,17 @@ namespace Store.BusinessLogic.Models.Author
     {
         public string AuthorFirstName { get; set; }
         public string AuthorLastName { get; set; }
-        public string PrintingEditionName { get; set; }
-        public double PrintingEditionPrice { get; set; }
-        public int PrintingEditionCategory { get; set; }
-        public string PrintingEditionDescription { get; set; }
-        public string PrintingEditionImage { get; set; }
-		public IEnumerable<AuthorModel> AuthorList { get; set; }
+		public string EditionName { get; set; }
+        public double EditionPrice { get; set; }
+        public int EditionCategoryId { get; set; }
+		public int EditionCurencyId { get; set; }
+		public string EditionDesc { get; set; }
+        public string EditionAvatarUrl { get; set; }
+		public List<AuthorModel> AuthorsList { get; set; }
 
 		public AuthorsInPrintingEditionsModel ()
 		{
-			AuthorList = new IEnumerable<AuthorModel>();
+			AuthorsList = new List<AuthorModel>();
 		}
 	}
 }

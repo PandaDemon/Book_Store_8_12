@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
@@ -19,10 +20,12 @@ namespace Store.DataAccess.Entities
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+		[Write(false)]
+		public virtual Category Category { get; set; }
 
-        [ForeignKey("Currency")]
+		[ForeignKey("Currency")]
         public int CurrencyId { get; set; }
-        public virtual Currency Currency { get; set; }
+		[Write(false)]
+		public virtual Currency Currency { get; set; }
     }
 }

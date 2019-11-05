@@ -9,7 +9,7 @@ namespace Store.DataAccess.Entities
         public virtual Author Author { get; set; }
 
         [ForeignKey("PrintingEdition")]
-        public int PrintingEdidtionId { get; set; }
+        public int PrintingEditionId { get; set; }
         public virtual PrintingEdition PrintingEdition { get; set; }
     }
 }
