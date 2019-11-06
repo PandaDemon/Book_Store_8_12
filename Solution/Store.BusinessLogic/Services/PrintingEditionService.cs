@@ -35,14 +35,15 @@ namespace Store.BusinessLogic.Services
 			var authors = new List<Author>();
 			var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
 			printingEdition.CreateDate = DateTime.UtcNow;
-			try
-			{
-				 await _printingEditionRepository.Create(printingEdition);
-			}catch(Exception ex)
-			{
+			await _printingEditionRepository.Create(printingEdition);
+			//try
+			//{
+			//	 await _printingEditionRepository.Create(printingEdition);
+			//}catch(Exception ex)
+			//{
 
-			}
-			
+			//}
+
 			foreach (AuthorModel authorId in model.AuthorsList)
 			{
 				authors.Add(await _authorRepository.Get(authorId.Id));
@@ -52,30 +53,11 @@ namespace Store.BusinessLogic.Services
 			{
 				authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
 			}
-
-			//_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
+			try{
+				_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
+			}
+			catch (Exception ex){ }
 		}
-
-		//public async Task CreatePrintingEdition(AuthorsInPrintingEditionsViewModel model)
-		//{
-		//	PrintingEdition printingEdition = _mapper.Map<PrintingEdition>(model);
-		//	var authors = new List<Author>();
-		//	var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
-
-		//	await _printEditRepository.Create(printingEdition);
-
-		//	foreach (AuthorViewModel authorId in model.AuthorsList)
-		//	{
-		//		authors.Add(await _authorRepository.Get(authorId.Id));
-		//	}
-
-		//	foreach (Author author in authors)
-		//	{
-		//		authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
-		//	}
-
-		//	_authorInPrintingEditionRepository.AddAuthorInPe(authorsInPrintEdit);
-		//}
 
 		public void Update(PrintingEditionModel model)
 		{

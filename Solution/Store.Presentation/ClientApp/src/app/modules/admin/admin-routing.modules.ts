@@ -3,16 +3,26 @@ import { NgModule } from "@angular/core";
 
 import { AdminComponent } from "./admin.component";
 import { PrintingEditionComponent } from "./components/printingEdition/printingEdition.component";
+import { UsersComponent } from "./components/user/user.component";
+import { AuthorsComponent } from "./components/author/author.component";
 
 
 const routes: Routes = [
 	{
-		path: 'admin',
-		component: AdminComponent
-	},
-	{
-		path: 'editions',
-		component: PrintingEditionComponent
+		path: '',
+		component: AdminComponent,
+		children: [{
+			path: 'editions',
+			component: PrintingEditionComponent
+		},
+		{
+			path: 'users',
+			component: UsersComponent
+		},
+		{
+			path: 'authors',
+			component: AuthorsComponent
+		}]
 	}
 ];
 

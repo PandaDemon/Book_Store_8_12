@@ -1,6 +1,6 @@
 <div>AdminEditor</div>
   <div>Printing Edition Admin</div>
-  <div class="grid-table">
+  <div class="table">
     <div class="thead">
       <div class="tr">
         <div class="td">Name</div>
@@ -11,9 +11,25 @@
         <div class="td">CurrencyId</div>
         <div class="td">Quantity</div>
         <div class="td"></div>
+        <div class="td"></div>
       </div>
     </div>
     <div class="tbody">
+      <div *ngFor="let printingEdition of printingEditions" class='tr'>
+        <div class="td"><p>{{printingEdition.name}}</p></div>
+        <div class="td"><p>{{printingEdition.price}}</p></div>
+        <div class="td"><p>{{printingEdition.desc}}</p></div>
+        <div class="td"><p>{{printingEdition.categoryId}}</p></div>
+        <div class="td"><p>{{printingEdition.avatarUrl}}</p></div>
+        <div class="td"><p>{{printingEdition.currencyId}}</p></div>
+        <div class="td"><p>{{printingEdition.quantity}}</p></div>
+        <div class="td">
+          <button type="submit" class="btn btn-warning">Update</button>
+        </div>
+        <div class="td">
+          <button type="submit" class="btn btn-error">Delete</button>
+        </div>
+      </div>
       <form class="tr" [formGroup]="fg" *ngFor="let fg of printingEditionForms.controls" (submit)="recordSubmit">
         <div class="td">
           <input class="form-control" formControlName="Name" />

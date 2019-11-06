@@ -15,7 +15,19 @@ namespace Store.DataAccess.Repositories.DrapperRepositories
         {
         }
 
-        public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
+		public void AddAuthorInPrintingEdition(List<AuthorInPrintingEditions> authorsInPrintEdit)
+		{
+			using (IDbConnection conn = Connection)
+			{
+				foreach(var author in authorsInPrintEdit)
+				{
+					string sQuery = $"INSERT INTO AuthorInPrintingEditions (AuthorId, PrintingEditionId) VALUES ({author.AuthorId}, {author.PrintingEditionId})";
+					conn.ExecuteAsync(sQuery);
+				}
+			}
+		}
+
+		public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
         {
             using (IDbConnection conn = Connection)
             {

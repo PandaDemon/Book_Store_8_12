@@ -8,12 +8,17 @@ import { PrintingEditionComponent } from './components/printingEdition/printingE
 import { Ng5SliderModule } from 'ng5-slider';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminServise } from './services/admin.service';
+import { UsersComponent } from './components/user/user.component';
+import { AuthorsComponent } from './components/author/author.component';
 
 @NgModule({
 	declarations: [
 		AdminComponent,
 		PrintingEditionComponent,
-		AdminSidebarComponent
+		AdminSidebarComponent,
+		UsersComponent,
+		AuthorsComponent
 	],
 	imports: [
 		HttpClientModule,
@@ -22,6 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		Ng5SliderModule,
 		FormsModule,
 		ReactiveFormsModule
-	]
+	],
+	providers: [
+		AdminServise]
 })
 export class AdminModule { }

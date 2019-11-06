@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
@@ -6,10 +7,12 @@ namespace Store.DataAccess.Entities
     {
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
-        public virtual Author Author { get; set; }
+		[Write(false)]
+		public virtual Author Author { get; set; }
 
         [ForeignKey("PrintingEdition")]
         public int PrintingEditionId { get; set; }
-        public virtual PrintingEdition PrintingEdition { get; set; }
+		[Write(false)]
+		public virtual PrintingEdition PrintingEdition { get; set; }
     }
 }

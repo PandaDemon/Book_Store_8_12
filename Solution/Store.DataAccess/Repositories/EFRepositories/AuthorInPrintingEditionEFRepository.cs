@@ -13,7 +13,14 @@ namespace Store.DataAccess.Repositories.EFRepositories
         {
         }
 
-        public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
+		public void AddAuthorInPrintingEdition(List<AuthorInPrintingEditions> authorsInPrintEdit)
+		{
+			_context.AuthorInPrintingEditions.AddRange(authorsInPrintEdit);
+			_context.SaveChanges();
+			
+		}
+
+		public IEnumerable<AuthorInPrintingEditions> FindByAuthor(int authorId)
         {
             return _context.AuthorInPrintingEditions.Where(x => x.AuthorId == authorId).AsEnumerable();
         }

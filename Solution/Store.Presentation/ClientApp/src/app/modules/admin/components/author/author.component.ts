@@ -4,12 +4,12 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { AdminServise } from '../../services/admin.service';
 
 @Component({
-	selector: 'app-edition',
-  templateUrl: './printingEdition.component.html',
+	selector: 'app-author',
+  templateUrl: './author.component.html',
   styleUrls: ['../../../admin/admin.component.scss']
 })
 
-export class PrintingEditionComponent implements OnInit {
+export class AuthorsComponent implements OnInit {
 
 	printingEditionForms: FormArray = this.formBuilder.array([]);
 	printingEditions;
@@ -42,10 +42,6 @@ export class PrintingEditionComponent implements OnInit {
       Quantity: ['', Validators.required]
     }));
 	}
-	updatePrintingEditionForm() { }
-
-	deletePrintingEditionForm() { }
-
 }
 
 

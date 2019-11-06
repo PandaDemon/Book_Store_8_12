@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DataAccess.Entities
 {
@@ -9,6 +10,7 @@ namespace Store.DataAccess.Entities
 
         [ForeignKey("Order")]
         public int OrderId { get; set; }
-        public Order Order { get; set; }
+		[Write(false)]
+		public Order Order { get; set; }
     }
 }
