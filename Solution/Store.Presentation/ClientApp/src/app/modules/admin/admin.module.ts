@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminRoutingModule } from './admin-routing.modules';
 import { AdminComponent } from './admin.component';
 import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
@@ -11,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminServise } from './services/admin.service';
 import { UsersComponent } from './components/user/user.component';
 import { AuthorsComponent } from './components/author/author.component';
+import { ModalComponent } from './components/printingEdition/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 	declarations: [
@@ -18,9 +19,11 @@ import { AuthorsComponent } from './components/author/author.component';
 		PrintingEditionComponent,
 		AdminSidebarComponent,
 		UsersComponent,
-		AuthorsComponent
+		AuthorsComponent,
+		ModalComponent,
 	],
 	imports: [
+		NgbModule.forRoot(),
 		HttpClientModule,
 		AdminRoutingModule,
 		CommonModule,

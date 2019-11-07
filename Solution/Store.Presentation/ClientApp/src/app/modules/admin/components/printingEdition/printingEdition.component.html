@@ -1,60 +1,65 @@
-<div>AdminEditor</div>
-  <div>Printing Edition Admin</div>
-  <div class="table">
-    <div class="thead">
-      <div class="tr">
-        <div class="td">Name</div>
-        <div class="td">Price</div>
-        <div class="td">Desc</div>
-        <div class="td">CategoryId</div>
-        <div class="td">AvatarUrl</div>
-        <div class="td">CurrencyId</div>
-        <div class="td">Quantity</div>
-        <div class="td"></div>
-        <div class="td"></div>
-      </div>
-    </div>
-    <div class="tbody">
-      <div *ngFor="let printingEdition of printingEditions" class='tr'>
-        <div class="td"><p>{{printingEdition.name}}</p></div>
-        <div class="td"><p>{{printingEdition.price}}</p></div>
-        <div class="td"><p>{{printingEdition.desc}}</p></div>
-        <div class="td"><p>{{printingEdition.categoryId}}</p></div>
-        <div class="td"><p>{{printingEdition.avatarUrl}}</p></div>
-        <div class="td"><p>{{printingEdition.currencyId}}</p></div>
-        <div class="td"><p>{{printingEdition.quantity}}</p></div>
-        <div class="td">
-          <button type="submit" class="btn btn-warning">Update</button>
-        </div>
-        <div class="td">
-          <button type="submit" class="btn btn-error">Delete</button>
-        </div>
-      </div>
-      <form class="tr" [formGroup]="fg" *ngFor="let fg of printingEditionForms.controls" (submit)="recordSubmit">
-        <div class="td">
-          <input class="form-control" formControlName="Name" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="Price" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="Desc" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="AvatarUrl" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="Quantity" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="CategoryId" />
-        </div>
-        <div class="td">
-          <input class="form-control" formControlName="CurrencyId" />
-        </div>
-        <div class="td">
-          <button type="submit" class="btn btn-success" [disabled]="fg.invalid">Add</button>
-        </div>
-      </form>
+
+<button class="btn btn-success" (click)="open(content)">+ Create</button>
+<div class="table table-stripped">
+  <div class="thead">
+    <div class="tr">
+      <div class="td">Name</div>
+      <div class="td">Price</div>
+      <div class="td">Desc</div>
+      <div class="td">CategoryId</div>
+      <div class="td">AvatarUrl</div>
+      <div class="td">CurrencyId</div>
+      <div class="td">Quantity</div>
+      <div class="td">Author</div>
+      <div class="td"><button type="submit" class="btn btn-success">+ Create</button></div>
     </div>
   </div>
+  <div class="tbody">
+    <div *ngFor="let printingEdition of printingEditions" class='tr'>
+      <div class="td"><p>{{printingEdition.name}}</p></div>
+      <div class="td"><p>{{printingEdition.price}}</p></div>
+      <div class="td"><p>{{printingEdition.desc}}</p></div>
+      <div class="td"><p>{{printingEdition.categoryId}}</p></div>
+      <div class="td"><p>{{printingEdition.avatarUrl}}</p></div>
+      <div class="td"><p>{{printingEdition.currencyId}}</p></div>
+      <div class="td"><p>{{printingEdition.quantity}}</p></div>
+      <div class="td">
+        <ul class="author-list">
+          <li><p>3</p></li>
+        </ul>
+      </div>
+      <div class="td">
+        <button type="submit" class="btn btn-warning">Update</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+    <form class="tr" [formGroup]="fg" *ngFor="let fg of printingEditionForms.controls" (submit)="recordSubmit">
+      <div class="td">
+        <input class="form-control" formControlName="Name" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="Price" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="Desc" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="AvatarUrl" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="Quantity" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="CategoryId" />
+      </div>
+      <div class="td">
+        <input class="form-control" formControlName="CurrencyId" />
+      </div>
+      <div class="td">
+        <button type="submit" class="btn btn-success" [disabled]="fg.invalid">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+

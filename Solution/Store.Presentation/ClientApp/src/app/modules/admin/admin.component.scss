@@ -10,10 +10,11 @@
   background-color: #3a3a3a;
 }
 
-.admin-edition{
-  padding: 0 15px;
+ul{
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
-
 /*table {
   width: 100%;
 }
@@ -54,12 +55,11 @@ input.ng-invalid.ng-touched {
     }
   }
 }*/
-
 .table {
   display: grid;
   border-collapse: collapse;
   min-width: 100%;
-  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 3.33fr) minmax(150px, 1.67fr) minmax(150px, 3.33fr) minmax(150px, 1.67fr) minmax(150px, 0.67fr);
+  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 3.33fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 1.67fr) minmax(150px, 3.33fr);
 }
 
 .thead,
@@ -76,28 +76,46 @@ input.ng-invalid.ng-touched {
   white-space: nowrap;
 }
 
-.th {
-  position: sticky;
-  top: 0;
-  background: #6c7ae0;
-  text-align: left;
-  font-weight: normal;
-  font-size: 1.1rem;
-  color: white;
-}
+
 
 .th:last-child {
   border: 0;
 }
 
-.td {
+.thead {
+  .tr {
+    text-align: left;
+    font-weight: normal;
+    color: white;
+    .td {
+      background: #3a3a3a;
+    }
+  }
+}
+
+.tr {
   padding-top: 10px;
   padding-bottom: 10px;
   color: #808080;
 }
 
+.td {
+  text-align: center;
+  transition-duration: .3s;
+}
+
 .tr:nth-child(even) td {
   background: #f8f6ff;
+}
+
+.tbody {
+  .tr {
+    &:hover {
+      .td {
+        background-color: darken(white, 20%);
+      }
+    }
+  }
 }
 
 
