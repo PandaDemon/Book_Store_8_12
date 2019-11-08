@@ -1,8 +1,13 @@
-.navbar-inverse .navbar-nav > li.link-active > a,
-li.link-active a:hover,
-li.link-active a:focus {
-  background-color: #52ad3a;
-  color: white;
+.navbar-nav {
+  > li.link-active,
+  li:hover,
+  li:focus {
+    background-color: #52ad3a;
+
+    a {
+      color: white;
+    }
+  }
 }
 
 .sidebar {
@@ -10,7 +15,7 @@ li.link-active a:focus {
   padding-top: 50px;
 
   li {
-    padding: 10px;
+    padding: 10px 0;
     text-align: center;
   }
 

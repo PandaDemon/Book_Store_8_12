@@ -1,8 +1,7 @@
 
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { AdminServise } from '../../../services/admin.service';
+import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-createmodal',
@@ -11,15 +10,31 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class ModalComponent {
+	printingEditionForms: FormArray = this.formBuilder.array([]);
 
 	constructor(
-		//private formBuilder: FormBuilder,
-		//private adminServise: AdminServise,
-		private modalService: NgbModal
+		private modalService: NgbModal,
+		private formBuilder: FormBuilder,
 	) {
 	}
-	open(content) {
+	public open(content) {
 		this.modalService.open(content);
+	}
+
+	ngOnInit() {
+		this.addPrintingEditionForm();
+	}
+
+	addPrintingEditionForm() {
+		this.printingEditionForms.push(this.formBuilder.group({
+			Name: ['', Validators.required],
+			Price: ['', Validators.required],
+			Desc: ['', Validators.required],
+			CategoryId: [0, Validators.required],
+			AvatarUrl: ['', Validators.required],
+			CurrencyId: [0, Validators.required],
+			Quantity: ['', Validators.required]
+		}));
 	}
 }
 

@@ -1,26 +1,8 @@
-table {
-  width: 100%;
-}
-.grid-table{
-  display: table;
-}
-
-.thead{
-  display: table-header-group;
-  font-weight: bold;
-  text-align: center;
-}
-
-.tbody{
-  display: table-row-group;
-}
-
-.tr{
-  display: flex;
-  justify-content: space-around;
-}
-
-input.ng-invalid.ng-touched{
-  border-color: #dc3545;
+::ng-deep .modal-dialog {
+  max-width: 805px;
+  input{
+    border: 1px solid #000000;
+    min-width: 300px;
+  }
 }
 

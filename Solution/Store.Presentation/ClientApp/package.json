@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extract-css",
-    "build": "ng build --extract-css",
-    "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
+    "start": "ng serve ",
+    "build": "ng build ",
+    "build:ssr": "npm run build ",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,7 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "1.1.1",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
     "aspnet-prerendering": "^3.0.1",
-    "bootstrap": "^3.4.1",
+    "bootstrap": "4.1.1",
     "core-js": "^2.4.1",
     "ng5-slider": "1.2.3",
     "ngx-toastr": "6.2.1",
