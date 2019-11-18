@@ -49,5 +49,19 @@ export class AccountService {
     };
 
     return this.http.post('/api/Account/SignIn', formData);
-  }
+	}
+
+	roleMatch(allowedRoles): boolean {
+		let isMatch = false;
+		const payLoad = JSON.parse(window.atob(localStorage.getItem('refreshToken').split('.')[1]));
+		const userRole = payLoad.role;
+		allowedRoles.forEach(element => {
+			if (userRole === element) {
+				isMatch = true;
+				return false;
+			}
+		});
+
+		return isMatch;
+	}
 }

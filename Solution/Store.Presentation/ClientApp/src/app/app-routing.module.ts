@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './modules/interceptor/auth/auth.guard';
 
 const appRoutes: Routes = [
 	{
 		path: '',
-		redirectTo: '/',
+		redirectTo: 'store/store',
 		pathMatch: 'full'
 	},
 	{
@@ -20,8 +21,16 @@ const appRoutes: Routes = [
 		loadChildren: () => import('./modules/store/store.module').then(module => module.StoreModule)
 	},
 	{
-		path: 'admin',
-		loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule)
+		path: 'admin',	
+		loadChildren: () => import('./modules/admin/admin.module').then(module => module.AdminModule),
+		canActivate: [AuthGuard],
+		data: {
+			permition: ['admin']
+		}
+	},
+	{
+		path: 'forbidden',
+		loadChildren: () => import('./modules/forbidden/forbidden.module').then(module => module.ForbiddenModule)
 	},
 	{ path : '**', redirectTo: '/', pathMatch: 'full' }
 ]; 

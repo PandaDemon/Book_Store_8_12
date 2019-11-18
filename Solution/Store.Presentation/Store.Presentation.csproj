@@ -73,10 +73,19 @@
     <None Update="ClientApp\src\app\modules\admin\admin.module.ts">
       <SubType>Code</SubType>
     </None>
+    <None Update="ClientApp\src\app\modules\forbidden\forbidden.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\forbidden\forbidden-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
     <None Update="ClientApp\src\app\modules\home\home-routing.modules.ts">
       <SubType>Code</SubType>
     </None>
     <None Update="ClientApp\src\app\modules\home\home.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\interceptor\auth\auth.interceptor.ts">
       <SubType>Code</SubType>
     </None>
     <None Update="ClientApp\src\app\modules\store\store-routing.modules.ts">

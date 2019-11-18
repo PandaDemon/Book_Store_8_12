@@ -111,5 +111,27 @@ namespace Store.Presentation.Controllers
 
             return null;
         }
-    }
+
+		[HttpGet("GetForAdmin")]
+		[Authorize(Roles = "admin")]
+		public string GetForAdmin()
+		{
+			return "Web method for Admin";
+		}
+
+		[HttpGet("GetForUser")]
+		[Authorize(Roles = "user")]
+		public string GetForUser()
+		{
+			return "Web method for User";
+		}
+
+		[HttpGet("GetForAdminOrUser")]
+		[Authorize(Roles = "admin, user")]
+		public string GetForAdminOrUser()
+		{
+			return "Web method for Admin Or User";
+		}
+
+	}
 }
