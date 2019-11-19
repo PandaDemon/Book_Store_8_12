@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Store.BusinessLogic.Models.Author;
 using Store.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Store.BusinessLogic.Mapper
 {

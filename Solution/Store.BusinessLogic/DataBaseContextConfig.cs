@@ -55,7 +55,7 @@ namespace Store.BusinessLogic.Common
 
             services.AddSingleton(mapper);
         }
-        public static async void UseDataBase(this IApplicationBuilder app, IServiceProvider serviceProvider)
+        public static async void UseDataBase(this IApplicationBuilder application, IServiceProvider serviceProvider)
         {
             DataBaseContext dataBaseContext = serviceProvider.GetRequiredService<DataBaseContext>();
 

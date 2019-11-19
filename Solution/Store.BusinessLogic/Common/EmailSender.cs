@@ -8,7 +8,7 @@ namespace Store.BusinessLogic.Common
 {
 	public class EmailSender : IEmailSender
 	{
-		public async Task SendEmailAsync(string email, string subject, string messageText)
+		public void SendEmail(string email, string subject, string messageText)
 		{
 			using (var smtpClient = new SmtpClient())
 			{

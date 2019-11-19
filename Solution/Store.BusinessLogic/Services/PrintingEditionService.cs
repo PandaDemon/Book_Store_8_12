@@ -36,13 +36,6 @@ namespace Store.BusinessLogic.Services
 			var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
 			printingEdition.CreateDate = DateTime.UtcNow;
 			await _printingEditionRepository.Create(printingEdition);
-			//try
-			//{
-			//	 await _printingEditionRepository.Create(printingEdition);
-			//}catch(Exception ex)
-			//{
-
-			//}
 
 			foreach (AuthorModel authorId in model.AuthorsList)
 			{
@@ -53,10 +46,8 @@ namespace Store.BusinessLogic.Services
 			{
 				authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
 			}
-			try{
-				_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
-			}
-			catch (Exception ex){ }
+			_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
+			
 		}
 
 		public void Update(PrintingEditionModel model)
@@ -97,7 +88,6 @@ namespace Store.BusinessLogic.Services
 			foreach (var author in authors)
 			{
 				model.Add(_mapper.Map<AuthorModel>(author));
-
 			};
 			return model;
 		}
