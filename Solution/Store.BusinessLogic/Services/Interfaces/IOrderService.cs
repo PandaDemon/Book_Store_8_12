@@ -1,16 +1,17 @@
-﻿using Store.BusinessLogic.Models.PrintingEditions;
+﻿using PrintStore.BusinessLogic.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Store.BusinessLogic.Services.Interfaces
+namespace PrintStore.BusinessLogic.Services.Interfaces
 {
     public interface IOrderService
     {
-        void Delete(int id);
-        void Create(PrintingOrderModel model);
-        void Update(PrintingOrderModel model);
-        PrintingOrderModel Get(int id);
-        IEnumerable<PrintingOrderModel> GetAll();
-        IEnumerable<PrintingOrderModel> GetUser(int id);
-        IEnumerable<PrintingOrderModel> GetPrintingEdition(int id);
+        Task<OrderViewModel> GetOrderById(int id);
+        Task DeleteOrder(int id);
+        Task<int> CreateOrder(OrderViewModel model);
+        Task UpdateInformationAboutOrder(OrderViewModel model);
+        Task<IEnumerable<OrderViewModel>> GetAllOrders(string order);
+        Task CreatePayment(PaymentViewModel model);
+        IEnumerable<UserOrdersViewModel> GetOrdersByUserId(string id);
     }
 }

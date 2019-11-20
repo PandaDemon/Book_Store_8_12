@@ -1,18 +1,14 @@
-﻿using Dapper.Contrib.Extensions;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
-    public class AuthorInPrintingEditions : BaseEntity
+    public class AuthorInPrintingEditions
     {
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
-		[Write(false)]
-		public virtual Author Author { get; set; }
-
+        public Author Author { get; set; }
         [ForeignKey("PrintingEdition")]
         public int PrintingEditionId { get; set; }
-		[Write(false)]
-		public virtual PrintingEdition PrintingEdition { get; set; }
+        public PrintingEdition PrintingEdition { get; set; }
     }
 }

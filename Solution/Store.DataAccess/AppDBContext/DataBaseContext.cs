@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Store.DataAccess.Entities;
+using PrintStore.DataAccess.Entities;
 
 namespace Store.DataAccess.Initialization
 {
-    public class DataBaseContext : IdentityDbContext<User>
+    public class DataBaseContext : IdentityDbContext<ApplicationUser>
     {
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
@@ -12,7 +12,6 @@ namespace Store.DataAccess.Initialization
         }
 
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -38,15 +37,10 @@ namespace Store.DataAccess.Initialization
                 .WithMany()
                 .HasForeignKey(sc => sc.PrintingEditionId);
 
-            modelBuilder.Entity<PrintingEdition>()
-                .HasOne<Category>(s => s.Category)
-                .WithMany()
-                .HasForeignKey(s => s.CategoryId);
-
             modelBuilder.Entity<Order>()
-                .HasOne<User>(s => s.User)
+                .HasOne<ApplicationUser>(s => s.ApplicationUser)
                 .WithMany()
-                .HasForeignKey(s => s.UserId);
+                .HasForeignKey(s => s.ApplicationUser);
 
             modelBuilder.Entity<Order>()
                 .HasOne<Payment>(s => s.Payment)

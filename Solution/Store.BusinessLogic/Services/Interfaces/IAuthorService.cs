@@ -1,18 +1,19 @@
-﻿using Store.BusinessLogic.Models.Author;
-using Store.BusinessLogic.Models.PrintingEditions;
+﻿using PrintStore.BusinessLogic.ViewModels;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Store.BusinessLogic.Services.Interfaces
+namespace PrintStore.BusinessLogic.Services.Interfaces
 {
     public interface IAuthorService
     {
-        void Create(AuthorModel model);
-        void Update(AuthorModel model);
-        void Delete(int id);
-        Task<AuthorModel> Get(int id);
-        IEnumerable<AuthorModel> GetAll();
-        IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id);
-        IEnumerable<AuthorModel> FilterByName(string firstName, string lastName);
+        Task<AuthorViewModel> GetAuthorById(int id);
+        Task<IEnumerable<AuthorViewModel>> GetAll();
+        Task DeleteAuthor(int id);
+        Task CreateAuthor(AuthorViewModel model);
+        Task UpdateInformationAboutAuthor(AuthorViewModel model);
+        Task<IEnumerable<AuthorViewModel>> GetPritningEditionAuthors(int id);
+        IEnumerable<AuthorViewModel> SortByName(SortOrder sortType, string sortedColumn);
+        IEnumerable<AuthorViewModel> SearchAuthors(string searchString);
     }
 }

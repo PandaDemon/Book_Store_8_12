@@ -1,47 +1,145 @@
 ﻿using AutoMapper;
-using Store.BusinessLogic.Models.PrintingEditions;
-using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Repositories.Interfaces;
+using PrintStore.BusinessLogic.Services.Interfaces;
+using PrintStore.BusinessLogic.ViewModels;
+using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Order = PrintStore.DataAccess.Entities.Order;
 
-namespace Store.BusinessLogic.Services
+namespace PrintStore.BusinessLogic.Services
 {
     public class OrderService : IOrderService
     {
-        public void Create(PrintingOrderModel model)
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IPrintingEditionRepository _printEditRepository;
+        private readonly IPrintingEditionsInOrdersRepository _printEditInOrdersRepository;
+        private readonly IMapper _mapper;
+
+        public OrderService(IOrderRepository orderRepository,
+            IMapper mapper,
+            IPrintingEditionRepository printEditRepository,
+            IPaymentRepository paymentRepository,
+            IPrintingEditionsInOrdersRepository printEditInOrdersRepository)
         {
-            throw new NotImplementedException();
+            _paymentRepository = paymentRepository;
+            _orderRepository = orderRepository;
+            _printEditRepository = printEditRepository;
+            _printEditInOrdersRepository = printEditInOrdersRepository;
+            _mapper = mapper;
         }
 
-        public void Delete(int id)
+        public async Task<int> CreateOrder(OrderViewModel model)
         {
-            throw new NotImplementedException();
+            Order order = _mapper.Map<Order>(model);
+            var printingEditions = new List<PrintingEdition>();
+            var printEditionsInOrders = new List<PrintingEditionsInOrders>();
+
+            order.DatePurchase = DateTime.UtcNow;
+
+            await _orderRepository.Create(order);            
+
+            foreach (AuthorsInPrintingEditionsViewModel printEd in model.Products)
+            {
+                printingEditions.Add(await _printEditRepository.Get(printEd.PrtintingEditionId));
+            }                      
+
+            foreach (PrintingEdition print in printingEditions)
+            {
+                printEditionsInOrders.Add(new PrintingEditionsInOrders
+                {
+                    PrintingEditionId = print.Id,
+                    OrderId = order.Id,
+                    OrderAmount = model.OrderAmount,
+                    PrintEditionQuantity = model.Products.Find(x => x.PrtintingEditionId == print.Id).PrintinEditionQuantityForOrder
+                });
+            }
+
+            _printEditInOrdersRepository.AddPrintingEditionInOrders(printEditionsInOrders);
+
+            return order.Id;
         }
 
-        public PrintingOrderModel Get(int id)
+        public async Task CreatePayment(PaymentViewModel model)
         {
-            throw new NotImplementedException();
+            Payment payment = _mapper.Map<Payment>(model);
+
+            await _paymentRepository.Create(payment);
         }
 
-        public IEnumerable<PrintingOrderModel> GetAll()
+        public async Task DeleteOrder(int id)
         {
-            throw new NotImplementedException();
+            await _orderRepository.Delete(id);
         }
 
-        public IEnumerable<PrintingOrderModel> GetPrintingEdition(int id)
+        public async Task<IEnumerable<OrderViewModel>> GetAllOrders(string order)
         {
-            throw new NotImplementedException();
+            IEnumerable<Order> orders = await _orderRepository.GetAll();
+            var models = new List<OrderViewModel>();
+
+            foreach (Order ord in orders)
+            {
+                OrderViewModel model = _mapper.Map<OrderViewModel>(ord);
+                models.Add(model);
+            }
+
+            return models;
         }
 
-        public IEnumerable<PrintingOrderModel> GetUser(int id)
+        public async Task<OrderViewModel> GetOrderById(int id)
         {
-            throw new NotImplementedException();
+            Order order = await _orderRepository.Get(id);
+            var model = _mapper.Map<OrderViewModel>(order);
+
+            return model;
         }
 
-        public void Update(PrintingOrderModel model)
+        public IEnumerable<UserOrdersViewModel> GetOrdersByUserId(string id)
         {
-            throw new NotImplementedException();
+            IEnumerable<PrintingEditionsInOrders> printingEditionInOrders = _printEditInOrdersRepository.GetOrdersByUserId(id);
+            var modelsList = new List<UserOrdersViewModel>();
+
+            foreach (PrintingEditionsInOrders printEd in printingEditionInOrders)
+            {
+                UserOrdersViewModel orderModel = modelsList.FirstOrDefault(order => order.OrderId == printEd.OrderId);
+
+                if (orderModel == null)
+                {
+                    orderModel = new UserOrdersViewModel
+                    {
+                        OrderId = printEd.OrderId,
+                        OrderAmount = printEd.OrderAmount,
+                        OrderStatus = printEd.Order.Payment.IsPayed,
+                        DateTime = printEd.Order.DatePurchase,
+                        PrintEditionQuantity = printEd.PrintEditionQuantity
+                    };
+
+                    modelsList.Add(orderModel);
+                }
+
+                orderModel.Products.Add(new PrintingEditionViewModel
+                {
+                    NameEdition = printEd.PrintingEdition.NameEdition,
+                    Type = printEd.PrintingEdition.Type
+                });
+            }
+
+            return modelsList;
+        }
+
+        public async Task UpdateInformationAboutOrder(OrderViewModel model)
+        {
+            Order orderData = await _orderRepository.Get(model.Id);
+
+            if (orderData != null)
+            {
+                orderData = _mapper.Map<Order>(model);
+
+                await _orderRepository.Update(orderData);
+            }
         }
     }
 }

@@ -1,31 +1,23 @@
 ﻿using Dapper.Contrib.Extensions;
+using PrintStore.DataAccess.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
-    public class PrintingEdition : BaseEntity
+    public class PrintingEdition
     {
-        [StringLength(50)]
-        public string Name { get; set; }
-
-        [StringLength(200)]
-        public string Desc { get; set; }
-
-        public string AvatarUrl { get; set; }
-
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public PrintingEditionStatus Status { get; set; }
+        public PrintingEditionType Type { get; set; }
+        public string NameEdition { get; set; }
+        public string ImageUrl { get; set; }
+        [Required]
         public double Price { get; set; }
-
-        public int Quantity { get; set; }
-
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-		[Write(false)]
-		public virtual Category Category { get; set; }
-
-		[ForeignKey("Currency")]
+        [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
-		[Write(false)]
-		public virtual Currency Currency { get; set; }
+        [Write(false)]
+        public Currency Currency { get; set; }
     }
 }

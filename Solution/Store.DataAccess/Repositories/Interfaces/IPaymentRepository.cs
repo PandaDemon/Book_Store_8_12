@@ -1,8 +1,9 @@
-﻿using Store.DataAccess.Entities;
+﻿using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Repositories.Base;
 
-namespace Store.DataAccess.Repositories.Interfaces
+namespace PrintStore.DataAccess.Repositories.Interfaces
 {
-    public interface IPaymentRepository : IBaseRepository<Payment>
+    public interface IPaymentRepository: IBaseRepository<Payment>
     {
     }
 }

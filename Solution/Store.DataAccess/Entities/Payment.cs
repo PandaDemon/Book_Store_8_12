@@ -1,16 +1,16 @@
 ﻿using Dapper.Contrib.Extensions;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
-    public class Payment : BaseEntity
+    public class Payment
     {
+        public int Id { get; set; }
+        public bool IsPayed { get; set; }
         public int PaymentNumber { get; set; }
-        public bool IsPaid { get; set; }
-
         [ForeignKey("Order")]
         public int OrderId { get; set; }
-		[Write(false)]
-		public Order Order { get; set; }
+        [Write(false)]
+        public Order Order { get; set; }
     }
 }

@@ -1,95 +1,136 @@
 ﻿using AutoMapper;
-using Store.BusinessLogic.Models.Author;
-using Store.BusinessLogic.Models.PrintingEditions;
-using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
-using Store.DataAccess.Repositories.Interfaces;
-using System;
+using PrintStore.BusinessLogic.Services.Interfaces;
+using PrintStore.BusinessLogic.ViewModels;
+using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Store.BusinessLogic.Services
+namespace PrintStore.BusinessLogic.Services
 {
-	public class PrintingEditionService : IPrintingEditionService
-	{
-		private readonly IBaseRepository<PrintingEdition> _printingEditionRepository;
-		private readonly IBaseRepository<Author> _authorRepository;
-		private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
-		private readonly IMapper _mapper;
+    public class PrintingEditionService : IPrintingEditionService
+    {
+        private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
+        private readonly IPrintingEditionRepository _printEditRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IMapper _mapper;
 
-		public PrintingEditionService(IBaseRepository<PrintingEdition> printingEditionRepository,
-			IBaseRepository<Author> authorRepository,
-			IAuthorInPrintingEditionRepository authorInPrintingEditionRepository,
-			IMapper mapper)
-		{
-			_printingEditionRepository = printingEditionRepository;
-			_authorRepository = authorRepository;
-			_authorInPrintingEditionRepository = authorInPrintingEditionRepository;
-			_mapper = mapper;
-		}
+        public PrintingEditionService(IAuthorInPrintingEditionRepository authorInPrintingEditionRepository,
+            IAuthorRepository authorRepository,
+            IPrintingEditionRepository printEditRepository,
+            IMapper mapper)
+        {
+            _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
+            _mapper = mapper;
+            _printEditRepository = printEditRepository;
+            _authorRepository = authorRepository;
+        }
 
-		public async Task Create(AuthorsInPrintingEditionsModel model)
-		{
-			PrintingEdition printingEdition = _mapper.Map<PrintingEdition>(model);
+        public async Task CreatePrintingEdition(AuthorsInPrintingEditionsViewModel model)
+        {
+            PrintingEdition printingEdition = _mapper.Map<PrintingEdition>(model);
+            var authors = new List<Author>();
+            var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
 
-			var authors = new List<Author>();
-			var authorsInPrintEdit = new List<AuthorInPrintingEditions>();
-			printingEdition.CreateDate = DateTime.UtcNow;
-			await _printingEditionRepository.Create(printingEdition);
+            await _printEditRepository.Create(printingEdition);
 
-			foreach (AuthorModel authorId in model.AuthorsList)
-			{
-				authors.Add(await _authorRepository.Get(authorId.Id));
-			}
+            foreach (AuthorViewModel authorId in model.AuthorsList)
+            {
+                authors.Add(await _authorRepository.Get(authorId.Id));
+            }                     
 
-			foreach (Author author in authors)
-			{
-				authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
-			}
-			_authorInPrintingEditionRepository.AddAuthorInPrintingEdition(authorsInPrintEdit);
-			
-		}
+            foreach (Author author in authors)
+            {
+                authorsInPrintEdit.Add(new AuthorInPrintingEditions { AuthorId = author.Id, PrintingEditionId = printingEdition.Id });
+            }
 
-		public void Update(PrintingEditionModel model)
-		{
-			var printingEdition = _mapper.Map<PrintingEdition>(model);
+            _authorInPrintingEditionRepository.AddAuthorInPe(authorsInPrintEdit);
+        }
 
-			_printingEditionRepository.Update(printingEdition);
-		}
+        public async Task DeletePrintingEdition(int id)
+        {
+            await _printEditRepository.Delete(id);
+        }
 
-		public void Delete(int id)
-		{
-			_printingEditionRepository.Delete(id);
-		}
+        public async Task<IEnumerable<PrintingEditionViewModel>> GetAll()
+        {
+            IEnumerable<PrintingEdition> printingEditions = await _printEditRepository.GetAll();
+            var modelsList = new List<PrintingEditionViewModel>();
 
-		public async Task<PrintingEditionModel> Get(int id)
-		{
-			PrintingEdition printingEdition = await _printingEditionRepository.Get(id);
-			var printingEditionModel = _mapper.Map<PrintingEditionModel>(printingEdition);
-			return printingEditionModel;
-		}
+            foreach (PrintingEdition printEdition in printingEditions)
+            {
+                PrintingEditionViewModel model = _mapper.Map<PrintingEditionViewModel>(printEdition);
+                modelsList.Add(model);
+            }
 
-		public IEnumerable<PrintingEditionModel> GetAll()
-		{
-			var printingEditions = _printingEditionRepository.GetAll();
-			var model = new List<PrintingEditionModel>();
-			foreach (var printEdition in printingEditions)
-			{
-				model.Add(_mapper.Map<PrintingEditionModel>(printEdition));
-			}
-			return model;
-		}
+            return modelsList;
+        }
 
-		public async Task<IEnumerable<AuthorModel>> GetPritningEditionAuthors(int id)
-		{
-			PrintingEdition printingEdition = await _printingEditionRepository.Get(id);
-			var authors = _authorInPrintingEditionRepository.FindByPrintingEdition(printingEdition.Id);
-			var model = new List<AuthorModel>();
-			foreach (var author in authors)
-			{
-				model.Add(_mapper.Map<AuthorModel>(author));
-			};
-			return model;
-		}
-	}
+        public async Task<PrintingEditionViewModel> GetPrintingEditionById(int id)
+        {
+            PrintingEdition printingEdition = await _printEditRepository.Get(id);
+            PrintingEditionViewModel printingEditionModel = _mapper.Map<PrintingEditionViewModel>(printingEdition);
+
+            return printingEditionModel;
+        }
+
+        public AuthorsInPrintingEditionsViewModel GetPrintingEditionByIdInclude(int id)
+        {
+            IEnumerable<AuthorInPrintingEditions> modelFromBase = _authorInPrintingEditionRepository.FindByPrintingEditionID(id);
+            AuthorsInPrintingEditionsViewModel model = _mapper.Map<AuthorsInPrintingEditionsViewModel>(modelFromBase);
+
+            return model;
+        }        
+
+        public async Task UpdateInformationAboutPrintinEdition(AuthorsInPrintingEditionsViewModel model)
+        {
+            var printingEdition = _mapper.Map<PrintingEdition>(model);
+            var printEditionFromBase = await _printEditRepository.Get(model.PrtintingEditionId);
+            var authors = new List<Author>();
+
+            if (printEditionFromBase is null)
+            {
+                return;
+            }
+
+            printEditionFromBase = _mapper.Map<PrintingEdition>(model);
+
+            await _printEditRepository.Update(printEditionFromBase);
+
+            foreach (AuthorViewModel author in model.AuthorsList)
+            {
+                authors.Add(await _authorRepository.Get(author.Id));
+            }
+
+            IEnumerable<AuthorInPrintingEditions> authorInPrintEdBase = _authorInPrintingEditionRepository.FindByPrintingEditionID(printEditionFromBase.Id);
+
+            _authorInPrintingEditionRepository.DeleteAuthorInPe(authorInPrintEdBase);
+
+            var authorInPrintingEditionsNew = new List<AuthorInPrintingEditions>();
+
+            foreach (Author author in authors)
+            {
+                authorInPrintingEditionsNew.Add(new AuthorInPrintingEditions
+                {
+                    AuthorId = author.Id,
+                    PrintingEditionId = printingEdition.Id
+                });
+            }
+
+            _authorInPrintingEditionRepository.AddAuthorInPe(authorInPrintingEditionsNew);
+        }
+
+        public IEnumerable<PrintingEditionViewModel> GetAuthorPritningEditions(int id)
+        {
+            IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEditionRepository.FindByAuthor(id);
+            var modelsList = new List<PrintingEditionViewModel>();
+
+            foreach (AuthorInPrintingEditions printEdition in printingEditions)
+            {
+                modelsList.Add(_mapper.Map<PrintingEditionViewModel>(printEdition.PrintingEdition));
+            }
+
+            return modelsList;
+        }
+    }
 }

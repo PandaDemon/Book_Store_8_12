@@ -1,21 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Dapper.Contrib.Extensions;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
-    public class Order : BaseEntity
+    public class Order
     {
-        public bool IsClose { get; set; }
-
-        public int Quantity { get; set; }
-
-        [ForeignKey("Payment")]
-        public int PaymentId { get; set; }
-        public virtual Payment Payment { get; set; }
-
-        [ForeignKey("User")]
-        public string UserId { get; set; }
-        public virtual User User { get; set; }
-
-
+        public int Id { get; set; }
+        public DateTime DatePurchase { get; set; }
+        [StringLength(500)]
+        public string Description { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string ApplicationUserId { get; set; }
+        [Write(false)]
+        public ApplicationUser ApplicationUser { get; set; }
+        [Write(false)]
+        public Payment Payment { get; set; }
     }
 }

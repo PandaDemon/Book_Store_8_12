@@ -1,10 +1,10 @@
-﻿using Store.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
+﻿
+using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Repositories.Base;
 
-namespace Store.DataAccess.Repositories.Interfaces
+namespace PrintStore.DataAccess.Repositories.Interfaces
 {
-    public interface ICurrencyRepository : IBaseRepository<Currency>
+    public interface ICurrencyRepository: IBaseRepository<Currency>
     {
     }
 }

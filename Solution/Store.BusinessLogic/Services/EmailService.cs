@@ -1,42 +1,43 @@
-﻿using System.Net.Mail;
-using System;
+﻿using System;
+using System.Net;
+using System.Net.Mail;
 
-
-namespace Store.BusinessLogic.Services
+namespace PrintStore.BusinessLogic.Services
 {
     public class EmailService
     {
-        public static void SendMail(string email, string v, string v1)
-        {
-            //string from = "mpanukov@gmail.com";
-            //string pass = "mp512055120";
-            //try
-            //{
-            //    SmtpMail oMail = new SmtpMail("TryIt")
-            //    {
-            //        From = from,
-            //        To = "support@emailarchitect.net",
-            //        Subject = "Subject text",
-            //        TextBody = "Some test text."
-            //    };
+        private readonly string _from = "fista_shka@mail.ru";
+        private readonly string _password = "Fyfcnfcbz1991";
 
-            //    SmtpServer oServer = new SmtpServer("smtp.gmail.com")
-            //    {
-            //        User = from,
-            //        Password = pass,
-            //        Port = 587,
-            //        ConnectType = SmtpConnectType.ConnectSSLAuto
-            //    };
-            //    Console.WriteLine("start to send email over SSL ...");
-            //    SmtpClient oSmtp = new SmtpClient();
-            //    oSmtp.SendMail(oServer, oMail);
-            //    Console.WriteLine("email was sent successfully!");
-            //}
-            //catch (Exception exception)
-            //{
-            //    Console.WriteLine("failed to send email with the following error:");
-            //    Console.WriteLine(exception.Message);
-            //}
+        public void SendEmail(string mailAddress, string messageSubject, string messageBody)
+        {
+            try
+            {
+                using (MailMessage mailMessage = new MailMessage())
+                {
+                    mailMessage.From = new MailAddress(_from);
+                    mailMessage.To.Add(new MailAddress(mailAddress));
+                    mailMessage.Subject = messageSubject;
+                    mailMessage.Body = messageBody;
+
+                    using (SmtpClient client = new SmtpClient("smtp.mail.ru", 25))
+                    {
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.UseDefaultCredentials = false;
+                        client.Credentials = new NetworkCredential(_from, _password);
+                        client.EnableSsl = true;
+                        mailMessage.IsBodyHtml = true;
+
+                        client.Send(mailMessage);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string message = $"Cant send mail. Subject: {messageSubject}. To: {mailAddress}. Body: {messageBody}";
+
+                throw new MailException(message, e);
+            }
         }
     }
 }

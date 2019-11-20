@@ -1,90 +1,120 @@
 ﻿using AutoMapper;
-using Store.BusinessLogic.Models.Author;
-using Store.BusinessLogic.Models.PrintingEditions;
-using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
-using Store.DataAccess.Repositories.Interfaces;
+using PrintStore.BusinessLogic.Services.Interfaces;
+using PrintStore.BusinessLogic.ViewModels;
+using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Store.BusinessLogic.Services
+namespace PrintStore.BusinessLogic.Services
 {
-    class AuthorService : IAuthorService
+    public class AuthorService : IAuthorService
     {
         private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
         private readonly IAuthorRepository _authorRepository;
+        private readonly IPrintingEditionRepository _printEditRepository;
         private readonly IMapper _mapper;
 
-        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, IMapper mapper)
+        public AuthorService(IAuthorRepository authorRepository, 
+            IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, 
+            IPrintingEditionRepository printEditRepository,
+            IMapper mapper)
         {
             _authorRepository = authorRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
+            _printEditRepository = printEditRepository;
             _mapper = mapper;
         }
-        public void Create(AuthorModel model)
+
+        public async Task CreateAuthor(AuthorViewModel model)
         {
-            var author = _mapper.Map<Author>(model);
-            _authorRepository.Create(author);
+            Author author = _mapper.Map<Author>(model);
+
+            await _authorRepository.Create(author);
         }
 
-        public void Update(AuthorModel model)
+        public async Task DeleteAuthor(int id)
         {
-            var author = _mapper.Map<Author>(model);
-            if (_authorRepository.Get(author.Id) != null)
+            await _authorRepository.Delete(id);
+        }
+
+        public async Task<IEnumerable<AuthorViewModel>> GetAll()
+        {
+            IEnumerable<Author> authors = await _authorRepository.GetAll();
+            var modelsList = new List<AuthorViewModel>();
+
+            foreach (Author author in authors)
             {
-                _authorRepository.Update(author);
-            }
-        }
-
-        public void Delete(int id)
-        {
-            _authorRepository.Delete(id);
-        }
-
-        public IEnumerable<AuthorModel> FilterByName(string firstName, string lastName)
-        {
-            var listAuthors = _authorRepository.FilterByName(firstName, lastName);
-
-            var model = new List<AuthorModel>();
-
-            foreach (var author in listAuthors)
-            {
-                model.Add(_mapper.Map<AuthorModel>(author));
+                AuthorViewModel model = _mapper.Map<AuthorViewModel>(author);
+                modelsList.Add(model);
             }
 
-            return model;
+            return modelsList;
         }
 
-        public async Task<AuthorModel> Get(int id)
+        public async Task<AuthorViewModel> GetAuthorById(int id)
         {
             Author author = await _authorRepository.Get(id);
-            var model = _mapper.Map<AuthorModel>(author);
+            AuthorViewModel model = _mapper.Map<AuthorViewModel>(author);
+
             return model;
+        }     
+
+        public async Task UpdateInformationAboutAuthor(AuthorViewModel model)
+        {
+            Author authorData = await _authorRepository.Get(model.Id);
+
+            if (authorData != null)
+            {
+                authorData = _mapper.Map<Author>(model);
+
+                await _authorRepository.Update(authorData);
+            }
         }
 
-        public IEnumerable<AuthorModel> GetAll()
+        public IEnumerable<AuthorViewModel> SortByName(SortOrder sortType, string sortedColumn)
         {
-            var authors = _authorRepository.GetAll();
-            var model = new List<AuthorModel>();
+            IEnumerable<Author> authors = _authorRepository.SortByName(sortType, sortedColumn);
+            var modelsList = new List<AuthorViewModel>();
 
-            foreach (var p in authors)
+            foreach (Author author in authors)
             {
-                model.Add(_mapper.Map<AuthorModel>(p));
+                AuthorViewModel model = _mapper.Map<AuthorViewModel>(author);
+                modelsList.Add(model);
             }
-            return model;
+
+            return modelsList;
+        }
+      
+
+        public IEnumerable<AuthorViewModel> SearchAuthors(string searchString)
+        {
+            List<AuthorViewModel> modelsList = new List<AuthorViewModel>();
+            IEnumerable<Author> authors = _authorRepository.FilterAuthors(searchString);
+
+            foreach (Author author in authors)
+            {
+                AuthorViewModel model = _mapper.Map<AuthorViewModel>(author);
+                modelsList.Add(model);
+            }
+
+            return modelsList;
         }
 
-        public IEnumerable<PrintingEditionModel> GetAuthorPritningEditions(int id)
+        public async Task<IEnumerable<AuthorViewModel>> GetPritningEditionAuthors(int id)
         {
-            IEnumerable<AuthorInPrintingEditions> printingEditions = _authorInPrintingEditionRepository.FindByAuthor(id);
-            var model = new List<PrintingEditionModel>();
+            PrintingEdition printingEdition = await _printEditRepository.Get(id);
+            IEnumerable<AuthorInPrintingEditions> authors = _authorInPrintingEditionRepository.FindByPrintingEditionID(printingEdition.Id);
+            var modelsList = new List<AuthorViewModel>();
 
-            foreach (var printEdition in printingEditions)
+            foreach (AuthorInPrintingEditions author in authors)
             {
-                model.Add(_mapper.Map<PrintingEditionModel>(printEdition.PrintingEdition));
-            }
+                AuthorViewModel model = _mapper.Map<AuthorViewModel>(author);
+                modelsList.Add(model);
+            };
 
-            return model;
+            return modelsList;
         }
     }
 }

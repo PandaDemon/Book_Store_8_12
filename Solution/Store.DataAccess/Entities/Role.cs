@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
     public class Role : IdentityRole
     {

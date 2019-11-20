@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Store.DataAccess.Entities
+namespace PrintStore.DataAccess.Entities
 {
-    public class Author : BaseEntity
+    public class Author
     {
-        [StringLength(50)]
+        public int Id { get; set; }
+        [StringLength(30)]
         public string FirstName { get; set; }
-
-        [StringLength(50)]
+        [StringLength(30)]
         public string LastName { get; set; }
     }
 }

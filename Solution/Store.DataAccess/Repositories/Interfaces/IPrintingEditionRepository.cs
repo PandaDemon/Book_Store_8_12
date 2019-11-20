@@ -1,11 +1,16 @@
-﻿using Store.DataAccess.Entities;
+﻿using PrintStore.DataAccess.Entities;
+using PrintStore.DataAccess.Entities.Enums;
+using PrintStore.DataAccess.Repositories.Base;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
-namespace Store.DataAccess.Repositories.Interfaces
+namespace PrintStore.DataAccess.Repositories.Interfaces
 {
-    public interface IPrintingEditionRepository : IBaseRepository<PrintingEdition>
+    public interface IPrintingEditionRepository: IBaseRepository<PrintingEdition>
     {
-        IEnumerable<PrintingEdition> FilterForPrintingEdition(int categotyId, double filterPrice, string filterName);
-        IEnumerable<PrintingEdition> SortByPrice(EntityEnum sortValue);
+        IEnumerable<PrintingEdition> SortPrintEdidtionsByPrice(SortOrder sortOrder);
+        IEnumerable<PrintingEdition> FilterPrintEdidtionsByPriceAnfType(PrintingEditionType printingEditionType, int minPrice, int maxPrice);
+        IEnumerable<PrintingEdition> FilterByType(PrintingEditionType printingEditionType);
+        IEnumerable<PrintingEdition> FilterTitle(string filter);
     }
 }
