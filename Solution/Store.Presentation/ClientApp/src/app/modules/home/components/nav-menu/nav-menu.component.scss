@@ -1,0 +1,82 @@
+li .glyphicon {
+  margin-right: 10px;
+}
+.navbar-brand{
+  margin: 0;
+  padding: 10px 20px;
+}
+
+.navbar-inverse .navbar-nav {
+  > li.link-active,
+  li:hover,
+  li:focus {
+    background-color: #52ad3a;
+
+    a {
+      color: white;
+    }
+  }
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+}
+.navbar-nav {
+  flex-direction: row;
+  align-items: center;
+}
+
+.navbar-inverse {
+  background-color: #3a3a3a;
+}
+
+.navbar-inverse .navbar-nav {
+  > li {
+    padding: 15px;
+    > a {
+      color: #52ad3a;
+    }
+   }
+}
+
+.navbar-inverse .navbar-brand {
+  color: #52ad3a;
+}
+
+.navbar-header{
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navbar-header {
+  }
+
+  .navbar-collapse {
+    padding: 0px;
+  }
+
+  .navbar ul {
+    float: none;
+  }
+
+  .navbar li {
+    font-size: 15px;
+    margin: 6px;
+  }
+
+  .navbar li a {
+    padding: 10px 16px;
+  }
+
+  .navbar a {
+    width: 100%;
+    white-space: nowrap;
+  }
+}

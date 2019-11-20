@@ -5,8 +5,97 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <Compile Remove="Pages\**" />
+    <Compile Remove="Views\Account\**" />
+    <Compile Remove="wwwroot\app\account.module\**" />
+    <Content Remove="Pages\**" />
+    <Content Remove="Views\Account\**" />
+    <Content Remove="wwwroot\app\account.module\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <EmbeddedResource Remove="Views\Account\**" />
+    <EmbeddedResource Remove="wwwroot\app\account.module\**" />
+    <None Remove="Pages\**" />
+    <None Remove="Views\Account\**" />
+    <None Remove="wwwroot\app\account.module\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\routing.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="wwwroot\app\app.component.ts" />
+    <TypeScriptCompile Remove="wwwroot\app\app.module.ts" />
+    <TypeScriptCompile Remove="wwwroot\app\main.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Npm" Version="3.5.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\_ValidationScriptsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\shared\" />
+    <Folder Include="wwwroot\app\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Store.BusinessLogic\Store.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Store.DataAccess\Store.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\src\app\modules\account\account.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\admin\admin-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\admin\admin.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\forbidden\forbidden.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\forbidden\forbidden-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\home\home-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\home\home.module.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\interceptor\auth\auth.interceptor.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\store\store-routing.modules.ts">
+      <SubType>Code</SubType>
+    </None>
+    <None Update="ClientApp\src\app\modules\store\store.module.ts">
+      <SubType>Code</SubType>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" clientapp_4tslint_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,0 +1,28 @@
+.navbar-nav {
+  > li.link-active,
+  li:hover,
+  li:focus {
+    background-color: #52ad3a;
+
+    a {
+      color: white;
+    }
+  }
+}
+
+.sidebar {
+  width: 100%;
+  padding-top: 50px;
+
+  li {
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  a {
+    color: #52ad3a;
+    width: 100%;
+    text-align: center;
+  }
+}
+
