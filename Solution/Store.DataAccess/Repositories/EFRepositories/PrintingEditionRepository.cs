@@ -1,8 +1,8 @@
 ﻿using PrintStore.DataAccess.Entities;
-using PrintStore.DataAccess.Entities.Base;
 using PrintStore.DataAccess.Entities.Enums;
 using PrintStore.DataAccess.Repositories.Base;
 using PrintStore.DataAccess.Repositories.Interfaces;
+using Store.DataAccess.Initialization;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace PrintStore.DataAccess.Repositories.EFRepositories
     public class PrintingEditionRepository : BaseEFRepository<PrintingEdition>, IPrintingEditionRepository
     {
 
-        public PrintingEditionRepository(StoreDBContext context) : base(context)
+        public PrintingEditionRepository(DataBaseContext context) : base(context)
         {
         }
 

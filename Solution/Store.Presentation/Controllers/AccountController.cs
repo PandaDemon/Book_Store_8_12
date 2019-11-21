@@ -1,110 +1,39 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.BusinessLogic.Models.User;
-using Store.BusinessLogic.Services.Interfaces;
-using Store.DataAccess.Entities;
-using System;
-using System.Linq;
+using PrintStore.BusinessLogic.Services;
+using PrintStore.BusinessLogic.Services.Interfaces;
+using PrintStore.BusinessLogic.ViewModels;
+using Store.Presentation.Controllers;
 using System.Threading.Tasks;
 
-namespace Store.Presentation.Controllers
+namespace PrintStore.Presentation.Controllers
 {
     public class AccountController : BaseApiController
     {
-		
-		private readonly IUserService _userService;
-		private readonly UserManager<User> _userManager;
+        private readonly IApplicationUserService _applicationUserService;
+        private const string CONFIRM = "ConfirmEmail";
+        private const string ACCOUNT = "Account";
+        private const string MESSAGECONFIRM = "Confirm email";
+        private const string MESSAGERESET = "Reset Password";
+        private const string COMPLITE = "To complete the action, follow the link ::";
 
-		public AccountController( IUserService userService, UserManager<User> userManager)
+        public AccountController(IApplicationUserService applicationUserService)
         {
-			_userService = userService;
-			_userManager = userManager;
-		}
-
-		[HttpPost("SignUp")]
-		public async Task<IActionResult> SignUp([FromBody]UserSignUpModel model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			var result = await _userService.SignUp(model);
-			if (!result.Succeeded)
-			{
-
-				return BadRequest(result.Errors);
-			}
-			return Ok();
-		}
-
-		[HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(UserSignInModel model)
-        {
-            var tokenResponseModel = await _userService.SignInAsync(model);
-
-            if (tokenResponseModel != null)
-            {
-				return Ok(tokenResponseModel);
-            }
-
-            return BadRequest("Login failed");
+            _applicationUserService = applicationUserService;
         }
 
-		[HttpGet("UserProfile")]
-		[Authorize]
-		public async Task<Object> GetUserProfile()
-		{
-			var testr = User;
-			var token = Response.Headers.Keys;
-			string userId = User.Claims.First(claim => claim.Type == "UserID").Value;
-			var user = await _userManager.FindByIdAsync(userId);
-			return new
-			{
-				user.UserName,
-				user.Email,
-				user.FirstName
-			};
-		}
-
-		[HttpPost("LogOut")]
-        public async Task LogOut()
-        {
-            await _userService.LogOutAsync();
-        }
-
-        [HttpGet("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(UserResetPasswordModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid model");
-            }
-            var user = await _userService.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                return NotFound("There is no such user");
-            }
-            var result = await _userService.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Accepted("Password was updated");
-            }
-            return Ok();
-        }
-
-        [HttpPost("ConfirmEmail")]
-        public async Task<UserModel> ConfirmEmail(string userId, string code)
+        [HttpGet("ConfirmEmail")]
+        public async Task<ApplicationUserViewModel> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
             {
                 return null;
             }
 
-            var user = await _userService.FindByIdAsync(userId);
-            var result = _userService.ConfirmEmail(user, code);
+            ApplicationUserViewModel user = await _applicationUserService.FindUserByIdAsync(userId);
+            IdentityResult result = await _applicationUserService.ConfirmEmail(user, code);
 
-            if (result.Result.Succeeded)
+            if (result.Succeeded)
             {
                 return user;
             }
@@ -112,26 +41,106 @@ namespace Store.Presentation.Controllers
             return null;
         }
 
-		[HttpGet("GetForAdmin")]
-		[Authorize(Roles = "admin")]
-		public string GetForAdmin()
-		{
-			return "Web method for Admin";
-		}
+        [HttpPost("ConfirmEmailAsync")]
+        public async Task<IActionResult> ConfirmEmailAsync([FromBody]RegisterUserViewModel model)
+        {
+            ApplicationUserViewModel applicationUserView = await _applicationUserService.FindByEmailAsync(model.Email);
+            string code1 = await _applicationUserService.GenerateEmailConfirmationTokenAsync(model);
 
-		[HttpGet("GetForUser")]
-		[Authorize(Roles = "user")]
-		public string GetForUser()
-		{
-			return "Web method for User";
-		}
+            string callbackUrl = Url.Action(CONFIRM, ACCOUNT, new { userId = applicationUserView.Id, code = code1 }, protocol: Request.Scheme);
+            string linkString = $"<a href = \"{callbackUrl} \"> complete registration </a>";
+            var messageBody = $"{COMPLITE} {linkString}";
 
-		[HttpGet("GetForAdminOrUser")]
-		[Authorize(Roles = "admin, user")]
-		public string GetForAdminOrUser()
-		{
-			return "Web method for Admin Or User";
-		}
+            new EmailService().SendEmail(model.Email, MESSAGECONFIRM, messageBody);
 
-	}
+            return Ok(200);
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody]RegisterUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await _applicationUserService.RegisterUser(model);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(200);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
+        {
+            TokenResponseModel tokenResponseModel = await _applicationUserService.SignInAsync(model);
+
+            if (tokenResponseModel != null)
+            {
+                return Ok(tokenResponseModel);
+            }
+
+            return BadRequest(203);
+        }
+
+        [HttpPost("LogOff")]
+        public async Task LogOff()
+        {
+            await _applicationUserService.SignOutAsync();
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            ApplicationUserViewModel user = await _applicationUserService.FindByEmailAsync(model.Email);
+
+            if (user == null || !await _applicationUserService.IsEmailConfirmedAsync(user))
+            {
+                return NotFound(404);
+            }
+
+            string code1 = await _applicationUserService.GeneratePasswordResetTokenAsync(user);
+            string callbackUrl = Url.RouteUrl("ResetPassword", new { userId = user.Id, code = code1 });
+            string linkString = $"<a href = \"{callbackUrl} \"> reset </a>";
+            string messageBody = $"{COMPLITE} {linkString}";
+
+            new EmailService().SendEmail(model.Email, MESSAGERESET, messageBody);
+
+            return Ok(200);
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ApplicationUserViewModel user = await _applicationUserService.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                return NotFound(404);
+            }
+
+            IdentityResult result = await _applicationUserService.ResetPasswordAsync(user, model.Code, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return Accepted(420);
+            }
+
+            return Accepted(200);
+        }
+    }
 }
