@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using PrintStore.DataAccess.Entities;
 using PrintStore.DataAccess.Entities.Enums;
 using Store.DataAccess.Initialization;

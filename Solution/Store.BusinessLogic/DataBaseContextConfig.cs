@@ -22,20 +22,20 @@ namespace PrintStore.DataAccess
 
     public static class DataBaseContextConfig
     {
-        public static void InjectDataBase(this IServiceCollection services, IConfiguration configuration)
+        public static void InjectDataBase(this IServiceCollection services, IConfiguration Сonfiguration)
         {
-            services.AddSingleton<IConnectionStringProvider, ConnectionStringProvider>();
+           //services.AddSingleton<IConnectionStringProvider, ConnectionStringProvider>();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
-            {
-                opts.Password.RequiredLength = 4;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireDigit = false;
-            })
-                .AddEntityFrameworkStores<DataBaseContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
+            //{
+            //    opts.Password.RequiredLength = 4;
+            //    opts.Password.RequireNonAlphanumeric = false;
+            //    opts.Password.RequireLowercase = false;
+            //    opts.Password.RequireUppercase = false;
+            //    opts.Password.RequireDigit = false;
+            //})
+            //    .AddEntityFrameworkStores<DataBaseContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddScoped<RoleManager<IdentityRole>>();
             services.AddScoped<UserManager<ApplicationUser>>();
@@ -71,15 +71,14 @@ namespace PrintStore.DataAccess
         {
             DataBaseContext dataBaseContext = serviceProvider.GetRequiredService<DataBaseContext>();
 
-            DataBaseInitialization dataBaseInitialization = serviceProvider.GetRequiredService<DataBaseInitialization>();
+            DbInitializer dataBaseInitialization = serviceProvider.GetRequiredService<DbInitializer>();
 
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var rolesManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            await DataBaseInitialization.InitializeAsync(
-                userManager, rolesManager);
+            await DbInitializer.InitializeAsync(userManager, rolesManager, dataBaseContext);
 
-            dataBaseInitialization.Initialize(dataBaseContext);
+            //dataBaseInitialization.Initialize(dataBaseContext);
         }
     }
 }

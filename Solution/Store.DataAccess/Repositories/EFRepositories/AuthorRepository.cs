@@ -1,7 +1,7 @@
 ﻿using PrintStore.DataAccess.Entities;
-using PrintStore.DataAccess.Entities.Base;
 using PrintStore.DataAccess.Repositories.Base;
 using PrintStore.DataAccess.Repositories.Interfaces;
+using Store.DataAccess.Initialization;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,7 +12,7 @@ namespace PrintStore.DataAccess.Repositories.EFRepositories
 {
     public class AuthorRepository : BaseEFRepository<Author>, IAuthorRepository
     {
-        public AuthorRepository(StoreDBContext context) : base(context)
+        public AuthorRepository(DataBaseContext context) : base(context)
         {
         }
 

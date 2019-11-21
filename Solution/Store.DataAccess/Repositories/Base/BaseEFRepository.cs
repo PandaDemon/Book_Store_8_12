@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PrintStore.DataAccess.Entities.Base;
+using Store.DataAccess.Initialization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,11 +7,11 @@ namespace PrintStore.DataAccess.Repositories.Base
 {
     public class BaseEFRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        protected StoreDBContext Context;
+        protected DataBaseContext Context;
 
         private readonly DbSet<TEntity> _table;
 
-        public BaseEFRepository(StoreDBContext context)
+        public BaseEFRepository(DataBaseContext context)
         {
             Context = context;
 

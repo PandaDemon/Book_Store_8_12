@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrintStore.DataAccess.Entities;
-using PrintStore.DataAccess.Entities.Base;
 using PrintStore.DataAccess.Entities.Enums;
 using PrintStore.DataAccess.Repositories.Base;
 using PrintStore.DataAccess.Repositories.Interfaces;
+using Store.DataAccess.Initialization;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,7 +19,7 @@ namespace PrintStore.DataAccess.Repositories.EFRepositories
         private readonly string _printStatusColumn = "PrintingEdition.Status";
         private readonly string _printTypeColumn = "PrintingEdition.Type";
 
-        public AuthorInPrintingEditionRepository(StoreDBContext context) : base(context)
+        public AuthorInPrintingEditionRepository(DataBaseContext context) : base(context)
         {
         }
            

@@ -1,26 +1,19 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Store.BusinessLogic.Common;
-using Store.BusinessLogic.JwtProvider;
-using Store.DataAccess.Entities;
 using Store.DataAccess.Initialization;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
 using System.Linq;
 
 namespace Store.Presentation
 {
-	public class Startup
+    public class Startup
     {
         public IConfiguration Configuration { get; }
 
@@ -43,7 +36,7 @@ namespace Store.Presentation
            
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.InjectDataBase(Configuration);
+            //services.InjectDataBase(Configuration);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -58,42 +51,42 @@ namespace Store.Presentation
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = false;
-            })
-            .AddEntityFrameworkStores<DataBaseContext>()
-            .AddDefaultTokenProviders();
+            //services.AddIdentity<User, IdentityRole>(options =>
+            //{
+            //    options.User.RequireUniqueEmail = false;
+            //})
+            //.AddEntityFrameworkStores<DataBaseContext>()
+            //.AddDefaultTokenProviders();
 
 
-            services.AddScoped<RoleManager<IdentityRole>>();
-            services.AddScoped<UserManager<User>>();
+            //services.AddScoped<RoleManager<IdentityRole>>();
+            //services.AddScoped<UserManager<User>>();
 
 
 
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(config =>
-                {
-                    config.RequireHttpsMetadata = false;
-                    config.SaveToken = false;
-                    config.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero
+            //services
+            //    .AddAuthentication(options =>
+            //    {
+            //        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    })
+            //    .AddJwtBearer(config =>
+            //    {
+            //        config.RequireHttpsMetadata = false;
+            //        config.SaveToken = false;
+            //        config.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = JwtProvider.GetSymmetricSecurityKey(),
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false,
+            //            ClockSkew = TimeSpan.Zero
                         
-                    };
-                });
+            //        };
+            //    });
 
-            services.AddTransient<DataBaseInitialization>();
+            //services.AddTransient<DataBaseInitialization>();
             services.AddCors();
 
             // In production, the Angular files will be served from this directory

@@ -1,107 +1,109 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Store.BusinessLogic.Models.User;
-using Store.BusinessLogic.Services.Interfaces;
-using System;
+using PrintStore.BusinessLogic.Services.Interfaces;
+using PrintStore.BusinessLogic.ViewModels;
+using Store.Presentation.Controllers;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Store.Presentation.Controllers
+namespace PrintStore.Presentation.Controllers
 {
     public class UsersController : BaseApiController
     {
-        private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
+        private readonly IApplicationUserService _applicationUserService;
 
-
-        public UsersController(IUserService userService)
+        public UsersController(IApplicationUserService applicationUserService, IOrderService orderService)
         {
-            _userService = userService;
+            _applicationUserService = applicationUserService;
+            _orderService = orderService;
         }
 
-        [HttpGet("GetUser")]
-        public async Task<object> GetAllUsers()
+        [HttpGet("GetUserProfile")]
+        [Authorize]
+        public async Task<ApplicationUserViewModel> GetUserProfile()
         {
-            var users = await _userService.GetAll();
-            return users;
+            string userId = User.Claims.First(claim => claim.Type == "UserID").Value;
+            ApplicationUserViewModel user = await _applicationUserService.FindUserByIdAsync(userId);
+
+            return user;
         }
 
         [HttpPost("Create")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create(UserCreateModel model)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Create([FromBody]CreateUserViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid request");
+                return BadRequest(ModelState);
             }
-            var result = await _userService.Create(model);
-            if (result.Succeeded)
-            {
-                return Ok("Created");
-            }
-            else
+
+            IdentityResult result = await _applicationUserService.CreateUserAsync(model);
+
+            if (!result.Succeeded)
             {
                 return BadRequest("Failed");
             }
+
+            return Ok(201);
         }
 
-        [HttpPost("Update")]
-        public async Task<IActionResult> Update(UserEditModel model)
+        [HttpPost("Edit")]
+        public async Task<IActionResult> Edit([FromBody]EditUserViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid request");
+                return BadRequest(ModelState);
             }
-            IdentityResult res = await _userService.Update(model);
-            if (res.Succeeded)
+
+            IdentityResult res = await _applicationUserService.EditApplicationUser(model);
+
+            if (!res.Succeeded)
             {
-                return Ok("Saved");
+                return BadRequest(420);
             }
-            return BadRequest("Failed");
+
+            return Ok(201);
         }
 
-        
         [HttpPost("Delete")]
-        //[Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(UserModel id)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete([FromBody] string id)
         {
-            var buffer = new byte[0];
-            var test = Request.Body.Read(buffer, 0, (int)Request.Body.Length);
-            IdentityResult result = await _userService.Delete(id.Id);
-            if (result.Succeeded)
+            IdentityResult result = await _applicationUserService.DeleteUserAsync(id);
+
+            if (!result.Succeeded)
             {
-                return Ok(200);
+                return BadRequest(404);
             }
-            return BadRequest("User not found");
+
+            return Ok(200);
         }
 
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePasswordAsync(UserChangePasswordModel model)
+        public async Task<IdentityResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
-            IdentityResult res = await _userService.ChangePassword(model);
+            IdentityResult res = await _applicationUserService.ChangeUserPassword(model);
 
-            if (res.Succeeded)
-            {
-                return Ok("Password was changed");
-            }
-            else
-            {
-                return BadRequest(res.Errors);
-            }
+            return res;
         }
 
-        
-        [HttpGet("GetUser")]
-        public async Task<Object> GetUserProfileAsync()
+        [HttpGet("GetUserProfileAsync")]
+        public async Task<ApplicationUserViewModel> GetUserProfileAsync(string id)
         {
-            string userId = User.Claims.First(c => c.Type == "UserId").Value;
-            var user = await _userService.FindByIdAsync(userId);
-            //UserModel editUserModel = await _userService.FindByIdAsync(id);
-            //return editUserModel;
-            return new
-            {
-                user.FirstName,
-                user.Email
-            };
+            ApplicationUserViewModel editUserViewModel = await _applicationUserService.FindUserByIdAsync(id);
+
+            return editUserViewModel;
+        }
+
+        [HttpGet("GetUserOrders")]
+        public IEnumerable<UserOrdersViewModel> GetUserOrders(string id)
+        {
+            IEnumerable<UserOrdersViewModel> modelsList = _orderService.GetOrdersByUserId(id);
+
+            return modelsList;
         }
     }
 }
